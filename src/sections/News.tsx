@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Calendar, ArrowRight, User, Tag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const news = [
   {
@@ -100,37 +101,34 @@ export default function News() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <span
-              className={`alex-section-tag mb-4 inline-block transition-all duration-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`alex-section-tag mb-4 inline-block transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Latest Updates
             </span>
             <h2
-              className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-[#0d1623] mb-4 transition-all duration-500 delay-100 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-[#0d1623] mb-4 transition-all duration-500 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               News & Announcements
             </h2>
             <p
-              className={`text-[#5d6c7b] text-lg transition-all duration-500 delay-200 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`text-[#5d6c7b] text-lg transition-all duration-500 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Stay informed about the latest developments, events, and stories
               from Alexandria
             </p>
           </div>
 
-          <button
-            className={`alex-btn-secondary group transition-all duration-500 delay-300 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+          <Link
+            to="/news"
+            className={`alex-btn-secondary group transition-all duration-500 delay-300 inline-flex items-center ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             View All News
             <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-          </button>
+          </Link>
         </div>
 
         {/* News Grid */}
@@ -138,11 +136,10 @@ export default function News() {
           {/* Featured News */}
           {featuredNews && (
             <div
-              className={`group lg:row-span-2 bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-700 hover:shadow-2xl ${
-                isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-10'
-              }`}
+              className={`group lg:row-span-2 bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-700 hover:shadow-2xl ${isVisible
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-10'
+                }`}
             >
               <div className="relative h-64 lg:h-80 overflow-hidden">
                 <img
@@ -151,7 +148,7 @@ export default function News() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                
+
                 {/* Featured Badge */}
                 <div className="absolute top-4 left-4 px-4 py-1.5 bg-[#0068c8] text-white text-sm font-semibold rounded-full">
                   Featured
@@ -198,11 +195,10 @@ export default function News() {
             {otherNews.slice(0, 3).map((item, index) => (
               <div
                 key={item.id}
-                className={`group flex gap-4 bg-white rounded-xl overflow-hidden shadow-md transition-all duration-500 hover:shadow-lg hover:-translate-y-1 ${
-                  isVisible
-                    ? 'opacity-100 translate-x-0'
-                    : 'opacity-0 translate-x-10'
-                }`}
+                className={`group flex gap-4 bg-white rounded-xl overflow-hidden shadow-md transition-all duration-500 hover:shadow-lg hover:-translate-y-1 ${isVisible
+                  ? 'opacity-100 translate-x-0'
+                  : 'opacity-0 translate-x-10'
+                  }`}
                 style={{ transitionDelay: `${400 + index * 100}ms` }}
               >
                 {/* Image */}
@@ -240,9 +236,8 @@ export default function News() {
 
         {/* Subscribe CTA */}
         <div
-          className={`mt-16 bg-gradient-to-r from-[#0068c8] to-[#3898ec] rounded-2xl p-8 md:p-12 transition-all duration-700 delay-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`mt-16 bg-gradient-to-r from-[#0068c8] to-[#3898ec] rounded-2xl p-8 md:p-12 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
         >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>

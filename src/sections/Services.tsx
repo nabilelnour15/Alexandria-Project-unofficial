@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Users, Briefcase, Building, Palette, HeadphonesIcon, ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const services = [
   {
@@ -9,7 +10,7 @@ const services = [
       'Explore attractions, plan your trip, and make the most of your Alexandria experience.',
     image: '/images/service-visitors.jpg',
     color: 'from-[#0068c8] to-[#3898ec]',
-    link: '#visit',
+    link: '/visit',
   },
   {
     icon: Briefcase,
@@ -18,7 +19,7 @@ const services = [
       'Discover opportunities, access resources, and grow your business in our thriving city.',
     image: '/images/service-investors.jpg',
     color: 'from-[#027a48] to-[#10b981]',
-    link: '#invest',
+    link: '/invest',
   },
   {
     icon: Building,
@@ -27,7 +28,7 @@ const services = [
       'Access municipal services, permits, and official resources for citizens and businesses.',
     image: '/images/service-government.jpg',
     color: 'from-[#7c3aed] to-[#a78bfa]',
-    link: '#services',
+    link: '/services',
   },
   {
     icon: Palette,
@@ -36,7 +37,7 @@ const services = [
       'Immerse yourself in Alexandria\'s rich heritage and vibrant arts scene.',
     image: '/images/service-culture.jpg',
     color: 'from-[#ea580c] to-[#fb923c]',
-    link: '#explore',
+    link: '/about',
   },
   {
     icon: HeadphonesIcon,
@@ -49,7 +50,8 @@ const services = [
   },
 ];
 
-export default function Services() {
+export default function Services({ isTeaser = false }: { isTeaser?: boolean }) {
+  const navigate = useNavigate();
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -78,10 +80,14 @@ export default function Services() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleCircleClick = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(href);
     }
   };
 
@@ -108,6 +114,14 @@ export default function Services() {
             Discover tailored experiences and resources designed for visitors,
             businesses, and residents alike.
           </p>
+          {isTeaser && (
+            <Link
+              to="/services"
+              className="mt-6 inline-flex items-center text-[#0068c8] font-semibold hover:underline"
+            >
+              View Full Services Directory <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          )}
         </div>
 
         {/* Services Grid */}
@@ -119,10 +133,9 @@ export default function Services() {
             return (
               <div
                 key={service.title}
-                onClick={() => scrollToSection(service.link)}
-                className={`group relative bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${
-                  index === 0 ? 'md:col-span-2 lg:col-span-1' : ''
-                } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                onClick={() => handleCircleClick(service.link)}
+                className={`group relative bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${index === 0 ? 'md:col-span-2 lg:col-span-1' : ''
+                  } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -134,7 +147,7 @@ export default function Services() {
                   <div
                     className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-60`}
                   />
-                  
+
                   {/* Icon Badge */}
                   <div className="absolute top-4 left-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
                     <Icon className="w-6 h-6 text-[#0068c8]" />
@@ -149,7 +162,7 @@ export default function Services() {
                   <p className="text-[#5d6c7b] text-sm leading-relaxed mb-4">
                     {service.description}
                   </p>
-                  
+
                   {/* Link */}
                   <div className="flex items-center text-[#0068c8] font-semibold text-sm group/link">
                     <span>Learn More</span>
@@ -180,11 +193,10 @@ export default function Services() {
             ].map((item, index) => (
               <button
                 key={item.label}
-                className={`flex flex-col items-center gap-3 p-6 bg-[#f8fafc] rounded-xl hover:bg-[#e6f1fc] transition-all duration-300 hover:-translate-y-1 group ${
-                  visibleCards.length > 0
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-4'
-                }`}
+                className={`flex flex-col items-center gap-3 p-6 bg-[#f8fafc] rounded-xl hover:bg-[#e6f1fc] transition-all duration-300 hover:-translate-y-1 group ${visibleCards.length > 0
+                  ? 'opacity-100 translate-y-0'
+                  : 'opacity-0 translate-y-4'
+                  }`}
                 style={{ transitionDelay: `${600 + index * 100}ms` }}
               >
                 <span className="text-3xl group-hover:scale-110 transition-transform">

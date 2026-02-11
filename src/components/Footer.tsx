@@ -8,31 +8,32 @@ import {
   Youtube,
   ArrowUp,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const footerLinks = {
   explore: [
-    { name: 'About Alexandria', href: '#about' },
-    { name: 'History & Heritage', href: '#explore' },
-    { name: 'Landmarks', href: '#explore' },
-    { name: 'Culture & Arts', href: '#explore' },
+    { name: 'About Alexandria', href: '/about' },
+    { name: 'History & Heritage', href: '/about' },
+    { name: 'Landmarks', href: '/visit' },
+    { name: 'Culture & Arts', href: '/about' },
   ],
   visit: [
-    { name: 'Plan Your Trip', href: '#visit' },
-    { name: 'Attractions', href: '#visit' },
-    { name: 'Hotels & Accommodation', href: '#visit' },
-    { name: 'Restaurants', href: '#visit' },
+    { name: 'Plan Your Trip', href: '/visit' },
+    { name: 'Attractions', href: '/visit' },
+    { name: 'Hotels & Accommodation', href: '/visit' },
+    { name: 'Restaurants', href: '/visit' },
   ],
   business: [
-    { name: 'Investment Opportunities', href: '#invest' },
-    { name: 'Business Directory', href: '#invest' },
-    { name: 'Free Trade Zone', href: '#invest' },
-    { name: 'Start a Business', href: '#invest' },
+    { name: 'Investment Opportunities', href: '/invest' },
+    { name: 'Business Directory', href: '/invest' },
+    { name: 'Free Trade Zone', href: '/invest' },
+    { name: 'Start a Business', href: '/invest' },
   ],
   government: [
-    { name: 'City Services', href: '#services' },
-    { name: 'Permits & Licenses', href: '#services' },
-    { name: 'Pay Fees', href: '#services' },
-    { name: 'Report Issues', href: '#contact' },
+    { name: 'City Services', href: '/services' },
+    { name: 'Permits & Licenses', href: '/services' },
+    { name: 'Pay Fees', href: '/services' },
+    { name: 'Report Issues', href: '/services' },
   ],
 };
 
@@ -46,13 +47,6 @@ const socialLinks = [
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (
@@ -131,16 +125,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
+                  <Link
+                    to={link.href}
                     className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -151,16 +141,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.visit.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
+                  <Link
+                    to={link.href}
                     className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -171,16 +157,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.business.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
+                  <Link
+                    to={link.href}
                     className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -191,16 +173,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.government.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
+                  <Link
+                    to={link.href}
                     className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -10,6 +10,7 @@ import {
   Globe,
   Users,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const sectors = [
   {
@@ -96,23 +97,20 @@ export default function Invest() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span
-            className={`inline-block px-4 py-1.5 bg-[#0068c8]/20 text-[#3898ec] text-sm font-semibold rounded-full uppercase tracking-wider mb-4 transition-all duration-500 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`inline-block px-4 py-1.5 bg-[#0068c8]/20 text-[#3898ec] text-sm font-semibold rounded-full uppercase tracking-wider mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Investment Opportunities
           </span>
           <h2
-            className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 transition-all duration-500 delay-100 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 transition-all duration-500 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Invest in Alexandria
           </h2>
           <p
-            className={`text-white/70 text-lg transition-all duration-500 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`text-white/70 text-lg transition-all duration-500 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Strategic location, robust infrastructure, and business-friendly
             policies make Alexandria the ideal investment destination
@@ -121,9 +119,8 @@ export default function Invest() {
 
         {/* Key Stats Bar */}
         <div
-          className={`grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 transition-all duration-500 delay-300 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
         >
           <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center">
             <Globe className="w-8 h-8 text-[#3898ec] mx-auto mb-2" />
@@ -162,11 +159,10 @@ export default function Invest() {
             return (
               <div
                 key={sector.title}
-                className={`group bg-white/5 backdrop-blur-sm rounded-2xl p-6 transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 ${
-                  isVisible
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-10'
-                }`}
+                className={`group bg-white/5 backdrop-blur-sm rounded-2xl p-6 transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 ${isVisible
+                  ? 'opacity-100 translate-y-0'
+                  : 'opacity-0 translate-y-10'
+                  }`}
                 style={{ transitionDelay: `${400 + index * 100}ms` }}
               >
                 <div className="flex items-center justify-between mb-4">
@@ -192,11 +188,10 @@ export default function Invest() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left - Advantages */}
           <div
-            className={`transition-all duration-700 delay-600 ${
-              isVisible
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 -translate-x-10'
-            }`}
+            className={`transition-all duration-700 delay-600 ${isVisible
+              ? 'opacity-100 translate-x-0'
+              : 'opacity-0 -translate-x-10'
+              }`}
           >
             <h3 className="font-['Montserrat'] text-2xl font-bold text-white mb-6">
               Why Invest in Alexandria?
@@ -214,10 +209,10 @@ export default function Invest() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <button className="alex-btn-primary group">
+              <Link to="/invest" className="alex-btn-primary group inline-flex items-center">
                 Start Investing
                 <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-              </button>
+              </Link>
               <button className="px-6 py-3 bg-white/10 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300 hover:bg-white/20">
                 Download Guide
               </button>
@@ -226,11 +221,10 @@ export default function Invest() {
 
           {/* Right - CTA Card */}
           <div
-            className={`transition-all duration-700 delay-700 ${
-              isVisible
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 translate-x-10'
-            }`}
+            className={`transition-all duration-700 delay-700 ${isVisible
+              ? 'opacity-100 translate-x-0'
+              : 'opacity-0 translate-x-10'
+              }`}
           >
             <div className="relative bg-gradient-to-br from-[#0068c8] to-[#3898ec] rounded-2xl p-8 overflow-hidden">
               {/* Decorative Circles */}

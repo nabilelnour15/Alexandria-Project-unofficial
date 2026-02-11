@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Search, ChevronDown, Globe } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const navLinks = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Visit', href: '#visit' },
-  { name: 'Invest', href: '#invest' },
-  { name: 'Explore', href: '#explore' },
-  { name: 'News', href: '#news' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Services', href: '/services' },
+  { name: 'Visit', href: '/visit' },
+  { name: 'Invest', href: '/invest' },
+  { name: 'News', href: '/news' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ isInternal = false }: { isInternal?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,69 +26,49 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
-  };
-
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'bg-white/95 backdrop-blur-xl shadow-lg'
-            : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isInternal
+          ? 'bg-white/95 backdrop-blur-xl shadow-lg'
+          : 'bg-transparent'
+          }`}
       >
         <div className="alex-container">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection('#home');
-              }}
+            <Link
+              to="/"
               className="flex items-center gap-2 group"
             >
               <div className="w-10 h-10 bg-[#0068c8] rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                 <span className="text-white font-bold text-xl font-['Montserrat']">A</span>
               </div>
               <span
-                className={`font-bold text-lg hidden sm:block transition-colors duration-300 font-['Montserrat'] ${
-                  isScrolled ? 'text-[#0d1623]' : 'text-white'
-                }`}
+                className={`font-bold text-lg hidden sm:block transition-colors duration-300 font-['Montserrat'] ${isScrolled || isInternal ? 'text-[#0d1623]' : 'text-white'
+                  }`}
               >
                 Alexandria
               </span>
-            </a>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href);
-                  }}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors duration-300 group ${
-                    isScrolled
-                      ? 'text-[#333333] hover:text-[#0068c8]'
-                      : 'text-white/90 hover:text-white'
-                  }`}
+                  to={link.href}
+                  className={`relative px-4 py-2 text-sm font-medium transition-colors duration-300 group ${isScrolled || isInternal
+                    ? location.pathname === link.href ? 'text-[#0068c8]' : 'text-[#333333] hover:text-[#0068c8]'
+                    : 'text-white/90 hover:text-white'
+                    }`}
                 >
                   {link.name}
                   <span
-                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#0068c8] transition-all duration-300 group-hover:w-3/4 ${
-                      isScrolled ? 'bg-[#0068c8]' : 'bg-white'
-                    }`}
+                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#0068c8] transition-all duration-300 group-hover:w-3/4 ${isScrolled || isInternal ? 'bg-[#0068c8]' : 'bg-white'
+                      } ${location.pathname === link.href ? 'w-3/4' : ''}`}
                   />
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -97,9 +77,8 @@ export default function Navbar() {
               {/* Search Button */}
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className={`p-2 rounded-lg transition-all duration-300 hover:bg-[#0068c8]/10 ${
-                  isScrolled ? 'text-[#333333]' : 'text-white'
-                }`}
+                className={`p-2 rounded-lg transition-all duration-300 hover:bg-[#0068c8]/10 ${isScrolled || isInternal ? 'text-[#333333]' : 'text-white'
+                  }`}
                 aria-label="Search"
               >
                 <Search className="w-5 h-5" />
@@ -107,9 +86,8 @@ export default function Navbar() {
 
               {/* Language Selector */}
               <button
-                className={`hidden sm:flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-[#0068c8]/10 ${
-                  isScrolled ? 'text-[#333333]' : 'text-white'
-                }`}
+                className={`hidden sm:flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-[#0068c8]/10 ${isScrolled || isInternal ? 'text-[#333333]' : 'text-white'
+                  }`}
               >
                 <Globe className="w-5 h-5" />
                 <span className="text-sm font-medium">EN</span>
@@ -119,11 +97,10 @@ export default function Navbar() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`lg:hidden p-2 rounded-lg transition-all duration-300 ${
-                  isScrolled
-                    ? 'text-[#333333] hover:bg-gray-100'
-                    : 'text-white hover:bg-white/10'
-                }`}
+                className={`lg:hidden p-2 rounded-lg transition-all duration-300 ${isScrolled || isInternal
+                  ? 'text-[#333333] hover:bg-gray-100'
+                  : 'text-white hover:bg-white/10'
+                  }`}
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (
@@ -138,26 +115,25 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-xl transition-all duration-300 ${
-            isMobileMenuOpen
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 -translate-y-4 pointer-events-none'
-          }`}
+          className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-xl transition-all duration-300 ${isMobileMenuOpen
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 -translate-y-4 pointer-events-none'
+            }`}
         >
           <div className="alex-container py-4">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.href);
-                  }}
-                  className="px-4 py-3 text-[#333333] font-medium rounded-lg hover:bg-[#e6f1fc] hover:text-[#0068c8] transition-colors duration-200"
+                  to={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`px-4 py-3 font-medium rounded-lg transition-colors duration-200 ${location.pathname === link.href
+                    ? 'bg-[#e6f1fc] text-[#0068c8]'
+                    : 'text-[#333333] hover:bg-[#e6f1fc] hover:text-[#0068c8]'
+                    }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -166,17 +142,15 @@ export default function Navbar() {
 
       {/* Search Overlay */}
       <div
-        className={`fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm transition-all duration-300 ${
-          isSearchOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm transition-all duration-300 ${isSearchOpen
+          ? 'opacity-100 pointer-events-auto'
+          : 'opacity-0 pointer-events-none'
+          }`}
         onClick={() => setIsSearchOpen(false)}
       >
         <div
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl px-4 transition-all duration-300 ${
-            isSearchOpen ? 'scale-100' : 'scale-95'
-          }`}
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl px-4 transition-all duration-300 ${isSearchOpen ? 'scale-100' : 'scale-95'
+            }`}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="bg-white rounded-2xl shadow-2xl p-6">

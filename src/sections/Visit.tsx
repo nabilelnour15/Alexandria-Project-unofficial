@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapPin, Utensils, Calendar, Camera, ArrowRight, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const attractions = [
   {
@@ -88,23 +89,20 @@ export default function Visit() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-2xl">
             <span
-              className={`alex-section-tag mb-4 inline-block transition-all duration-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`alex-section-tag mb-4 inline-block transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Plan Your Visit
             </span>
             <h2
-              className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-[#0d1623] mb-4 transition-all duration-500 delay-100 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-[#0d1623] mb-4 transition-all duration-500 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Explore Alexandria
             </h2>
             <p
-              className={`text-[#5d6c7b] text-lg transition-all duration-500 delay-200 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`text-[#5d6c7b] text-lg transition-all duration-500 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Discover world-class attractions, pristine beaches, and rich
               cultural experiences
@@ -112,21 +110,20 @@ export default function Visit() {
           </div>
 
           {/* CTA Button */}
-          <button
-            className={`alex-btn-primary group transition-all duration-500 delay-300 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+          <Link
+            to="/visit"
+            className={`alex-btn-primary group transition-all duration-500 delay-300 inline-flex items-center ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             View All Attractions
             <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-          </button>
+          </Link>
         </div>
 
         {/* Category Filters */}
         <div
-          className={`flex flex-wrap gap-2 mb-8 transition-all duration-500 delay-300 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
+          className={`flex flex-wrap gap-2 mb-8 transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
         >
           {categories.map((category) => {
             const Icon = category.icon;
@@ -134,11 +131,10 @@ export default function Visit() {
               <button
                 key={category.name}
                 onClick={() => setActiveCategory(category.name)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${
-                  activeCategory === category.name
-                    ? 'bg-[#0068c8] text-white shadow-lg shadow-[#0068c8]/25'
-                    : 'bg-[#f3f3f3] text-[#5d6c7b] hover:bg-[#e6f1fc] hover:text-[#0068c8]'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-300 ${activeCategory === category.name
+                  ? 'bg-[#0068c8] text-white shadow-lg shadow-[#0068c8]/25'
+                  : 'bg-[#f3f3f3] text-[#5d6c7b] hover:bg-[#e6f1fc] hover:text-[#0068c8]'
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 <span className="font-medium text-sm">{category.name}</span>
@@ -152,11 +148,10 @@ export default function Visit() {
           {filteredAttractions.map((attraction, index) => (
             <div
               key={attraction.id}
-              className={`group bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${
-                isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-10'
-              }`}
+              className={`group bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 ${isVisible
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-10'
+                }`}
               style={{ transitionDelay: `${400 + index * 100}ms` }}
             >
               {/* Image */}
@@ -167,7 +162,7 @@ export default function Visit() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                
+
                 {/* Category Badge */}
                 <div className="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full">
                   <span className="text-xs font-semibold text-[#0068c8]">
@@ -203,9 +198,8 @@ export default function Visit() {
 
         {/* Info Cards */}
         <div
-          className={`mt-16 grid md:grid-cols-3 gap-6 transition-all duration-500 delay-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`mt-16 grid md:grid-cols-3 gap-6 transition-all duration-500 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
         >
           <div className="bg-gradient-to-br from-[#0068c8] to-[#3898ec] rounded-2xl p-6 text-white">
             <Calendar className="w-10 h-10 mb-4" />
