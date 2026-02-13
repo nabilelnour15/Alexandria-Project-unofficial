@@ -6,7 +6,7 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Governor', href: '/governor' },
   { name: 'About', href: '/about' },
-  { name: 'Services', href: '/services' },
+  // { name: 'Services', href: '/services' },
   { name: 'Visit', href: '/visit' },
   { name: 'Invest', href: '/invest' },
   { name: 'News', href: '/news' },
