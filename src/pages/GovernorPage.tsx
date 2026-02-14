@@ -19,17 +19,17 @@ import Footer from '../components/Footer';
 import CTA from '../sections/CTA';
 import { governorData, type Achievement } from '../data/governorData';
 
-const PlaceholderImage = ({ text = "Image Placeholder", className = "" }: { text?: string, className?: string }) => (
-  <div className={`w-full bg-slate-100 rounded-2xl border border-slate-200 flex flex-col items-center justify-center gap-3 overflow-hidden relative ${className}`}>
-    <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, black 1px, transparent 0)`, backgroundSize: '24px 24px' }} />
-    </div>
-    <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center">
-      <Anchor className="w-6 h-6 text-slate-400" />
-    </div>
-    <span className="text-slate-400 text-xs font-bold uppercase tracking-widest px-4 text-center">{text}</span>
+
+const PlaceholderImage = ({ text = "Governor Image", className = "" }: { text?: string, className?: string }) => (
+  <div className={`w-full bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden relative ${className}`}>
+    <img 
+      src="/images/govanor.jpg" 
+      alt={text} 
+      className="w-full h-full object-cover"
+    />
   </div>
 );
+
 
 const AchievementSection = ({ achievement }: { achievement: Achievement }) => (
   <motion.div 
@@ -58,7 +58,9 @@ const AchievementSection = ({ achievement }: { achievement: Achievement }) => (
     
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div className="col-span-1 sm:col-span-2">
-         <PlaceholderImage text={`${achievement.title} Visualization`} className="aspect-video" />
+
+<PlaceholderImage text={`${achievement.title} Visualization`} className="aspect-video [&_img]:object-top" />
+
       </div>
       {achievement.stats?.map((stat, idx) => (
         <div key={idx} className="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm">

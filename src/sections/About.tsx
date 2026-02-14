@@ -6,6 +6,7 @@ import {
   ChevronRight, ChevronDown, Camera
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   aboutEssence, landmarksData, 
   modernInfrastructure, museumRegistry, culture2025, 
@@ -13,7 +14,7 @@ import {
   summaryData
 } from '../data/aboutData';
 
-export default function About() {
+export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
   const [activeExplorerTab, setActiveExplorerTab] = useState('landmarks');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -33,6 +34,59 @@ export default function About() {
       <div className="w-24 h-1.5 bg-[#0068c8] rounded-full mt-6" />
     </div>
   );
+
+  if (isTeaser) {
+    return (
+      <section className="py-24 bg-white overflow-hidden">
+        <div className="alex-container">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <span className="alex-section-tag mb-4 inline-block">About Alexandria</span>
+              <h2 className="font-['Montserrat'] text-3xl md:text-5xl font-black text-[#0d1623] mb-4">
+                The Timeless <span className="text-[#0068c8]">Pearl</span>
+              </h2>
+              <p className="text-[#5d6c7b] text-lg leading-relaxed">
+                Explore twenty-five centuries of history, culture, and coastal identity in Egypt's Mediterranean masterpiece.
+              </p>
+            </div>
+            <Link to="/about" className="alex-btn-primary group inline-flex items-center">
+              Discover History
+              <ChevronRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative rounded-[2.5rem] overflow-hidden aspect-video shadow-2xl">
+              <img 
+                src="/images/hero-bg.jpg" 
+                alt="Alexandria Coast" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d1623]/60 to-transparent" />
+            </div>
+            <div className="space-y-6">
+              <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100">
+                <h3 className="font-bold text-xl text-[#0d1623] mb-4 flex items-center gap-3">
+                  <Anchor className="w-6 h-6 text-[#0068c8]" /> A Gateway to Civilizations
+                </h3>
+                <p className="text-[#5d6c7b] leading-relaxed">
+                  Founded by Alexander the Great in 331 BCE, Alexandria served as the beacon of knowledge and maritime power for centuries, blending Greco-Roman heritage with Egyptian spirit.
+                </p>
+              </div>
+              <div className="bg-[#0068c8] p-8 rounded-[2rem] text-white shadow-xl shadow-blue-500/20">
+                <h3 className="font-bold text-xl mb-4 flex items-center gap-3 text-white">
+                  <Sun className="w-6 h-6 text-yellow-400" /> Mediterranean Identity
+                </h3>
+                <p className="text-white/80 leading-relaxed">
+                  Today, it stands as a vibrant metropolis, home to the modern Bibliotheca Alexandrina and a coastline that continues to inspire poets, travelers, and innovators.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#fcfdfe] pb-20">

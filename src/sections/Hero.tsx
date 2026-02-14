@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { ArrowRight, MapPin, Building2, Landmark, MousePointer2 } from 'lucide-react';
+import { ArrowRight, MapPin, Building2, Landmark, MousePointer2, Zap } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -10,12 +11,6 @@ export default function Hero() {
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section
@@ -29,7 +24,7 @@ export default function Hero() {
           className="absolute inset-0 scale-105"
         >
           <img
-            src="/images/hero-bg.jpg"
+            src="/images/Alexandria-Corniche-alexandria.jpg"
             alt="Alexandria aerial view"
             className="w-full h-full object-cover"
           />
@@ -64,8 +59,8 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6"
             >
               <MapPin className="w-4 h-4 text-[#3898ec]" />
-              <span className="text-white/90 text-sm font-medium">
-                Egypt's Mediterranean Jewel
+              <span className="text-white/90 text-sm font-medium uppercase tracking-widest">
+                Alexandria: Heritage in Motion
               </span>
             </motion.div>
 
@@ -89,11 +84,13 @@ export default function Hero() {
                   sequence={[
                     'ALEXANDRIA',
                     2000,
-                    'HISTORY',
-                    2000,
-                    'CULTURE',
+                    'HERITAGE',
                     2000,
                     'BEAUTY',
+                    2000,
+                    'VISION',
+                    2000,
+                    'SUSTAINABILITY',
                     2000,
                   ]}
                   wrapper="span"
@@ -107,7 +104,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="block text-xl md:text-2xl font-normal text-white/80"
               >
-                 Where Ancient Wisdom Meets Modern Innovation
+                 Where 2,300 Years of Timeless Elegance Meets a Sustainable Future
               </motion.span>
             </h1>
 
@@ -118,9 +115,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-white/70 text-lg md:text-xl leading-relaxed mb-8 max-w-xl"
             >
-              Experience the perfect blend of ancient heritage and modern
-              innovation on Egypt's stunning Mediterranean coast. A city of
-              timeless beauty and forward momentum.
+              Discover the Mediterranean’s pearl, blending centuries of history with a modern vision for a smart, green, and vibrant metropolis.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -130,23 +125,25 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap gap-4 mb-12"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection('#visit')}
-                className="alex-btn-primary group"
-              >
-                Explore the City
-                <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection('#visit')}
-                className="px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/30 transition-all"
-              >
-                Plan Your Visit
-              </motion.button>
+              <Link to="/about">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="alex-btn-primary group"
+                >
+                  Experience Heritage
+                  <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                </motion.button>
+              </Link>
+              <Link to="/governor">
+                <motion.button
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/30 transition-all"
+                >
+                  Governor's Vision
+                </motion.button>
+              </Link>
             </motion.div>
 
             {/* Quick Stats */}
@@ -158,17 +155,6 @@ export default function Hero() {
             >
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-[#3898ec]" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-white font-['Montserrat']">
-                    5.6M+
-                  </p>
-                  <p className="text-white/60 text-sm">Population</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
                   <Landmark className="w-6 h-6 text-[#3898ec]" />
                 </div>
                 <div>
@@ -178,52 +164,46 @@ export default function Hero() {
                   <p className="text-white/60 text-sm">Years of History</p>
                 </div>
               </div>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-[#3898ec]" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-white font-['Montserrat']">
+                    40%
+                  </p>
+                  <p className="text-white/60 text-sm">Energy Efficiency</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                  <Building2 className="w-6 h-6 text-[#3898ec]" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-white font-['Montserrat']">
+                    EGP 90.5B+
+                  </p>
+                  <p className="text-white/60 text-sm">In Transformation</p>
+                </div>
+              </div>
             </motion.div>
           </div>
 
           {/* Right Content - Featured Image Card */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:block"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="hidden lg:flex justify-center items-center"
           >
-            <motion.div
-              whileHover={{ rotateY: -5, scale: 1.02 }}
-              className="relative perspective-1000"
-            >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500">
-                <img
-                  src="/images/hero-street.jpg"
-                  alt="Qaitbay Street"
-                  className="w-full h-[500px] object-cover"
-                />
-                {/* Card Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0d1623]/80 via-transparent to-transparent" />
-                
-                {/* Floating Badge */}
-                <div className="absolute top-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full">
-                  <span className="text-[#0068c8] font-semibold text-sm">
-                    Featured
-                  </span>
-                </div>
-
-                {/* Card Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-white font-bold text-xl font-['Montserrat'] mb-2">
-                    Citadel of Qaitbay
-                  </h3>
-                  <p className="text-white/70 text-sm">
-                    A 15th-century defensive fortress located on the Mediterranean
-                    sea coast
-                  </p>
-                </div>
-              </div>
-
-              {/* Decorative Elements */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#0068c8] rounded-2xl -z-10" />
-              <div className="absolute -top-4 -left-4 w-16 h-16 border-2 border-[#3898ec]/50 rounded-2xl -z-10" />
-            </motion.div>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-[#0068c8]/20 rounded-full blur-3xl group-hover:bg-[#0068c8]/30 transition-colors duration-500" />
+              <img 
+                src="/images/logo.svg" 
+                alt="Alexandria Brand" 
+                className="relative z-10 w-full max-w-md h-auto brightness-0 invert drop-shadow-2xl"
+              />
+            </div>
           </motion.div>
         </div>
       </div>

@@ -41,17 +41,15 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
             {/* Logo */}
             <Link
               to="/"
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-2 group transition-transform duration-300 hover:scale-105"
             >
-              <div className="w-10 h-10 bg-[#0068c8] rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                <span className="text-white font-bold text-xl font-['Montserrat']">A</span>
-              </div>
-              <span
-                className={`font-bold text-lg hidden sm:block transition-colors duration-300 font-['Montserrat'] ${isScrolled || isInternal ? 'text-[#0d1623]' : 'text-white'
-                  }`}
-              >
-                Alexandria
-              </span>
+              <img 
+                src="/images/logo.svg" 
+                alt="Alexandria Logo" 
+                className={`h-10 md:h-12 w-auto transition-all duration-300 ${
+                  isScrolled || isInternal ? '' : 'brightness-0 invert'
+                }`}
+              />
             </Link>
 
             {/* Desktop Navigation */}
