@@ -168,6 +168,8 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Government Column - Hidden for now */}
+          {/* 
           <div>
             <h4 className="text-white font-semibold mb-4">Government</h4>
             <ul className="space-y-3">
@@ -182,17 +184,22 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> 
+          */}
         </div>
 
         {/* Divider */}
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* Copyright */}
-            <p className="text-white/50 text-sm text-center md:text-left">
-              &copy; {new Date().getFullYear()} Alexandria Governorate. All rights
-              reserved.
-            </p>
+            {/* Copyright & Disclaimer */}
+            <div className="text-center md:text-left">
+              <p className="text-white/50 text-sm mb-1">
+                &copy; {new Date().getFullYear()} Alexandria. All rights reserved.
+              </p>
+              <p className="text-white/40 text-xs mt-2">
+                This site is made with love to the city. It is not an official one, made by <span className="text-white/60 font-medium">Nabil El-Nour</span>.
+              </p>
+            </div>
 
             {/* Social Links */}
             <div className="flex items-center gap-4">

@@ -7,7 +7,7 @@ const navLinks = [
   { name: 'Governor', href: '/governor' },
   { name: 'Projects', href: '/projects' },
   { name: 'About', href: '/about' },
-  { name: 'Services', href: '/services' },
+  // { name: 'Services', href: '/services' },
   { name: 'Visit', href: '/visit' },
   { name: 'Invest', href: '/invest' },
   { name: 'News', href: '/news' },
