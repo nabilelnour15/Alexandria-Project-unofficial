@@ -188,28 +188,36 @@ export const investData = {
   ],
   successStories: [
     {
-      category: "Healthcare",
-      name: "Dar Al-Shefa Hospital",
-      description:
-        "One of the top healthcare centers in Egypt, committed to providing services to all citizens.",
+      name: "Coca-Cola",
+      industry: "Beverages & Manufacturing",
+      successStory:
+        "Coca-Cola has positioned Egypt as a strategic regional hub, leveraging Alexandria's industrial infrastructure for expansion. In 2026, the company announced plans to open a new production line in Alexandria to support sustainable manufacturing and access broader markets. This builds on recent inaugurations of production lines at existing facilities, emphasizing long-term partnerships and green growth.",
+      year: "2026 Expansion",
+      link: "https://www.dailynewsegypt.com/2026/01/21/coca-cola-to-open-alexandria-factory-and-triple-cairo-digital-hub-workforce/",
     },
     {
-      category: "Petrochemicals",
-      name: "MIDOR Refinery",
-      description:
-        "Deep conversion refinery, US$1.4 Billion investment, 500 acres in Amreya Free Zone.",
+      name: "General Motors (GM)",
+      industry: "Automotive",
+      successStory:
+        "GM's regional story began in Alexandria in 1926 with its first Middle East operations, establishing a plant that became a hub for vehicle assembly, distribution, and exports. Today, GM continues local production in Egypt, including models like the Chevrolet Optra and T-Series, generating over 7,000 jobs. The company's centennial in 2026 highlights its enduring success.",
+      year: "Since 1926",
+      link: "https://www.einnews.com/pr_news/891430514/general-motors-africa-and-middle-east-kicks-off-its-centennial-launching-their-short-documentary-on-cbs-and-alarabiya",
     },
     {
-      category: "Logistics",
-      name: "Egytrans",
-      description:
-        "Founded in 1973, runs integrated forwarding services with 8 branch offices in Egypt.",
+      name: "Concentrix",
+      industry: "BPO & IT Services",
+      successStory:
+        "Since entering Egypt in 2009, Concentrix has scaled to 11 centers nationwide, including Alexandria. In 2025, the company committed $1 billion over four years to expand its workforce to 35,000 by 2028. Alexandria's role underscores its appeal for BPO operations, driven by talent availability and cost efficiency.",
+      year: "2025 Investment",
+      link: "https://itida.gov.eg/English/MediaCenter/News/Pages/Concentrix-to-invest-USD-1-bn-to-expand-Egypt-outsourcing-operations.aspx",
     },
     {
-      category: "Retail",
-      name: "Debenhams",
-      description:
-        "First store in Africa opened in Alexandria City Centre mall in 2010.",
+      name: "Orange",
+      industry: "Telecommunications & IT",
+      successStory:
+        "Orange has established operations in Alexandria to tap into Egypt's digital economy. The company offers global IT and telecommunication services to multinational clients under Orange Business Services, contributing to Egypt's 5G rollout and infrastructure development. Its success includes supporting high-speed connectivity and innovation.",
+      year: "Global Hub",
+      link: "https://www.trade.gov/country-commercial-guides/egypt-digital-economy",
     },
   ],
 };

@@ -1,19 +1,19 @@
 import { motion } from 'framer-motion';
-import { 
-  CheckCircle2, 
-  MapPin, 
-  Building, 
-  ArrowRight, 
-  Globe, 
-  TrendingUp, 
-  Ship, 
-  Users
-} from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import InvestSections from '../sections/InvestSections';
-import CTA from '../sections/CTA';
-import { investData } from '../data/investData';
+import {
+  CheckCircle2,
+  //   MapPin,
+  Building,
+  ArrowRight,
+  Globe,
+  TrendingUp,
+  Ship,
+  Users,
+} from "lucide-react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import InvestSections from "../sections/InvestSections";
+import CTA from "../sections/CTA";
+import { investData } from "../data/investData";
 
 const PlaceholderImage = ({
   text = "Image Placeholder",
@@ -226,7 +226,7 @@ export default function InvestPage() {
         </section>
 
         {/* Strategic Opportunities */}
-        <section className="py-32 bg-[#0d1623]">
+        {/* <section className="py-32 bg-[#0d1623]">
           <div className="alex-container">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
               <div className="max-w-2xl">
@@ -296,46 +296,111 @@ export default function InvestPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Success Stories */}
         <section className="py-32 bg-[#0d1623]/40">
           <div className="alex-container">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-white mb-4 font-['Montserrat'] tracking-tight">
-                Success Stories
+              <span className="inline-block px-4 py-1.5 bg-[#3898ec]/10 text-[#3898ec] text-xs font-black rounded-full mb-6 uppercase tracking-[0.2em] border border-[#3898ec]/20">
+                Proven Track Record
+              </span>
+              <h2 className="text-5xl font-black text-white mb-8 font-['Montserrat'] tracking-tight">
+                Success Stories:{" "}
+                <span className="text-[#3898ec]">Global Leaders</span>
               </h2>
-              <p className="text-white/40 max-w-2xl mx-auto">
-                Discover the global leaders who have already successfully scaled
-                their operations in Alexandria.
+              <p className="text-white/60 max-w-4xl mx-auto text-lg leading-relaxed">
+                Alexandria, as Egypt's second-largest city and a major economic
+                hub with its strategic Mediterranean port, has become an
+                attractive destination for international companies looking to
+                expand in the Middle East and Africa. Its skilled workforce,
+                logistical advantages, and government incentives have enabled
+                several global leaders to establish and grow operations
+                successfully.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 gap-8 mb-20">
               {investData.successStories.map((story, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  className="bg-white/5 p-8 rounded-[2rem] border border-white/10 hover:bg-white/10 transition-all text-center group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-[#1a2b41] rounded-[2.5rem] border border-white/10 hover:border-[#3898ec]/30 transition-all group overflow-hidden flex flex-col h-full"
                 >
-                  <div className="w-20 h-20 bg-white shadow-xl rounded-2xl mx-auto mb-8 flex items-center justify-center p-4">
-                    <PlaceholderImage
-                      text="Logo"
-                      className="h-full border-none opacity-50"
-                    />
+                  <div className="p-10 flex-grow">
+                    <div className="flex items-start justify-between mb-8">
+                      <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shadow-2xl group-hover:scale-110 transition-transform">
+                        {/* Using a placeholder for company logos */}
+                        <Building className="w-8 h-8 text-[#0d1623]" />
+                      </div>
+                      <span className="px-4 py-1.5 bg-white/5 rounded-full text-white/40 text-[10px] font-black uppercase tracking-widest border border-white/10">
+                        {story.year}
+                      </span>
+                    </div>
+                    <div className="mb-6">
+                      <span className="text-[#3898ec] text-xs font-bold uppercase tracking-widest mb-2 block">
+                        {story.industry}
+                      </span>
+                      <h4 className="text-2xl font-bold text-white font-['Montserrat']">
+                        {story.name}
+                      </h4>
+                    </div>
+                    <p className="text-white/50 text-base leading-relaxed">
+                      {story.successStory}
+                    </p>
                   </div>
-                  <span className="text-[10px] font-black text-[#3898ec] uppercase tracking-[0.2em] mb-3 block">
-                    {story.category}
-                  </span>
-                  <h4 className="text-xl font-bold text-white mb-4 font-['Montserrat']">
-                    {story.name}
-                  </h4>
-                  <p className="text-white/50 text-xs leading-relaxed line-clamp-3">
-                    {story.description}
-                  </p>
+                  <div className="px-10 py-6 bg-white/5 border-t border-white/5 flex items-center justify-between">
+                    <span className="text-white/30 text-xs font-medium italic">
+                      Strategic Regional Expansion
+                    </span>
+                    {story.link ? (
+                      <a
+                        href={story.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`Open ${story.name} link`}
+                        aria-label={`Open ${story.name} link`}
+                        className="w-8 h-8 rounded-full bg-[#3898ec]/10 flex items-center justify-center hover:bg-[#3898ec]/20 transition-colors"
+                      >
+                        <ArrowRight className="w-4 h-4 text-[#3898ec]" />
+                      </a>
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-[#3898ec]/10 flex items-center justify-center">
+                        <ArrowRight className="w-4 h-4 text-[#3898ec]" />
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               ))}
+            </div>
+
+            <div className="bg-gradient-to-br from-[#1a2b41] to-[#0d1623] p-12 rounded-[3rem] border border-white/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#3898ec]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+              <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+                <div className="lg:w-2/3">
+                  <p className="text-white/60 text-lg leading-relaxed italic">
+                    "These companies exemplify how Alexandria's
+                    ecosystem—combining port access, a large population (nearly
+                    7 million), and proximity to Europe and Africa—facilitates
+                    scaling. For instance, the BPO sector alone has seen rapid
+                    growth in the city, with global players like Concentrix
+                    drawn by talent pools and secondary city advantages."
+                  </p>
+                </div>
+                <div className="lg:w-1/3 flex flex-col gap-4">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/5">
+                    <p className="text-white/40 text-sm">
+                      Other firms, such as shipping giants like Worms Alexandria
+                      Cargo Services and EIS Group, also thrive in logistics,
+                      but the focus here is on broader global leaders with
+                      documented expansions.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
