@@ -2,12 +2,9 @@ import {
   MapPin,
   Phone,
   Mail,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
   ArrowUp,
 } from 'lucide-react';
+
 import { Link } from 'react-router-dom';
 
 const footerLinks = {
