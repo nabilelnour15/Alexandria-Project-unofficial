@@ -7,8 +7,13 @@ const DisclaimerPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        setIsOpen(true);
+        // Defer state update to avoid synchronous setState in effect
+        const timer = setTimeout(() => {
+            setIsOpen(true);
+        }, 0);
+        return () => clearTimeout(timer);
     }, []);
+
 
     const handleClose = () => {
         setIsOpen(false);

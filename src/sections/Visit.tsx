@@ -45,14 +45,14 @@ export default function Visit({ isTeaser = false }: { isTeaser?: boolean }) {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-             {attractionCategories.find(c => c.id === 'historical')?.items.slice(0, 3).map((item: any, idx) => (
+             {attractionCategories.find(c => c.id === 'historical')?.items.slice(0, 3).map((item, idx) => (
               <div key={idx} className="group bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                 <div className="relative h-48 overflow-hidden">
                   <img 
                     src={item.image} 
                     alt={item.name} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    onError={(e: any) => e.target.src = '/images/hero-bg.jpg'}
+                    onError={(e) => (e.target as HTMLImageElement).src = '/images/hero-bg.jpg'}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d1623]/80 to-transparent opacity-60" />
                 </div>
@@ -293,7 +293,7 @@ export default function Visit({ isTeaser = false }: { isTeaser?: boolean }) {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {attractionCategories
               .find((c) => c.id === activeAttractionCat)
-              ?.items.map((item: any, idx) => (
+              ?.items.map((item, idx) => (
                 <div
                   key={idx}
                   className="group bg-white rounded-3xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
@@ -303,8 +303,8 @@ export default function Visit({ isTeaser = false }: { isTeaser?: boolean }) {
                       src={item.image}
                       alt={item.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      onError={(e: any) =>
-                        (e.target.src = "/images/hero-bg.jpg")
+                      onError={(e) =>
+                        ((e.target as HTMLImageElement).src = "/images/hero-bg.jpg")
                       }
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0d1623]/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />

@@ -14,6 +14,7 @@ import {
   Calendar,
   Building,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../sections/CTA";
@@ -125,7 +126,7 @@ export default function GovernorPage() {
     "infrastructure" | "sustainability" | "publicServices"
   >("infrastructure");
 
-  const icons: Record<string, any> = {
+  const icons: Record<string, LucideIcon> = {
     Building: Building2,
     Route: Route,
     DollarSign: TrendingUp,
@@ -320,7 +321,7 @@ export default function GovernorPage() {
                 ].map((tab) => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => setActiveTab(tab.id as "infrastructure" | "sustainability" | "publicServices")}
                     className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all ${
                       activeTab === tab.id
                         ? "bg-[#0068c8] text-white shadow-xl shadow-[#0068c8]/25 scale-105"

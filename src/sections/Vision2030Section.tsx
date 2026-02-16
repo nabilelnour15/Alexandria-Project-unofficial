@@ -2,13 +2,16 @@
 import { motion } from 'framer-motion';
 import { projectsData } from '../data/projectsData';
 import { ShieldCheck, Target, TrendingUp, Heart, Sprout } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const icons: Record<number, any> = {
+
+const icons: Record<number, LucideIcon> = {
   0: TrendingUp,
   1: Heart,
   2: Sprout,
   3: ShieldCheck
 };
+
 
 export default function Vision2030Section() {
   const { vision2030 } = projectsData;
