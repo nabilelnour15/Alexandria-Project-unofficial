@@ -63,7 +63,7 @@ const PlaceholderImage = ({
 export default function InvestPage() {
   return (
     <div className="min-h-screen bg-[#0d1623]">
-      <Navbar isInternal />
+      <Navbar />
 
       <main>
         {/* Hero Section */}

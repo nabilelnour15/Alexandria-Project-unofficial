@@ -276,21 +276,21 @@ export const museumRegistry = [
     focus:
       "Pharaonic to modern periods across three floors. Housed in 1928 Al-Saad Bassili Palace.",
     highlights: "Tanagra figurines, mummy room.",
-    image: "/images/Alexandria-National-Museum.jpg",
+    image: "/images/The-National-Museum-from-the-outside-in.jpg",
   },
   {
     name: "Royal Jewelry Museum",
     focus:
       "Regalia from the Muhammad Ali dynasty in Princess Fatma Al-Zahra's palace.",
     highlights: "Jewelry from 150 years of rule, European diplomatic gifts.",
-    image: "/images/Royal-Jewelry-Museum.jpg",
+    image: "/images/Royal-Jewelery-Museum.jpg",
   },
   {
     name: "Graeco-Roman Museum",
     focus:
       "Renovated in 2023, dedicated specifically to Hellenistic and Roman art.",
     highlights: "Fayum mummy portraits (ancient portraiture).",
-    image: "/images/Graeco-Roman-Museum.jpg",
+    image: "/images/roman-amphitheatre.avif",
   },
 ];
 
@@ -318,22 +318,25 @@ export const culinaryTraditions = {
     {
       name: "Sayadieh",
       desc: "Spiced rice with caramelized onions and fish.",
-      image: "/images/sayadieh.jpg",
+      image:
+        "https://asif.org/wp-content/uploads/2021/05/Jaffa-9-1-1024x731.jpg",
     },
     {
       name: "Shrimp Tagine",
       desc: "Shrimp in herb-infused tomato sauce.",
-      image: "/images/shrimp-tagine.jpg",
+      image:
+        "https://cairoscene.com/Content/Admin/Uploads/Articles/ArticlesMainPhoto/1128523/aaedd28e-0360-4c19-b47c-9d99469632e2.jpg",
     },
     {
       name: "Grilled Mullet (Bouri)",
       desc: "Simply grilled whole fish with lemon.",
-      image: "/images/grilled-mullet.jpg",
+      image: "https://slowmed.eu/media/Grilled-Mullet.jpg",
     },
     {
       name: "Calamari Meshwi",
       desc: "Grilled squid with garlic and herbs.",
-      image: "/images/calamari-meshwi.jpg",
+      image:
+        "https://greekislandstaverna.com/wp-content/uploads/2025/09/fried-squid-rings-breaded-with-lemon-on-a-plate-2025-01-09-05-13-04-utc-1-scaled-1.jpg",
     },
   ],
 };

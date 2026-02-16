@@ -13,6 +13,7 @@ export interface GovernorData {
   born: string;
   education: string;
   appointedDate: string;
+  image: string;
   biography: {
     summary: string;
     militaryCareer: string[];
@@ -40,6 +41,7 @@ export const governorData: GovernorData = {
   born: "1961",
   education: "Egyptian Naval Academy (Class of 1983)",
   appointedDate: "July 2024",
+  image: "/images/govanor.jpg",
   biography: {
     summary:
       "Vice-Admiral Ahmed Khaled Hassan Saeed is a seasoned Egyptian military figure born in 1961. He is a graduate of the Egyptian Naval Academy (class of 1983).",

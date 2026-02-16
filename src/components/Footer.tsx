@@ -37,12 +37,7 @@ const footerLinks = {
   ],
 };
 
-const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Youtube, href: '#', label: 'YouTube' },
-];
+
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -98,7 +93,7 @@ export default function Footer() {
             </div>
 
             <p className="text-white/70 mb-6 leading-relaxed">
-              The official digital gateway to Alexandria, Egypt. Discover ancient
+              A digital gateway to Alexandria, Egypt. Discover ancient
               heritage, modern innovation, and Mediterranean beauty.
             </p>
 
@@ -114,7 +109,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-white/70">
                 <Mail className="w-5 h-5 text-[#3898ec]" />
-                <span className="text-sm">info@alexandria.gov.eg</span>
+                <span className="text-sm">info-unofficial@alexandria.gov.eg</span>
               </div>
             </div>
           </div>
@@ -202,7 +197,7 @@ export default function Footer() {
             </div>
 
             {/* Social Links */}
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -216,7 +211,7 @@ export default function Footer() {
                   </a>
                 );
               })}
-            </div>
+            </div> */}
 
             {/* Back to Top */}
             <button

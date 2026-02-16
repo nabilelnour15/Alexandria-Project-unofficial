@@ -1,20 +1,33 @@
 import { useState } from 'react';
-import { 
-  Sun, Anchor, Landmark, 
-  BookOpen, Building2, Palette, 
-  Users, Utensils, Zap, Info,
-  ChevronRight, ChevronDown, Camera
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { 
-  aboutEssence, landmarksData, 
-  modernInfrastructure, museumRegistry, culture2025, 
-  culinaryTraditions, integrationData, timelineEvents,
-  summaryData
-} from '../data/aboutData';
+import {
+  Sun,
+  Anchor,
+  Landmark,
+  BookOpen,
+  Building2,
+  Palette,
+  Users,
+  Utensils,
+  Zap,
+  Info,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import {
+  aboutEssence,
+  landmarksData,
+  modernInfrastructure,
+  museumRegistry,
+  culture2025,
+  culinaryTraditions,
+  integrationData,
+  timelineEvents,
+  summaryData,
+} from "../data/aboutData";
 import { PlaceholderImage } from "@/components/PlaceholderImage";
-import {SectionTitle} from "@/components/SectionTitle";
+import { SectionTitle } from "@/components/SectionTitle";
 export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
   const [activeExplorerTab, setActiveExplorerTab] = useState("landmarks");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,8 +44,6 @@ export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
   const [expandedEventIndex, setExpandedEventIndex] = useState<number | null>(
     null,
   );
-
-
 
   if (isTeaser) {
     return (
@@ -286,7 +297,8 @@ export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
                                 alt={event.title}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
                                 onError={(e) => {
-                                  (e.target as HTMLImageElement).src = "/images/hero-bg.jpg"; // Fallback
+                                  (e.target as HTMLImageElement).src =
+                                    "/images/hero-bg.jpg"; // Fallback
                                 }}
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -623,10 +635,15 @@ export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
                             className="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col md:flex-row gap-8 items-center hover:shadow-lg transition-all"
                           >
                             <div className="w-full md:w-48 h-32 bg-[#f8fafc] rounded-2xl flex items-center justify-center border border-gray-100 flex-shrink-0 relative overflow-hidden">
-                              <Camera className="w-8 h-8 text-gray-200" />
+                              {/* <Camera className="w-8 h-8 text-gray-200" />
                               <span className="absolute bottom-2 inset-x-0 text-center text-[8px] font-bold text-gray-300 uppercase tracking-widest">
                                 Entry Placeholder
-                              </span>
+                              </span> */}
+                              <PlaceholderImage
+                                text={mus.name}
+                                className="w-full h-full object-cover"
+                                src={mus.image}
+                              />
                             </div>
                             <div className="flex-grow">
                               <h4 className="font-bold text-xl mb-3">
@@ -730,9 +747,14 @@ export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
                                 key={i}
                                 className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                               >
-                                <div className="h-24 bg-[#f8fafc] flex items-center justify-center border-b border-gray-50">
+                                {/* <div className="h-24 bg-[#f8fafc] flex items-center justify-center border-b border-gray-50">
                                   <Camera className="w-6 h-6 text-gray-200" />
-                                </div>
+                                </div> */}
+                                <PlaceholderImage
+                                  className="h-24 bg-[#f8fafc] flex items-center justify-center border-b border-gray-50"
+                                  text={dish.name}
+                                  src={dish.image}
+                                />
                                 <div className="p-5">
                                   <h5 className="font-bold text-[#0d1623] mb-2">
                                     {dish.name}
@@ -749,9 +771,14 @@ export default function About({ isTeaser = false }: { isTeaser?: boolean }) {
                           <h4 className="font-bold text-xl mb-6">
                             Historic Cafés
                           </h4>
-                          <div className="h-32 bg-white/5 border border-white/10 rounded-2xl mb-8 flex items-center justify-center">
+                          {/* <div className="h-32 bg-white/5 border border-white/10 rounded-2xl mb-8 flex items-center justify-center">
                             <Anchor className="w-10 h-10 text-white/10" />
-                          </div>
+                          </div> */}
+                          <PlaceholderImage
+                            className="h-32 bg-white/5 border border-white/10 rounded-2xl mb-8 flex items-center justify-center"
+                            text="Délices"
+                            src="https://www.etltravel.com/wp-content/uploads/2014/02/delices-pastry-shop-alexandria.jpg"
+                          />
                           <p className="text-sm text-white/70 leading-relaxed mb-8">
                             {culinaryTraditions.seafood}
                           </p>

@@ -5,13 +5,13 @@ import CTA from '../sections/CTA';
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-white">
-            <Navbar isInternal />
-            <main>
-                <About />
-                <CTA />
-            </main>
-            <Footer />
-        </div>
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <main>
+          <About />
+          <CTA />
+        </main>
+        <Footer />
+      </div>
     );
 }
