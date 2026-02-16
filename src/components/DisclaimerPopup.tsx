@@ -7,14 +7,10 @@ const DisclaimerPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        const hasSeenDisclaimer = localStorage.getItem('hasSeenDisclaimer');
-        if (!hasSeenDisclaimer) {
-            setIsOpen(true);
-        }
+        setIsOpen(true);
     }, []);
 
     const handleClose = () => {
-        localStorage.setItem('hasSeenDisclaimer', 'true');
         setIsOpen(false);
     };
 
@@ -53,6 +49,11 @@ const DisclaimerPopup = () => {
                                     This project is a <span className="italic">passion project</span> created by a developer who loves the city of Alexandria.
                                     It's designed to celebrate the city's historical importance, cultural richness, and modern potential.
                                 </p>
+                                <div className="p-4 bg-primary/5 border-l-4 border-primary/30 rounded-r-lg italic text-sm">
+                                    <p className="mb-0">
+                                        <span className="font-semibold text-primary not-italic">Note:</span> Some content on this site is generated and researched using deep-search AI technologies to provide comprehensive information.
+                                    </p>
+                                </div>
                                 <p>
                                     While not official, it's crafted with care and dedication to honor Alexandria's legacy and help showcase what makes this ancient city so special.
                                 </p>
