@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Search, ChevronDown, Globe } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -18,6 +20,7 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +66,7 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
                     : 'text-white/90 hover:text-white'
                     }`}
                 >
-                  {link.name}
+                  {t(`nav.${link.name.toLowerCase()}`)}
                   <span
                     className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#0068c8] transition-all duration-300 group-hover:w-3/4 ${isScrolled || isInternal ? 'bg-[#0068c8]' : 'bg-white'
                       } ${location.pathname === link.href ? 'w-3/4' : ''}`}
@@ -85,14 +88,7 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
               </button>
 
               {/* Language Selector */}
-              <button
-                className={`hidden sm:flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-300 hover:bg-[#0068c8]/10 ${isScrolled || isInternal ? 'text-[#333333]' : 'text-white'
-                  }`}
-              >
-                <Globe className="w-5 h-5" />
-                <span className="text-sm font-medium">EN</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
+              <LanguageSwitcher isScrolled={isScrolled} isInternal={isInternal} />
 
               {/* Mobile Menu Button */}
               <button
@@ -132,7 +128,7 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
                     : 'text-[#333333] hover:bg-[#e6f1fc] hover:text-[#0068c8]'
                     }`}
                 >
-                  {link.name}
+                  {t(`nav.${link.name.toLowerCase()}`)}
                 </Link>
               ))}
             </div>
@@ -158,7 +154,7 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
               <Search className="w-6 h-6 text-[#5d6c7b]" />
               <input
                 type="text"
-                placeholder="Search Alexandria..."
+                placeholder={t('search.placeholder')}
                 className="flex-1 text-lg outline-none text-[#333333] placeholder:text-[#5d6c7b]"
                 autoFocus={isSearchOpen}
               />
@@ -170,15 +166,15 @@ export default function Navbar({ isInternal = false }: { isInternal?: boolean })
               </button>
             </div>
             <div className="mt-4 pt-4 border-t border-gray-100">
-              <p className="text-sm text-[#5d6c7b]">Popular searches:</p>
+              <p className="text-sm text-[#5d6c7b]">{t('search.popular')}</p>
               <div className="flex flex-wrap gap-2 mt-2">
-                {['Citadel', 'Library', 'Beaches', 'Investment', 'Hotels'].map(
+                {['citadel', 'library', 'beaches', 'investment', 'hotels'].map(
                   (term) => (
                     <button
                       key={term}
                       className="px-3 py-1 text-sm bg-[#e6f1fc] text-[#0068c8] rounded-full hover:bg-[#0068c8] hover:text-white transition-colors"
                     >
-                      {term}
+                      {t(`search.terms.${term}`)}
                     </button>
                   )
                 )}

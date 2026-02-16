@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Home",
+    "governor": "Governor",
+    "projects": "Projects",
+    "about": "About",
+    "visit": "Visit",
+    "invest": "Invest",
+    "news": "News"
+  },
+  "search": {
+    "placeholder": "Search Alexandria...",
+    "popular": "Popular searches:",
+    "terms": {
+      "citadel": "Citadel",
+      "library": "Library",
+      "beaches": "Beaches",
+      "investment": "Investment",
+      "hotels": "Hotels"
+    }
+  },
+  "language": {
+    "en": "English",
+    "ar": "Arabic"
+  },
+  "buttons": {
+    "learnMore": "Learn More",
+    "readMore": "Read More",
+    "viewAll": "View All",
+    "close": "Close",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "footer": {
+    "description": "Egypt's Mediterranean pearl, blending 2,300 years of heritage with a vision for sustainable urban excellence.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "followUs": "Follow Us",
+    "copyright": "© 2026 Alexandria Governorate. All rights reserved.",
+    "address": "Alexandria Governorate Building, Corniche Road, Alexandria, Egypt",
+    "phone": "Phone",
+    "email": "Email"
+  },
+  "disclaimer": {
+    "title": "Welcome to Alexandria",
+    "message": "This website provides information about Alexandria, Egypt. Some content is AI-generated through deep research and should be verified for official purposes. By continuing, you acknowledge this disclaimer.",
+    "aiNotice": "⚠️ Some content on this site is AI-generated through comprehensive research of historical and current sources.",
+    "accept": "I Understand",
+    "showAgain": "This message will appear each time you visit"
+  }
+}

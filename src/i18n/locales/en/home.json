@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "tag": "Alexandria: Heritage in Motion",
+    "discover": "DISCOVER",
+    "typewriter": {
+      "alexandria": "ALEXANDRIA",
+      "heritage": "HERITAGE",
+      "beauty": "BEAUTY",
+      "vision": "VISION",
+      "sustainability": "SUSTAINABILITY"
+    },
+    "subtitle": "Where 2,300 Years of Timeless Elegance Meets a Sustainable Future",
+    "description": "Discover the Mediterranean's pearl, blending centuries of history with a modern vision for a smart, green, and vibrant metropolis.",
+    "cta": {
+      "experience": "Experience Heritage",
+      "vision": "Governor's Vision"
+    },
+    "stats": {
+      "history": "Years of History",
+      "efficiency": "Energy Efficiency",
+      "transformation": "In Transformation"
+    },
+    "scroll": "Scroll"
+  },
+  "about": {
+    "tag": "About Alexandria",
+    "title": "The Timeless",
+    "titleHighlight": "Pearl",
+    "description": "Explore twenty-five centuries of history, culture, and coastal identity in Egypt's Mediterranean masterpiece.",
+    "cta": "Discover History",
+    "gateway": {
+      "title": "A Gateway to Civilizations",
+      "description": "Founded by Alexander the Great in 331 BCE, Alexandria served as the beacon of knowledge and maritime power for centuries, blending Greco-Roman heritage with Egyptian spirit."
+    },
+    "identity": {
+      "title": "Mediterranean Identity",
+      "description": "Today, it stands as a vibrant metropolis, home to the modern Bibliotheca Alexandrina and a coastline that continues to inspire poets, travelers, and innovators."
+    }
+  }
+}

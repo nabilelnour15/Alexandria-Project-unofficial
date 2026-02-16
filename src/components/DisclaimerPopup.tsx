@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Info, Heart } from 'lucide-react';
 import { Button } from './ui/button';
+import { useTranslation } from 'react-i18next';
 
 const DisclaimerPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { t } = useTranslation('common');
 
     useEffect(() => {
         // Defer state update to avoid synchronous setState in effect
@@ -69,7 +71,7 @@ const DisclaimerPopup = () => {
                                     onClick={handleClose}
                                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 rounded-xl transition-all hover:scale-[1.02]"
                                 >
-                                    I Understand
+                                    {t('disclaimer.accept')}
                                 </Button>
                                 <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                                     <span>Made with</span>

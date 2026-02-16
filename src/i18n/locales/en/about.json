@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "tag": "Official Heritage Guide",
+    "title": "Alexandria",
+    "titleHighlight": "Timeless Pearl",
+    "description": "Explore twenty-five centuries of history, culture, and coastal identity in Egypt's Mediterranean masterpiece."
+  },
+  "essence": {
+    "title": "The Unique Essence of Alexandria",
+    "subtitle": "Principal Port & Second City"
+  },
+  "timeline": {
+    "title": "The Historical Tapestry",
+    "subtitle": "Click on a timeline point to expand and discover its deep history"
+  },
+  "explorer": {
+    "tag": "Interactive Explorer",
+    "title": "Discovery Layers",
+    "tabs": {
+      "landmarks": "Wonders",
+      "modern": "Modern",
+      "museums": "Museums",
+      "culture": "2025 Culture",
+      "culinary": "Seafood",
+      "heritage": "Heritage"
+    }
+  }
+}

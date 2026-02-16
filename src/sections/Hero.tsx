@@ -3,6 +3,7 @@ import { ArrowRight, MapPin, Building2, Landmark, MousePointer2, Zap } from 'luc
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -10,6 +11,7 @@ export default function Hero() {
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const { t } = useTranslation('home');
 
 
   return (
@@ -60,7 +62,7 @@ export default function Hero() {
             >
               <MapPin className="w-4 h-4 text-[#3898ec]" />
               <span className="text-white/90 text-sm font-medium uppercase tracking-widest">
-                Alexandria: Heritage in Motion
+                {t('hero.tag')}
               </span>
             </motion.div>
 
@@ -72,7 +74,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="block text-lg md:text-xl font-medium text-[#3898ec] mb-2"
               >
-                DISCOVER
+                {t('hero.discover')}
               </motion.span>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -82,15 +84,15 @@ export default function Hero() {
               >
                 <TypeAnimation
                   sequence={[
-                    'ALEXANDRIA',
+                    t('hero.typewriter.alexandria'),
                     2000,
-                    'HERITAGE',
+                    t('hero.typewriter.heritage'),
                     2000,
-                    'BEAUTY',
+                    t('hero.typewriter.beauty'),
                     2000,
-                    'VISION',
+                    t('hero.typewriter.vision'),
                     2000,
-                    'SUSTAINABILITY',
+                    t('hero.typewriter.sustainability'),
                     2000,
                   ]}
                   wrapper="span"
@@ -104,7 +106,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="block text-xl md:text-2xl font-normal text-white/80"
               >
-                 Where 2,300 Years of Timeless Elegance Meets a Sustainable Future
+                {t('hero.subtitle')}
               </motion.span>
             </h1>
 
@@ -131,7 +133,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.95 }}
                   className="alex-btn-primary group"
                 >
-                  Experience Heritage
+                  {t('hero.cta.experience')}
                   <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                 </motion.button>
               </Link>
@@ -141,7 +143,7 @@ export default function Hero() {
                   whileTap={{ scale: 0.95 }}
                   className="px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/30 transition-all"
                 >
-                  Governor's Vision
+                  {t('hero.cta.vision')}
                 </motion.button>
               </Link>
             </motion.div>
@@ -161,7 +163,7 @@ export default function Hero() {
                   <p className="text-2xl font-bold text-white font-['Montserrat']">
                     2,300+
                   </p>
-                  <p className="text-white/60 text-sm">Years of History</p>
+                  <p className="text-white/60 text-sm">{t('hero.stats.history')}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -172,7 +174,7 @@ export default function Hero() {
                   <p className="text-2xl font-bold text-white font-['Montserrat']">
                     40%
                   </p>
-                  <p className="text-white/60 text-sm">Energy Efficiency</p>
+                  <p className="text-white/60 text-sm">{t('hero.stats.efficiency')}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -183,7 +185,7 @@ export default function Hero() {
                   <p className="text-2xl font-bold text-white font-['Montserrat']">
                     EGP 90.5B+
                   </p>
-                  <p className="text-white/60 text-sm">In Transformation</p>
+                  <p className="text-white/60 text-sm">{t('hero.stats.transformation')}</p>
                 </div>
               </div>
             </motion.div>
@@ -215,7 +217,7 @@ export default function Hero() {
         transition={{ duration: 2, repeat: Infinity, delay: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/70 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="text-xs font-medium tracking-widest uppercase">Scroll</span>
+        <span className="text-xs font-medium tracking-widest uppercase">{t('hero.scroll')}</span>
         <MousePointer2 className="w-5 h-5" />
       </motion.div>
 

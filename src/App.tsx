@@ -13,6 +13,8 @@ import ProjectsPage from './pages/ProjectsPage';
 import ScrollToTop from './components/ScrollToTop';
 import Loading from './components/Loading';
 import DisclaimerPopup from './components/DisclaimerPopup';
+import { LanguageProvider } from './contexts/LanguageContext';
+import './i18n/config';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,29 +29,31 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <ScrollToTop />
-      <AnimatePresence mode="wait">
-        {loading && <Loading key="loading" />}
-      </AnimatePresence>
+    <LanguageProvider>
+      <Router>
+        <ScrollToTop />
+        <AnimatePresence mode="wait">
+          {loading && <Loading key="loading" />}
+        </AnimatePresence>
 
-      {!loading && (
-        <>
-          <DisclaimerPopup />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            {/* <Route path="/services" element={<ServicesPage />} /> */}
-            <Route path="/visit" element={<VisitPage />} />
-            <Route path="/invest" element={<InvestPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/news" element={<NewsPage />} />
-            <Route path="/news/:id" element={<NewsArticlePage />} />
-            <Route path="/governor" element={<GovernorPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-          </Routes>
-        </>
-      )}
-    </Router>
+        {!loading && (
+          <>
+            <DisclaimerPopup />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              {/* <Route path="/services" element={<ServicesPage />} /> */}
+              <Route path="/visit" element={<VisitPage />} />
+              <Route path="/invest" element={<InvestPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/news" element={<NewsPage />} />
+              <Route path="/news/:id" element={<NewsArticlePage />} />
+              <Route path="/governor" element={<GovernorPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+            </Routes>
+          </>
+        )}
+      </Router>
+    </LanguageProvider>
   );
 }
 
