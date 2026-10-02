@@ -71,6 +71,23 @@ No test framework is configured. `npm run build` type-checks: `tsconfig.app.json
 - Design reviews rejected: Cinzel, mashrabiya or Coptic card ornaments, papyrus-unroll animations, Greek numerals, a colour per era, and ALL-CAPS eyebrows on every heading.
 - Animations use `framer-motion`, and must respect reduced motion. Icons come from `lucide-react`. Merge class names with `cn()` from `@/lib/utils`.
 
+## Tooling (global, from ECC)
+
+A curated ECC set is installed globally. The list is in `~/.claude/ecc-curated.md` and the source is in `~/tools/ECC`. Use these for this project:
+
+| When | Use |
+|---|---|
+| After any change, before committing | `verification-loop` skill (build, type-check, lint, security grep, diff review). Then a `typescript-reviewer` or `react-reviewer` agent on the diff. |
+| UI work: new sections, timeline, map, dashboard | `make-interfaces-feel-better` + `react-patterns`, then the `frontend-design` plugin for direction. Run the `design-system` skill to audit token and colour consistency against "Pharos & Papyrus". |
+| Accessibility checks | `frontend-a11y` while building. `accessibility` skill or `a11y-architect` agent for WCAG 2.2 AA audits. |
+| Before deploys, and after merging to `production` | `browser-qa` (claude-in-chrome: console errors, three breakpoints, axe) and `production-audit`. |
+| SEO and share previews | `seo` skill or `seo-specialist` agent (meta, OG image, sitemap/robots, structured data for landmarks). |
+| Bundle size and speed | `react-performance` + `vite-patterns`, or the `performance-optimizer` agent. |
+| Arabic / RTL (Phase 3) | `i18n-sync` for locale files. |
+| Dead code and duplicates (remaining Phase 1 items) | `refactor-cleaner` agent. |
+| Build failures | `build-error-resolver` agent. |
+| Too many tools loaded | `context-budget` skill. |
+
 ## Docs
 
 `docs/site-review.md` and `docs/site-review.html` hold the review and the judged ideas. `docs/TODO.md` holds the phased task list. Update TODO.md when you finish items.
