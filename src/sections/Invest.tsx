@@ -5,47 +5,53 @@ import {
   Building2,
   Hotel,
   Cpu,
-  ArrowRight,
+
   CheckCircle2,
-  Globe,
   Users,
+  LandPlot,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SourceChip from '../components/SourceChip';
+import { facts, type FactId } from '../data/facts';
 
-const sectors = [
+const sectors: { icon: typeof Ship; title: string; description: string; factId?: FactId }[] = [
   {
     icon: Building2,
-    title: 'Real Estate',
+    title: 'Real estate',
     description: 'Residential, commercial, and industrial development opportunities.',
-    growth: '+15%',
   },
   {
     icon: Ship,
-    title: 'Logistics & Ports',
-    description: 'Strategic location with Egypt\'s largest port handling 40% of trade.',
-    growth: '+22%',
+    title: 'Logistics and ports',
+    description: `Egypt's main port, handling ${facts.portTradeShare.value} of the country's foreign trade.`,
+    factId: 'portTradeShare',
   },
   {
     icon: Hotel,
-    title: 'Tourism & Hospitality',
-    description: '2M+ annual visitors create demand for hotels and services.',
-    growth: '+18%',
+    title: 'Tourism and hospitality',
+    description: 'Heritage sites, beaches and year-round visitors create demand for hotels and services.',
   },
   {
     icon: Cpu,
     title: 'Technology',
-    description: 'Growing tech hub with startup ecosystem and IT parks.',
-    growth: '+28%',
+    description: 'A growing number of startups and IT companies.',
   },
 ];
 
-const advantages = [
-  '40% of Egypt\'s industrial production',
-  'Largest Mediterranean port in Egypt',
-  'Two international airports',
-  'Free Trade Zone benefits',
-  'Young, educated workforce',
-  'Tax incentives for investors',
+const advantages: { text: string; factId?: FactId }[] = [
+  { text: "Around 40% of Egypt's industrial activity (2013)", factId: 'industrialShare' },
+  { text: 'Largest Mediterranean port in Egypt' },
+  { text: 'Borg El Arab International Airport' },
+  { text: 'Public free zone in Amreya' },
+  { text: 'Young, educated workforce' },
+  { text: 'Tax incentives for investors' },
+];
+
+const keyStats: { icon: typeof Ship; value: string; label: string; factId: FactId }[] = [
+  { icon: Ship, value: `≈${facts.portTradeShare.numeric}%`, label: 'Of foreign trade via the port', factId: 'portTradeShare' },
+  { icon: TrendingUp, value: `≈${facts.industrialShare.numeric}%`, label: 'Industrial activity (2013)', factId: 'industrialShare' },
+  { icon: LandPlot, value: '5.7M m²', label: 'Public free zone', factId: 'freeZoneArea' },
+  { icon: Users, value: '≈5.6M', label: 'Population', factId: 'population' },
 ];
 
 export default function Invest({ isTeaser = false }: { isTeaser?: boolean }) {
@@ -77,35 +83,13 @@ export default function Invest({ isTeaser = false }: { isTeaser?: boolean }) {
     <section
       id="invest"
       ref={sectionRef}
-      className="alex-section bg-[#0d1623] relative overflow-hidden"
+      className="alex-section bg-ink relative overflow-hidden"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
-
-      {/* Floating Orbs */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#0068c8]/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-[#3898ec]/10 rounded-full blur-3xl" />
-
       <div className="alex-container relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span
-            className={`inline-block px-4 py-1.5 bg-[#0068c8]/20 text-[#3898ec] text-sm font-semibold rounded-full uppercase tracking-wider mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            Investment Opportunities
-          </span>
           <h2
-            className={`font-['Montserrat'] text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 transition-all duration-500 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+            className={`text-white mb-4 transition-all duration-500 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4' }`}
           >
             Invest in Alexandria
           </h2>
@@ -113,44 +97,31 @@ export default function Invest({ isTeaser = false }: { isTeaser?: boolean }) {
             className={`text-white/70 text-lg transition-all duration-500 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
           >
-            Strategic location, robust infrastructure, and business-friendly
-            policies make Alexandria the ideal investment destination
+            Egypt's main port, a public free zone and a long-established
+            industrial base
           </p>
         </div>
 
         {/* Key Stats Bar */}
         <div
-          className={`grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-16 transition-all duration-500 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
         >
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center">
-            <Globe className="w-8 h-8 text-[#3898ec] mx-auto mb-2" />
-            <p className="text-2xl font-bold text-white font-['Montserrat']">
-              $40B
-            </p>
-            <p className="text-white/60 text-sm">GDP Contribution</p>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center">
-            <TrendingUp className="w-8 h-8 text-[#3898ec] mx-auto mb-2" />
-            <p className="text-2xl font-bold text-white font-['Montserrat']">
-              40%
-            </p>
-            <p className="text-white/60 text-sm">Industrial Output</p>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center">
-            <Ship className="w-8 h-8 text-[#3898ec] mx-auto mb-2" />
-            <p className="text-2xl font-bold text-white font-['Montserrat']">
-              #1
-            </p>
-            <p className="text-white/60 text-sm">Port in Egypt</p>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center">
-            <Users className="w-8 h-8 text-[#3898ec] mx-auto mb-2" />
-            <p className="text-2xl font-bold text-white font-['Montserrat']">
-              5.6M
-            </p>
-            <p className="text-white/60 text-sm">Population</p>
-          </div>
+          {keyStats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div key={stat.label} className="bg-white/5 rounded-xl p-4 md:p-6 text-center min-w-0">
+                <Icon className="w-8 h-8 text-seaglass mx-auto mb-2" />
+                <p className="text-2xl font-bold text-white font-display">
+                  {stat.value}
+                </p>
+                <p className="text-white/75 text-sm">{stat.label}</p>
+                <div className="mt-2 text-white/70">
+                  <SourceChip factId={stat.factId} />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Investment Sectors */}
@@ -160,25 +131,23 @@ export default function Invest({ isTeaser = false }: { isTeaser?: boolean }) {
             return (
               <div
                 key={sector.title}
-                className={`group bg-white/5 backdrop-blur-sm rounded-2xl p-6 transition-all duration-500 hover:bg-white/10 hover:-translate-y-2 ${isVisible
+                className={`bg-white/5 rounded-lg p-6 transition-all duration-500 ${isVisible
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-10'
                   }`}
                 style={{ transitionDelay: `${400 + index * 100}ms` }}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-[#0068c8]/20 rounded-xl flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-[#3898ec]" />
+                <div className="mb-4">
+                  <div className="w-12 h-12 bg-sea/20 rounded-xl flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-seaglass" />
                   </div>
-                  <span className="px-3 py-1 bg-[#027a48]/20 text-[#10b981] text-sm font-semibold rounded-full">
-                    {sector.growth}
-                  </span>
                 </div>
-                <h3 className="font-['Montserrat'] font-bold text-lg text-white mb-2">
+                <h3 className="text-white mb-2">
                   {sector.title}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className="text-white/75 text-sm leading-relaxed">
                   {sector.description}
+                  {sector.factId && <SourceChip factId={sector.factId} className="ml-1 text-white/70" />}
                 </p>
               </div>
             );
@@ -194,29 +163,28 @@ export default function Invest({ isTeaser = false }: { isTeaser?: boolean }) {
               : 'opacity-0 -translate-x-10'
               }`}
           >
-            <h3 className="font-['Montserrat'] text-2xl font-bold text-white mb-6">
-              Why Invest in Alexandria?
+            <h3 className="text-white mb-6">
+              Why invest in Alexandria?
             </h3>
             <div className="grid sm:grid-cols-2 gap-4">
               {advantages.map((advantage) => (
                 <div
-                  key={advantage}
+                  key={advantage.text}
                   className="flex items-center gap-3 text-white/80"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-[#3898ec] flex-shrink-0" />
-                  <span className="text-sm">{advantage}</span>
+                  <CheckCircle2 className="w-5 h-5 text-seaglass flex-shrink-0" />
+                  <span className="text-sm">
+                    {advantage.text}
+                    {advantage.factId && <SourceChip factId={advantage.factId} className="ml-1" />}
+                  </span>
                 </div>
               ))}
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/invest" className="alex-btn-primary group inline-flex items-center">
-                Start Investing
-                <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+              <Link to="/invest" className="alex-btn-on-dark">
+                Read the investment guide
               </Link>
-              <button className="px-6 py-3 bg-white/10 text-white font-semibold rounded-lg border border-white/20 transition-all duration-300 hover:bg-white/20">
-                Download Guide
-              </button>
             </div>
           </div>
 
@@ -227,45 +195,16 @@ export default function Invest({ isTeaser = false }: { isTeaser?: boolean }) {
               : 'opacity-0 translate-x-10'
               }`}
           >
-            <div className="relative bg-gradient-to-br from-[#0068c8] to-[#3898ec] rounded-2xl p-8 overflow-hidden">
-              {/* Decorative Circles */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2" />
-
-              <div className="relative z-10">
-                <h3 className="font-['Montserrat'] text-2xl font-bold text-white mb-4">
-                  Ready to Invest?
-                </h3>
-                <p className="text-white/80 mb-6">
-                  Our investment office is ready to assist you with every step of
-                  your investment journey in Alexandria.
-                </p>
-
-                <div className="space-y-4 mb-6">
-                  <div className="flex items-center gap-3 text-white">
-                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                      <CheckCircle2 className="w-4 h-4" />
-                    </div>
-                    <span className="text-sm">Free investment consultation</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white">
-                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                      <CheckCircle2 className="w-4 h-4" />
-                    </div>
-                    <span className="text-sm">Streamlined permit process</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white">
-                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                      <CheckCircle2 className="w-4 h-4" />
-                    </div>
-                    <span className="text-sm">Ongoing business support</span>
-                  </div>
-                </div>
-
-                <button className="w-full py-3 bg-white text-[#0068c8] font-semibold rounded-lg transition-all duration-300 hover:bg-white/90">
-                  Contact Investment Office
-                </button>
-              </div>
+            <div className="bg-sea rounded-lg p-6 md:p-8">
+              <h3 className="text-white mb-4">
+                Before you invest
+              </h3>
+              <p className="text-white/85 leading-relaxed">
+                This is an unofficial guide, not an investment office. For
+                licences, free zone applications and incentives, contact
+                Egypt's General Authority for Investment and Free Zones (GAFI)
+                directly, and check every figure here against its source.
+              </p>
             </div>
           </div>
         </div>

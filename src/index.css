@@ -1,47 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+/* Fonts are loaded from index.html (preconnect + stylesheet link). */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * "Pharos & Papyrus" identity.
+ * Palette tokens are space-separated RGB channels so Tailwind can apply
+ * opacity (e.g. bg-sea/10). See tailwind.config.js for the named colours.
+ *
+ * Roles:
+ *   sea        Mediterranean #0B3C5D  primary: buttons, links, headings on light
+ *   ink        night harbour #0E1A24  dark sections, body text
+ *   limestone  #E8DFCC                borders, quiet surfaces
+ *   papyrus    #F4ECDC                secondary surface for archival content only
+ *   gold       #C49A3A                rules and large text on dark only (fails AA on light)
+ *   terracotta #A44A2F                small tags only
+ *   seaglass   #5FA8A0                hover, icons and links on dark (fails AA on light)
+ *   tram       #F2C230                "live" signals only: active nav, focus ring, banner
+ */
 @layer base {
   :root {
+    --sea: 11 60 93;          /* #0B3C5D */
+    --sea-deep: 8 44 69;      /* #082C45 hover for sea */
+    --sea-mist: 227 236 242;  /* #E3ECF2 tint for chips and icon wells */
+    --ink: 14 26 36;          /* #0E1A24 */
+    --ink-raised: 23 38 51;   /* #172633 cards on ink */
+    --ink-soft: 74 88 102;    /* #4A5866 secondary text, 5.5:1 on limestone */
+    --papyrus: 244 236 220;   /* #F4ECDC */
+    --limestone: 232 223 204; /* #E8DFCC */
+    --limestone-wash: 246 242 234; /* #F6F2EA alternate light section */
+    --gold: 196 154 58;       /* #C49A3A */
+    --terracotta: 164 74 47;  /* #A44A2F */
+    --seaglass: 95 168 160;   /* #5FA8A0 */
+    --tram: 242 194 48;       /* #F2C230 */
+
+    /* shadcn tokens (HSL channels) mapped onto the palette */
     --background: 0 0% 100%;
-    --foreground: 210 29% 10%;
+    --foreground: 207 44% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 210 29% 10%;
+    --card-foreground: 207 44% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 29% 10%;
-    --primary: 207 100% 39%;
+    --popover-foreground: 207 44% 10%;
+    --primary: 204 79% 20%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 207 100% 95%;
-    --secondary-foreground: 207 100% 39%;
-    --muted: 210 20% 96%;
-    --muted-foreground: 210 15% 45%;
-    --accent: 207 100% 95%;
-    --accent-foreground: 207 100% 39%;
-    --destructive: 4 84% 40%;
+    --secondary: 204 37% 92%;
+    --secondary-foreground: 204 79% 20%;
+    --muted: 40 40% 94%;
+    --muted-foreground: 210 16% 35%;
+    --accent: 204 37% 92%;
+    --accent-foreground: 204 79% 20%;
+    --destructive: 14 55% 41%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 207 100% 39%;
-    --radius: 0.5rem;
-    
-    /* Alexandria Brand Colors */
-    --alex-primary: #0068c8;
-    --alex-dark: #0d1623;
-    --alex-light: #e6f1fc;
-    --alex-accent: #3898ec;
-    --alex-white: #ffffff;
-    --alex-black: #000000;
-    --alex-gray-light: #f3f3f3;
-    --alex-gray-medium: #e2e2e2;
-    --alex-gray-dark: #5d6c7b;
-    --alex-text: #333333;
-    --alex-border: #cccccc;
+    --border: 41 38% 85%;
+    --input: 42 31% 77%;
+    --ring: 45 88% 57%;
+    --radius: 0.375rem;
+
+    /* Legacy brand aliases, kept so older class names still resolve */
+    --alex-primary: rgb(var(--sea));
+    --alex-dark: rgb(var(--ink));
+    --alex-light: rgb(var(--sea-mist));
+    --alex-accent: rgb(var(--seaglass));
+    --alex-white: #fff;
+    --alex-black: rgb(var(--ink));
+    --alex-gray-light: rgb(var(--limestone-wash));
+    --alex-gray-medium: rgb(var(--limestone));
+    --alex-gray-dark: rgb(var(--ink-soft));
+    --alex-text: rgb(var(--ink));
+    --alex-border: rgb(var(--limestone));
     --alex-success: #027a48;
-    --alex-error: #b42318;
-    
+    --alex-error: rgb(var(--terracotta));
+
     /* Animation Easings */
     --ease-dramatic: cubic-bezier(0.87, 0, 0.13, 1);
     --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -57,18 +87,57 @@
   * {
     @apply border-border;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Open Sans', sans-serif;
+    @apply bg-background text-foreground antialiased font-sans;
+    font-size: 1rem;
+    line-height: 1.65;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
+
+  /*
+   * Type scale. Cormorant Garamond has a small x-height, so it is set
+   * roughly 15-20% larger than a sans would be at the same rank.
+   */
+  h1, h2, h3, h4 {
+    @apply font-display;
+    font-weight: 600;
+    text-wrap: balance;
+    font-feature-settings: "kern", "liga", "lnum";
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 1.9rem + 3.6vw, 5.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+  }
+
+  h2 {
+    font-size: clamp(2.25rem, 1.65rem + 2.3vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+    line-height: 1.18;
+  }
+
+  h4 {
+    font-size: 1.375rem;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+
+  :lang(ar),
+  [lang="ar"] {
+    @apply font-arabic;
+    font-feature-settings: normal;
+    letter-spacing: 0;
+    line-height: 1.6;
   }
 }
 
@@ -76,29 +145,60 @@
   .alex-container {
     @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
-  
+
   .alex-section {
     @apply py-16 md:py-24;
   }
-  
+
+  /* Square-shouldered buttons; the radius is deliberately smaller than cards. */
   .alex-btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-[#0068c8] text-white font-semibold rounded-lg transition-all duration-300 hover:bg-[#0055a5] hover:shadow-lg hover:shadow-[#0068c8]/25 hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-sea text-white font-semibold rounded-md transition-colors duration-200 hover:bg-sea-deep;
   }
-  
+
   .alex-btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-[#0068c8] font-semibold rounded-lg border-2 border-[#0068c8] transition-all duration-300 hover:bg-[#e6f1fc] hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-transparent text-sea font-semibold rounded-md border border-sea/40 transition-colors duration-200 hover:border-sea hover:bg-sea-mist;
   }
-  
+
+  /* On ink/sea or photo heroes: gold with ink text (6.7:1). */
+  .alex-btn-on-dark {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-gold text-ink font-semibold rounded-md transition-colors duration-200 hover:bg-papyrus;
+  }
+
+  .alex-btn-ghost-dark {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-transparent text-white font-semibold rounded-md border border-white/40 transition-colors duration-200 hover:bg-white/10 hover:border-white/70;
+  }
+
   .alex-card {
-    @apply bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    @apply bg-white rounded-lg border border-limestone transition-colors duration-300 hover:border-sea/30;
   }
-  
+
   .alex-gradient-text {
-    @apply bg-gradient-to-r from-[#0068c8] to-[#3898ec] bg-clip-text text-transparent;
+    @apply text-sea;
   }
-  
+
+  /* Quiet kicker: sentence case, Cormorant italic. Use sparingly. */
   .alex-section-tag {
-    @apply inline-block px-4 py-1.5 bg-[#e6f1fc] text-[#0068c8] text-sm font-semibold rounded-full uppercase tracking-wider;
+    @apply inline-block font-display italic text-xl font-medium text-sea;
+  }
+
+  .alex-kicker-dark {
+    @apply inline-block font-display italic text-xl font-medium text-seaglass;
+  }
+
+  /* Small terracotta tag: the only place terracotta appears in the UI. */
+  .alex-tag {
+    @apply inline-flex items-center rounded-sm border border-terracotta/30 bg-terracotta/5 px-2 py-0.5 text-xs font-semibold text-terracotta;
+  }
+
+  /*
+   * Signature element: the Bibliotheca Alexandrina "wall of scripts".
+   * Greek, Coptic, Arabic, Latin and hieroglyphs, naming Alexandria and Egypt, at ~3.5% opacity.
+   * Only for ink/sea backgrounds; combine with a bg-* colour utility.
+   */
+  .wall-of-scripts {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27720%27%20height%3D%27400%27%20viewBox%3D%270%200%20720%20400%27%3E%3Cg%20fill%3D%27%23fff%27%20fill-opacity%3D%270.035%27%3E%3Ctext%20x%3D%2724%27%20y%3D%2758%27%20font-size%3D%2744%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Serif%27%2C%27Times%20New%20Roman%27%2Cserif%22%3E%CE%91%CE%9B%CE%95%CE%9E%CE%91%CE%9D%CE%94%CE%A1%CE%95%CE%99%CE%91%3C%2Ftext%3E%3Ctext%20x%3D%27700%27%20y%3D%2758%27%20font-size%3D%2740%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Sans%20Egyptian%20Hieroglyphs%27%2C%27Noto%20Sans%20Coptic%27%2C%27Apple%20Symbols%27%2Cserif%22%20text-anchor%3D%27end%27%3E%F0%93%88%96%F0%93%82%80%F0%93%8B%B9%3C%2Ftext%3E%3Ctext%20x%3D%27690%27%20y%3D%27128%27%20font-size%3D%2754%27%20font-family%3D%22%27Noto%20Naskh%20Arabic%27%2C%27Segoe%20UI%27%2C%27Geeza%20Pro%27%2Cserif%22%20text-anchor%3D%27end%27%3E%D8%A7%D9%84%D8%A5%D8%B3%D9%83%D9%86%D8%AF%D8%B1%D9%8A%D8%A9%3C%2Ftext%3E%3Ctext%20x%3D%2740%27%20y%3D%27124%27%20font-size%3D%2734%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Sans%20Egyptian%20Hieroglyphs%27%2C%27Noto%20Sans%20Coptic%27%2C%27Apple%20Symbols%27%2Cserif%22%3E%E2%B2%A3%E2%B2%81%E2%B2%95%E2%B2%9F%CF%AF%3C%2Ftext%3E%3Ctext%20x%3D%2730%27%20y%3D%27196%27%20font-size%3D%2740%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Serif%27%2C%27Times%20New%20Roman%27%2Cserif%22%3EE%20G%20Y%20P%20T%3C%2Ftext%3E%3Ctext%20x%3D%27710%27%20y%3D%27192%27%20font-size%3D%2726%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Serif%27%2C%27Times%20New%20Roman%27%2Cserif%22%20text-anchor%3D%27end%27%3EA%20L%20E%20X%20A%20N%20D%20R%20I%20A%3C%2Ftext%3E%3Ctext%20x%3D%2760%27%20y%3D%27262%27%20font-size%3D%2746%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Sans%20Egyptian%20Hieroglyphs%27%2C%27Noto%20Sans%20Coptic%27%2C%27Apple%20Symbols%27%2Cserif%22%3E%F0%93%87%B3%F0%93%85%93%F0%93%8A%AA%F0%93%86%91%3C%2Ftext%3E%3Ctext%20x%3D%27700%27%20y%3D%27258%27%20font-size%3D%2730%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Serif%27%2C%27Times%20New%20Roman%27%2Cserif%22%20text-anchor%3D%27end%27%3E%CE%B2%CE%B9%CE%B2%CE%BB%CE%B9%CE%BF%CE%B8%CE%AE%CE%BA%CE%B7%3C%2Ftext%3E%3Ctext%20x%3D%2724%27%20y%3D%27330%27%20font-size%3D%2730%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Sans%20Egyptian%20Hieroglyphs%27%2C%27Noto%20Sans%20Coptic%27%2C%27Apple%20Symbols%27%2Cserif%22%3E%E2%B2%81%E2%B2%97%E2%B2%89%E2%B2%9D%E2%B2%81%E2%B2%9B%E2%B2%87%E2%B2%A3%E2%B2%93%E2%B2%81%3C%2Ftext%3E%3Ctext%20x%3D%27700%27%20y%3D%27334%27%20font-size%3D%2744%27%20font-family%3D%22%27Noto%20Naskh%20Arabic%27%2C%27Segoe%20UI%27%2C%27Geeza%20Pro%27%2Cserif%22%20text-anchor%3D%27end%27%3E%D9%85%D9%83%D8%AA%D8%A8%D8%A9%3C%2Ftext%3E%3Ctext%20x%3D%27380%27%20y%3D%27384%27%20font-size%3D%2722%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Serif%27%2C%27Times%20New%20Roman%27%2Cserif%22%20text-anchor%3D%27middle%27%3EBIBLIOTHECA%3C%2Ftext%3E%3Ctext%20x%3D%27330%27%20y%3D%27196%27%20font-size%3D%2730%27%20font-family%3D%22%27Noto%20Naskh%20Arabic%27%2C%27Segoe%20UI%27%2C%27Geeza%20Pro%27%2Cserif%22%20text-anchor%3D%27middle%27%3E%D9%85%D8%B5%D8%B1%3C%2Ftext%3E%3Ctext%20x%3D%27285%27%20y%3D%27122%27%20font-size%3D%2726%27%20font-family%3D%22%27Segoe%20UI%20Historic%27%2C%27Noto%20Serif%27%2C%27Times%20New%20Roman%27%2Cserif%22%20text-anchor%3D%27middle%27%3E%CE%91%CE%99%CE%93%CE%A5%CE%A0%CE%A4%CE%9F%CE%A3%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    background-size: 720px 400px;
+    background-repeat: repeat;
   }
 }
 
@@ -146,16 +246,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgb(var(--limestone-wash));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0068c8;
+  background: rgb(var(--sea));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0055a5;
+  background: rgb(var(--ink));
 }
 
 /* Animations */
@@ -223,10 +323,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(0, 104, 200, 0.3);
+    box-shadow: 0 0 20px rgb(var(--sea) / 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(0, 104, 200, 0.6);
+    box-shadow: 0 0 40px rgb(var(--sea) / 0.6);
   }
 }
 
@@ -269,6 +369,16 @@
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
+/*
+ * Visible keyboard focus: a tram-yellow ring ("live" signal) over an ink
+ * band, so the indicator reaches 3:1 on white as well as on ink and sea.
+ */
+:focus-visible {
+  outline: 3px solid rgb(var(--tram));
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgb(var(--ink));
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -280,4 +390,10 @@
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Cormorant defaults to old-style figures; stats and headings read better lining. */
+.font-display,
+h1, h2, h3, h4 {
+  font-variant-numeric: lining-nums;
 }

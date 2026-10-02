@@ -1,5 +1,5 @@
 export const PlaceholderImage = ({
-  text = "Image Placeholder",
+  text = "Image placeholder",
   className = "",
   src,
   alt,
@@ -10,7 +10,7 @@ export const PlaceholderImage = ({
   alt?: string;
 }) => (
   <div
-    className={`w-full bg-white/5 rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-3 overflow-hidden relative ${className}`}
+    className={`w-full bg-white/5 rounded-lg border border-white/10 flex flex-col items-center justify-center gap-3 overflow-hidden relative ${className}`}
   >
     {src ? (
       // Render a real image when `src` is provided. It fills the container preserving rounded corners.
@@ -19,6 +19,7 @@ export const PlaceholderImage = ({
         alt={alt ?? text}
         className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
+        decoding="async"
       />
     ) : (
       // Original placeholder visuals
@@ -33,7 +34,7 @@ export const PlaceholderImage = ({
           />
         </div>
 
-        <span className="text-white/20 text-xs font-bold uppercase tracking-widest">
+        <span className="text-white/20 text-xs font-bold">
           {text}
         </span>
       </>

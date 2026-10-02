@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexandria Site Review</title>
+<meta name="description" content="Multi-agent review of Alexandria – Digital Gateway: data check, UX, heritage and future design ideas, judged and prioritised.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sea:#0B3C5D; --ink:#0E1A24; --papyrus:#F4ECDC; --limestone:#E8DFCC;
+  --gold:#C49A3A; --terracotta:#A44A2F; --seaglass:#5FA8A0; --tram:#F2C230;
+  --bg:#F7F1E5; --surface:#FFFDF8; --surface-2:#EFE6D3; --text:#1E2A33; --muted:#5B6670;
+  --border:#DDD1B8; --accent:var(--sea); --accent-2:var(--gold);
+  --crit:#A3302A; --high:#B5651D; --med:#7A6A1F; --low:#3F6F6A; --ok:#2F6B4F;
+  --shadow:0 1px 2px rgba(14,26,36,.06),0 6px 20px rgba(14,26,36,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1A24; --surface:#14232F; --surface-2:#1A2C3A; --text:#EDE6D6; --muted:#A6B0B8;
+    --border:#2A3E4D; --accent:#7FB6D9; --accent-2:#D9B25A;
+    --crit:#E57B72; --high:#E39A5B; --med:#D2C06A; --low:#7EC2B9; --ok:#7CC49E;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1A24; --surface:#14232F; --surface-2:#1A2C3A; --text:#EDE6D6; --muted:#A6B0B8;
+  --border:#2A3E4D; --accent:#7FB6D9; --accent-2:#D9B25A;
+  --crit:#E57B72; --high:#E39A5B; --med:#D2C06A; --low:#7EC2B9; --ok:#7CC49E;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.15;margin:0 0 .5em}
+h2{font-size:clamp(1.8rem,4vw,2.4rem);color:var(--accent)}
+h3{font-size:1.35rem}
+a{color:var(--accent)}
+code{font:.85em ui-monospace,Consolas,monospace;background:var(--surface-2);padding:.1em .35em;border-radius:4px;overflow-wrap:anywhere}
+.ar{font-family:"Noto Naskh Arabic",serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* hero */
+.hero{background:var(--ink);color:#EDE6D6;position:relative;overflow:hidden;padding:64px 0 48px}
+.hero::before{content:"ΑΛΕΞΑΝΔΡΕΙΑ الإسكندرية ⲣⲁⲕⲟϯ ALEXANDRIE אלכסנדריה ΑΛΕΞΑΝΔΡΕΙΑ الإسكندرية ⲣⲁⲕⲟϯ ALEXANDRIE ΑΛΕΞΑΝΔΡΕΙΑ الإسكندرية ⲣⲁⲕⲟϯ ALEXANDRIE אלכסנדריה ΑΛΕΞΑΝΔΡΕΙΑ الإسكندرية";
+  position:absolute;inset:-20px;font:600 44px/1.3 "Cormorant Garamond",serif;color:#fff;opacity:.045;word-break:break-all;pointer-events:none}
+.hero .wrap{position:relative}
+.kicker{display:flex;align-items:center;gap:12px;color:var(--tram);letter-spacing:.2em;text-transform:uppercase;font-size:.75rem;font-weight:600}
+.kicker::before,.kicker::after{content:"";height:1px;width:40px;background:var(--gold)}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);margin:.3em 0 .2em;color:#fff}
+.hero h1 .ar{font-size:.7em;color:var(--gold);display:block;margin-top:.2em}
+.hero p{max-width:680px;color:#C9C2B2}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:28px}
+.stat{border:1px solid rgba(196,154,58,.35);border-radius:10px;padding:14px 16px;background:rgba(255,255,255,.03)}
+.stat b{display:block;font:700 2rem/1 "Cormorant Garamond",serif;color:var(--tram)}
+.stat span{font-size:.8rem;color:#B9B2A2}
+
+/* nav */
+nav.toc{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+nav.toc .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:8px;padding-bottom:8px;align-items:center}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:.85rem;font-weight:500;padding:6px 12px;border-radius:999px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--surface-2);color:var(--text)}
+.theme-btn{margin-left:auto;flex:none;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:5px 12px;font:inherit;font-size:.8rem;cursor:pointer}
+:focus-visible{outline:2px solid var(--tram);outline-offset:2px}
+
+section{padding:56px 0 8px;scroll-margin-top:56px}
+.lede{color:var(--muted);max-width:720px;margin-top:-.2em}
+
+.verdict{margin:32px 0 0;padding:20px 24px;border-left:4px solid var(--gold);background:var(--surface);border-radius:0 12px 12px 0;box-shadow:var(--shadow);font-family:"Cormorant Garamond",serif;font-size:1.35rem;line-height:1.4}
+
+/* method */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+.card h4{margin:0 0 4px;font-size:1rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.round{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin:22px 0 10px}
+
+/* issues */
+.issue{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start}
+.issue + .issue{margin-top:12px}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.b-crit{color:var(--crit)} .b-high{color:var(--high)} .b-med{color:var(--med)} .b-low{color:var(--low)} .b-ok{color:var(--ok)}
+.issue h4{margin:0;font-size:1rem}
+.issue .body{grid-column:2;color:var(--muted);font-size:.93rem}
+.issue .body ul{margin:.3em 0 0;padding-left:1.1em}
+.fix{display:block;margin-top:6px;color:var(--text)}
+.fix::before{content:"Fix → ";font-weight:700;color:var(--accent)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--surface);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.tbl th,.tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.tbl th{background:var(--surface-2);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl-wrap{overflow-x:auto;border-radius:12px}
+.bad{color:var(--crit);font-weight:600}
+
+.okline{margin-top:14px;font-size:.9rem;color:var(--muted)}
+.okline b{color:var(--ok)}
+
+/* ideas */
+.idea{position:relative;padding-left:64px}
+.rank{position:absolute;left:18px;top:16px;font:700 2.2rem/1 "Cormorant Garamond",serif;color:var(--accent-2)}
+.idea h4{font-size:1.05rem}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:.72rem;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);font-weight:600}
+.chip.why{background:transparent;border:1px dashed var(--border)}
+.score{font-weight:700;color:var(--accent)}
+
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin:18px 0 6px}
+.sw{border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+.sw i{display:block;height:64px}
+.sw div{padding:8px 10px;font-size:.78rem}
+.sw b{display:block;font-size:.82rem}
+.sw code{background:none;padding:0}
+
+.veto{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.veto span{font-size:.82rem;padding:6px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+.veto s{color:var(--crit);text-decoration-thickness:1.5px}
+.veto em{color:var(--muted);font-style:normal}
+
+/* roadmap */
+.phase{position:relative;padding-left:28px;border-left:2px solid var(--border);margin-left:8px;padding-bottom:22px}
+.phase::before{content:"";position:absolute;left:-9px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--gold)}
+.phase:first-child::before{background:var(--tram);border-color:var(--tram)}
+.phase h3{margin-bottom:.2em}
+.phase .when{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.checks{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:6px}
+.checks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:.93rem;padding:6px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+.checks input{margin-top:4px;accent-color:var(--sea);flex:none}
+.checks input:checked + span{text-decoration:line-through;color:var(--muted)}
+.progress{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:8px;max-width:260px}
+.progress i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:10px}
+.vs .side{padding:10px 12px;border-radius:8px;background:var(--surface-2);font-size:.88rem}
+.vs .side b{font-size:1.4rem;font-family:"Cormorant Garamond",serif;display:block;line-height:1}
+.vs .x{font-family:"Cormorant Garamond",serif;color:var(--muted);font-size:1.2rem}
+.comp{margin-top:10px;font-size:.88rem}
+.comp b{color:var(--accent)}
+
+.sub{margin:16px 0 0;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
+.subs{margin:6px 0 0;padding-left:1.1em;color:var(--muted);font-size:.88rem}
+.checks label > span .badge{margin-right:4px;vertical-align:1px}
+.count{margin:6px 0 0;font-size:.8rem;color:var(--muted)}
+.todo-bar{position:sticky;top:50px;z-index:5;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:14px 0 22px;box-shadow:var(--shadow)}
+.todo-bar b{font:700 1.4rem/1 "Cormorant Garamond",serif;color:var(--accent)}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font:inherit;font-size:.78rem;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+.checks li.hide,.sub.hide{display:none}
+footer{margin-top:56px;padding:28px 0 40px;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}
+@media (max-width:560px){
+  .idea{padding-left:20px;padding-top:52px}
+  .rank{top:14px;left:20px}
+  .vs{grid-template-columns:1fr}
+  .vs .x{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Site review · 2 Oct 2026</div>
+    <h1>Alexandria – Digital Gateway<span class="ar">الإسكندرية · بوابة رقمية</span></h1>
+    <p>A two-round AI review: five specialist reviewers produced findings and ideas, then three judges scored, vetoed, merged and ranked them. No source code was changed.</p>
+    <div class="stats">
+      <div class="stat"><b>8</b><span>AI agents</span></div>
+      <div class="stat"><b>78</b><span>Ideas &amp; findings judged</span></div>
+      <div class="stat"><b>3</b><span>Critical trust issues</span></div>
+      <div class="stat"><b>28 MB</b><span>Images to compress</span></div>
+      <div class="stat"><b>413</b><span>Hard-coded colour codes</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap">
+    <a href="#method">Method</a>
+    <a href="#data">1 · Data check</a>
+    <a href="#ux">2 · Bugs &amp; UX</a>
+    <a href="#heritage">3 · Heritage</a>
+    <a href="#future">4 · Future</a>
+    <a href="#roadmap">5 · TODO</a>
+    <a href="#decisions">6 · Decisions</a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle colour theme">◐ Theme</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<div class="verdict" style="border-left-color:var(--ok)"><strong>Progress update (Oct 2026):</strong> Phase 0 is done and Phase 1 is mostly done. The site is no longer presented as official, all figures come from sources, the governor page covers Eng. Ayman Attia, the news section is removed, the app shell is rebuilt, and the "Pharos &amp; Papyrus" look is applied. See the TODO list below.</div>
+<div class="verdict">All three judges reached the same verdict on their own: <strong>fix the facts and the trust problems before adding new design.</strong> A beautiful page that carries invented facts disrespects every layer of this city.</div>
+
+<!-- METHOD -->
+<section id="method">
+  <h2>How this review was made</h2>
+  <div class="round">Round 1: reviewers and brainstormers</div>
+  <div class="grid g3">
+    <div class="card"><h4>Fact-checker</h4><p>History, statistics, officials, news, contact details and image paths, checked against web sources.</p></div>
+    <div class="card"><h4>Heritage designer</h4><p>Colours, fonts, motifs and storytelling that reflect 2,300 years of history.</p></div>
+    <div class="card"><h4>Future designer</h4><p>Vision 2030, projects, data visualisation, and the link from the ancient city to the future.</p></div>
+    <div class="card"><h4>UX &amp; accessibility</h4><p>Navigation, friction, mobile, accessibility, SEO, performance and trust.</p></div>
+    <div class="card"><h4>Technical reviewer</h4><p>Lint, build, bugs, dead code, bundle size and routing.</p></div>
+  </div>
+  <div class="round">Round 2: judges</div>
+  <div class="grid g3">
+    <div class="card"><h4>Heritage curator</h4><p>Authenticity and respect for every layer of the city. No kitsch, no Orientalist clichés.</p></div>
+    <div class="card"><h4>Urban strategist</h4><p>Credibility. Is the future story believable on an unofficial site?</p></div>
+    <div class="card"><h4>Engineering lead</h4><p>Impact per hour for a solo developer, and what order to do things in.</p></div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section id="data">
+  <h2>1 · Data check: fix first</h2>
+  <p class="lede">These are the problems that make the site look official, out of date or invented. The fact-checker verified them against web sources.</p>
+
+  <div class="card">
+    <div class="issue"><span class="badge b-ok">Fixed</span><h4>The site looked like an official government site</h4>
+      <div class="body">The footer shows <code>info-unofficial@alexandria.gov.eg</code> (the real government domain), "Governorate Building", <code>+20 3 XXX XXXX</code> and "© Alexandria. All rights reserved."<span class="fix">Use your own contact details and the line "Fan project, not affiliated with the Alexandria Governorate".</span></div></div>
+    <div class="issue"><span class="badge b-ok">Fixed</span><h4>Quotes were fabricated and attributed to real people</h4>
+      <div class="body">The Governor (<code>newsData.ts:19</code>), BA Director Dr. Ahmed Zayed (<code>:55</code>), the head of the Transport Authority (<code>:37</code>), and an "Official Slogan" label (<code>GovernorPage.tsx:387</code>).<span class="fix">Remove them, or replace them with sourced quotes that link to where they came from.</span></div></div>
+    <div class="issue"><span class="badge b-ok">Fixed</span><h4>The governor was out of date</h4>
+      <div class="body">In the February 2026 rotation, <strong>Ayman Mohamed Ibrahim Attia</strong> replaced Vice-Admiral Ahmed Khaled. He was sworn in on 16 Feb 2026 (<a href="https://www.egypttoday.com/Article/1/145084/New-Governors-and-Deputies-Sworn-in-Before-President-Abdel-Fattah" rel="noopener">EgyptToday</a>).<span class="fix">Rewrite the page for the new governor, or present the current one as "Governor 2024–2026".</span></div></div>
+    <div class="issue"><span class="badge b-ok">Resolved</span><h4>The news articles were fictional (news section removed)</h4>
+      <div class="body">
+        <ul>
+          <li>The festival article says "40th edition", but the 41st ran on 2–6 Oct 2025.</li>
+          <li>The tech summit appears to be invented.</li>
+          <li>The museum reopening is dated 2025, but it was 2023.</li>
+          <li>The bylines look invented.</li>
+          <li>The home page news section hard-codes 5 <em>different</em> items that don't link anywhere.</li>
+        </ul>
+        <span class="fix">Label every article "Illustrative sample", or replace them with real linked news. Build the home page section from <code>newsData</code>.</span></div></div>
+    <div class="issue"><span class="badge b-high">High</span><h4>Factual errors</h4>
+      <div class="body"><ul>
+        <li>"Two international airports": El Nouzha has been closed since 2011–12.</li>
+        <li>"Oldest electric tram (1863)": it was horse-drawn until it was electrified in 1902.</li>
+        <li>Electric buses: the first ones arrived in <strong>2018</strong>, not 2023. The fleet is given as 15 in one file and 55 in another.</li>
+        <li>The Raml tram is blue and cream; the yellow trams are the city lines.</li>
+        <li>Train fares are given in USD, but tickets are in EGP and cost a few dollars.</li>
+      </ul></div></div>
+  </div>
+
+  <h3 style="margin-top:28px">The same fact has different values in different places</h3>
+  <div class="tbl-wrap">
+  <table class="tbl">
+    <thead><tr><th>Item</th><th>Values found</th><th>Correct / note</th></tr></thead>
+    <tbody>
+      <tr><td>Corniche length</td><td>19 km / 30 km / <span class="bad">117 km</span></td><td>Pick one sourced figure</td></tr>
+      <tr><td>Port share of trade</td><td>40% / 55%</td><td>Cite the Port Authority</td></tr>
+      <tr><td>Pompey's Pillar</td><td>25 m / 26.85 m</td><td>26.85 m</td></tr>
+      <tr><td>Qaitbay Citadel</td><td>1477 / 1480</td><td>1477–1479</td></tr>
+      <tr><td>Founding month</td><td>April / January 331 BCE</td><td>Say "331 BCE"</td></tr>
+      <tr><td>Abu Qir Metro capacity</td><td>40,000 / 60,000 per hour</td><td>60,000 per hour per direction</td></tr>
+      <tr><td>Raml tram ridership</td><td>450,000 / 500,000 per day</td><td>Label it as a target</td></tr>
+      <tr><td>Projects total</td><td>€2.65B+ / "over €2.5B"</td><td>Flagships add up to about €1.98B</td></tr>
+      <tr><td>"Under construction"</td><td>"six"</td><td>Only 4</td></tr>
+      <tr><td>GCAP pipeline</td><td><span class="bad">€506M</span></td><td>Listed items add up to about €180M</td></tr>
+      <tr><td>Annual visitors</td><td><span class="bad">2</span></td><td>Broken value</td></tr>
+      <tr><td>Population</td><td>"approx. 5M"; 5.6M called "workforce"</td><td>About 5.6M is the population (CAPMAS)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><div class="issue"><span class="badge b-med">Medium</span><h4>Numbers with no source</h4><div class="body">"$40B GDP", "+15/22/18/28%" sector growth, "2M+ visitors", "100+ events".<span class="fix">Add a source or remove them.</span></div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-med">Medium</span><h4>Wrong and broken images</h4><div class="body">The Abu Qir Metro shows a <strong>Cairo</strong> Metro photo. The Graeco-Roman Museum shows the Roman theater. <code>/images/containers.jpg</code> should be <code>.jpeg</code>.</div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-low">Low</span><h4>Spelling and transliteration</h4><div class="body">Mariout, SIBCO, Om Zagheiw, Karmouz. Standardise Montaza, Qaitbay, Anfushi, Abu Qir and Graeco-Roman.</div></div></div>
+  </div>
+  <p class="okline"><b>✓ Checked and correct:</b> founding in 331 BCE by Dinocrates · Pharos about 280 BCE, over 100 m, fell in 1323 · Pompey's Pillar 26.85 m · Kom el-Shoqafa 2nd c. CE · Montaza 1892 · Bibliotheca Alexandrina 2002 by Snøhetta · Abu Qir Metro 21.7 km / 20 stations · Raml tram 13.2 km / 24 stations · 2025 Mediterranean Capital of Culture.</p>
+</section>
+
+<!-- UX -->
+<section id="ux">
+  <h2>2 · Bugs, usability &amp; code</h2>
+  <div class="grid g2">
+    <div class="card"><div class="issue"><span class="badge b-high">High</span><h4>Inner pages break when refreshed</h4><div class="body"><code>base: './'</code> together with <code>BrowserRouter</code> means refreshing <code>/news/1</code> shows a blank page. There is also no 404 page.<span class="fix">Set <code>base: '/'</code>, add a rewrite rule on the host, and add <code>&lt;Route path="*"&gt;</code>.</span></div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-high">High</span><h4>Buttons that do nothing</h4><div class="body">Plan Your Visit, Read More, Explore Details, Share, the tag chips, the search, the newsletter and the EN button.<span class="fix">Connect each one or remove it.</span></div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-high">High</span><h4>Slow first load</h4><div class="body">A fake 2-second loader, all the code in one <strong>1.07 MB</strong> file, and <strong>28 MB</strong> of images. One image is 3.5 MB, and 8 images are never used.<span class="fix">Remove the loader, load each page's code only when it's opened, convert images to WebP/AVIF at 1600 px or less, and lazy-load them.</span></div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-high">High</span><h4>Accessibility</h4><div class="body">Animations ignore the visitor's reduce-motion setting. The looping typing animation in the <code>&lt;h1&gt;</code> keeps being re-read by screen readers. Some cards are clickable <code>div</code>s that a keyboard can't reach, and the popups don't behave as proper dialogs.</div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-high">High</span><h4>SEO and sharing previews</h4><div class="body">Only a <code>&lt;title&gt;</code>: no description, OpenGraph image or favicon, and every page shares one title.</div></div></div>
+    <div class="card"><div class="issue"><span class="badge b-med">Medium</span><h4>Friction and structure</h4><div class="body">The disclaimer pops up on every visit (show a popup once, then a banner). Faint text fails the contrast ratio. There are two <code>&lt;h1&gt;</code>s, a <code>&lt;main&gt;</code> inside another <code>&lt;main&gt;</code>, no skip link, and no news filters.</div></div></div>
+  </div>
+  <h3 style="margin-top:28px">Code health</h3>
+  <div class="card"><div class="body" style="color:var(--muted);font-size:.93rem"><ul style="margin:0;padding-left:1.1em">
+    <li><b>Build passes.</b> Lint has 8 errors, all in the generated <code>components/ui</code> files.</li>
+    <li>9 pages each repeat the navbar and footer. Use one layout route with <code>&lt;Outlet/&gt;</code> instead.</li>
+    <li>413 colour codes are typed directly into 17 files. Move them into shared colour variables.</li>
+    <li>Unused code: 5 sections, <code>ServicesPage</code>, <code>App.css</code>, about 52 shadcn UI files and about 15 packages.</li>
+    <li><code>PlaceholderImage</code> has been copied 3 times, and the same scroll-reveal code is repeated in 7 sections.</li>
+    <li><code>kimi-plugin-inspect-react</code> runs in the live build. <code>@tailwindcss/typography</code> is missing, so the <code>prose</code> classes do nothing.</li>
+  </ul></div></div>
+</section>
+
+<!-- HERITAGE -->
+<section id="heritage">
+  <h2>3 · Heritage design: the judges' best picks</h2>
+  <p class="lede">This page itself uses the proposed palette and fonts, as a preview of the look.</p>
+
+  <div class="swatches" aria-label="Proposed palette">
+    <div class="sw"><i style="background:#0B3C5D"></i><div><b>Mediterranean</b><code>#0B3C5D</code> · primary</div></div>
+    <div class="sw"><i style="background:#0E1A24"></i><div><b>Harbour ink</b><code>#0E1A24</code> · dark</div></div>
+    <div class="sw"><i style="background:#F4ECDC"></i><div><b>Papyrus</b><code>#F4ECDC</code> · sections</div></div>
+    <div class="sw"><i style="background:#E8DFCC"></i><div><b>Limestone</b><code>#E8DFCC</code> · cards</div></div>
+    <div class="sw"><i style="background:#C49A3A"></i><div><b>Ptolemaic gold</b><code>#C49A3A</code> · accents</div></div>
+    <div class="sw"><i style="background:#A44A2F"></i><div><b>Terracotta</b><code>#A44A2F</code> · tags</div></div>
+    <div class="sw"><i style="background:#5FA8A0"></i><div><b>Sea-glass</b><code>#5FA8A0</code> · links</div></div>
+    <div class="sw"><i style="background:#F2C230"></i><div><b>Tram yellow</b><code>#F2C230</code> · live only</div></div>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <div class="card idea"><span class="rank">1</span><h4>"Pharos &amp; Papyrus" colours and fonts</h4><p>Cormorant Garamond headings, Inter or Open Sans for body text, and Noto Naskh Arabic / Amiri for Arabic. It requires moving the 413 colour codes into shared variables first.</p><div class="meta"><span class="chip">Effort M</span><span class="chip why">The city's real materials · identity across the whole site</span></div></div>
+    <div class="card idea"><span class="rank">2</span><h4>Two-language name <span class="ar">Alexandria · الإسكندرية</span></h4><p>Show it everywhere now; add full Arabic with right-to-left layout later.</p><div class="meta"><span class="chip">Effort S → L</span><span class="chip why">Curator: an English-only heritage site is a cultural failing</span></div></div>
+    <div class="card idea"><span class="rank">3</span><h4>Bibliotheca "wall of scripts" texture</h4><p>Many alphabets at about 4% opacity on dark sections and the footer (like the header of this page).</p><div class="meta"><span class="chip">Effort S–M</span><span class="chip why">A real local reference, not a cliché</span></div></div>
+    <div class="card idea"><span class="rank">4</span><h4>Tram yellow for "live" signals only</h4><p>Breaking news, the active menu item and focus rings. Nothing else.</p><div class="meta"><span class="chip">Effort S</span><span class="chip why">A real city symbol with a clear meaning</span></div></div>
+    <div class="card idea"><span class="rank">5</span><h4>"Then and now" archive photos</h4><p>Each photo gets a credit line and a date.</p><div class="meta"><span class="chip">Effort M</span><span class="chip why">How museums present history</span></div></div>
+    <div class="card idea"><span class="rank">6</span><h4>Cavafy lines between sections</h4><p>The Greek original plus your own or a public-domain translation.</p><div class="meta"><span class="chip">Effort S</span><span class="chip why">Most English translations are still under copyright</span></div></div>
+  </div>
+
+  <h3 style="margin-top:28px">Rejected as kitsch or culturally off</h3>
+  <div class="veto">
+    <span><s>Mashrabiya / Coptic card corners</s> <em>mixes traditions with no meaning</em></span>
+    <span><s>Papyrus-unroll animation</s> <em>theme park</em></span>
+    <span><s>Greek-numeral counters</s> <em>hard to read</em></span>
+    <span><s>Cinzel font</s> <em>"toga party"</em></span>
+    <span><s>A colour per era</s> <em>Orientalist shorthand</em></span>
+    <span><s>Pharos loading screen</s> <em>the loader itself should go</em></span>
+    <span><s>Felucca icon</s> <em>a Nile boat; use an Anfushi fishing boat</em></span>
+    <span><s>"Le Phare d'Alexandrie" masthead</s> <em>a real newspaper's name on fictional news</em></span>
+  </div>
+</section>
+
+<!-- FUTURE -->
+<section id="future">
+  <h2>4 · Future design: the judges' best picks</h2>
+  <div class="grid">
+    <div class="card idea"><span class="rank">1</span><h4>"Honest Ledger" trust layer</h4><p>Every figure carries a source, an "as of" date and a label: Official, Reported or Estimate. Concept renders get a "Concept" badge, and each page shows "Last reviewed" and "Report an inaccuracy". All figures come from one <code>facts.ts</code> file, so the same fact can't have two values.</p><div class="meta"><span class="chip">Effort S–M</span><span class="chip"><span class="score">10/10</span> from all three judges</span></div></div>
+    <div class="card idea"><span class="rank">2</span><h4>"Pharos to Future" timeline</h4><p>One scrolling timeline from 331 BC to 2030: Ptolemaic, Roman, Coptic, Jewish community, Arab conquest (641), Mamluk/Qaitbay, the cosmopolitan era and the 1863 tram, the Bibliotheca in 2002, then current projects. A light beam fills as you scroll, and future items are dashed and marked "planned".</p><div class="meta"><span class="chip">Effort M</span><span class="chip why">The single bridge between heritage and future</span></div></div>
+    <div class="card idea"><span class="rank">3</span><h4>Honest projects dashboard</h4><p>Project status filters, a chart of who funds each project (EIB / AFD / EU / Government), a gauge of committed vs identified vs unfunded money, and Vision 2030 goals linked to their projects.</p><div class="meta"><span class="chip">Effort S–M</span><span class="chip why">Uses existing data · replaces the made-up €506M</span></div></div>
+    <div class="card idea"><span class="rank">4</span><h4>Layered city map</h4><p>One SVG map with the ancient coastline and Heptastadion, today's Corniche, and planned routes marked "indicative location".</p><div class="meta"><span class="chip">Effort L</span><span class="chip">Curator <span class="score">9/10</span></span><span class="chip why">Do it later</span></div></div>
+    <div class="card idea"><span class="rank">5</span><h4>Calls to action that fit each page</h4><p>Projects: "Follow progress". Home: "See Alexandria 2030". Only once the buttons actually work.</p><div class="meta"><span class="chip">Effort S</span></div></div>
+  </div>
+  <h3 style="margin-top:28px">Rejected or postponed to protect credibility</h3>
+  <div class="veto">
+    <span><s>Investor matching wizard</s> <em>implies brokering; link to GAFI instead</em></span>
+    <span><s>Charts or timelines without sources</s> <em>make guesses look rigorous</em></span>
+    <span><s>Unlabelled before/after renders</s> <em>would be shared as "the plan"</em></span>
+    <span><s>Startup statistics</s> <em>no data</em></span>
+    <span><s>Counters with no date</s> <em>look like hype</em></span>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <h2>5 · Roadmap &amp; TODO list</h2>
+  <p class="lede">88 tasks in order. Tick them off as you go; your progress is saved in this browser only. The same list is in <code>docs/TODO.md</code>.</p>
+  <div class="todo-bar">
+    <div><b id="todoDone">0</b> / <span id="todoTotal">0</span> done</div>
+    <div class="filters" role="group" aria-label="Filter by priority">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="crit" aria-pressed="false">Critical</button>
+      <button type="button" data-f="high" aria-pressed="false">High</button>
+      <button type="button" data-f="med" aria-pressed="false">Medium</button>
+      <button type="button" data-f="low" aria-pressed="false">Low</button>
+      <button type="button" data-f="open" aria-pressed="false">Open only</button>
+    </div>
+  </div>
+<div class="phase" data-phase="p0"><div class="when">this week (fixes) ✅ done 2 Oct 2026</div><h3>Phase 0</h3><div class="progress"><i></i></div><p class="count"></p>
+<h4 class="sub">Trust &amp; data</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-crit">Critical</span> <code>src/components/Footer.tsx</code>: remove <code>info-unofficial@alexandria.gov.eg</code>, "Governorate Building" and <code>+20 3 XXX XXXX</code>.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-med">Medium</span> <code>src/components/Footer.tsx</code>: add your own contact link (email or GitHub). This needs your choice of what to make public.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-crit">Critical</span> <code>src/components/Footer.tsx</code>: change "© Alexandria. All rights reserved." to "© 2026 Nabil El-Nour – fan project, not affiliated with the Alexandria Governorate".</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-crit">Critical</span> <code>src/data/newsData.ts:19,37,55</code>: remove the fabricated quotes (Governor, Transport Authority, Dr. Ahmed Zayed).</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-crit">Critical</span> <code>src/data/governorData.ts:113</code> and <code>src/pages/GovernorPage.tsx:387</code>: remove the "Official Slogan" label.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-crit">Critical</span> Governor: update to Ayman Mohamed Ibrahim Attia (sworn in 16 Feb 2026), or reframe Ahmed Khaled as "Governor 2024–2026".<ul class="subs"><li>Files: <code>governorData.ts</code>, <code>GovernorSection.tsx</code>, <code>GovernorPage.tsx</code> (including the "Milestones 2024-2025" heading at :298), <code>Hero.tsx</code>.</li></ul></span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Airports: El Nouzha has been closed since 2011. Fix "two international airports" in <code>investData.ts:15,23</code>, <code>Invest.tsx:45</code> and <code>Features.tsx:33</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>projectsData.ts:90</code>: change the tram wording to "one of the oldest tram systems (1863, electrified 1902)".</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>projectsData.ts:156,158</code> and <code>governorData.ts:81</code>: the first e-buses arrived in 2018. Make the fleet size the same in every file (15 vs 55).</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>newsData.ts:36</code>: the Raml tram is blue and cream, not yellow.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>visitData.ts:30</code>: change the train fares from USD to EGP. Update or remove the "LE1" tram fare at <code>:56</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>src/sections/News.tsx:5-60</code>: delete the hard-coded teaser items. Build the section from <code>newsData</code> (<code>isHot</code> plus the latest 3) and link each card to <code>/news/:id</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>src/sections/Statistics.tsx</code>: fix "Annual Visitors" showing <b>2</b>.</span></label></li>
+</ul>
+<h4 class="sub">Images</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>src/pages/InvestPage.tsx:245</code>: change <code>/images/containers.jpg</code> to <code>containers.jpeg</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>src/data/projectsData.ts:144</code>: replace the Cairo Metro photo on the Abu Qir Metro project.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>src/data/aboutData.ts:293</code>: use <code>Greco-Roman-Museum-in-Alexandria.jpg</code> for the Graeco-Roman Museum.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Compress <code>public/images</code> (28 MB) to WebP/AVIF at 1600 px or less. Start with <code>Alexandria_Bibliotheca.jpg</code> (3.5 MB), <code>14298.png</code>, <code>PL.jpg</code> and <code>govanor.jpg</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Delete the 8 unused images: Alexandria-Opera-House, Antoniades-Gardens, Mahmoud-Said-Museum, flo-p-…-unsplash, hero-street, lighthouse-….avif, montaza-palace and unkown-memorial.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Add <code>loading="lazy" decoding="async"</code> (done). <code>width</code>/<code>height</code> are still to do in Phase 1: to images below the fold.</span></label></li>
+</ul>
+<h4 class="sub">Routing &amp; build</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>vite.config.ts</code>: change <code>base: './'</code> to <code>base: '/'</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Add an SPA rewrite rule for the host (for example <code>public/_redirects</code> or <code>vercel.json</code>).</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>src/App.tsx</code>: add <code>&lt;Route path="*" element={&lt;NotFoundPage/&gt;}/&gt;</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>vite.config.ts</code>: run <code>inspectAttr()</code> only in dev (<code>command === 'serve'</code>).</span></label></li>
+</ul>
+<h4 class="sub">Dead controls</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>src/sections/CTA.tsx:80</code>: make "Plan Your Visit" a <code>&lt;Link to="/visit"&gt;</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Remove or hide the controls that do nothing:<ul class="subs"><li>Read More (<code>News.tsx:187</code>)</li><li>Explore Details (<code>Visit.tsx:327</code>)</li><li>Share and the tag chips (<code>NewsArticlePage.tsx:83,89</code>)</li><li>The navbar search and popular-search chips (<code>Navbar.tsx:159,177</code>)</li><li>The newsletter form (<code>News.tsx:255</code>)</li><li>The EN button (<code>Navbar.tsx:88</code>)</li></ul></span></label></li>
+</ul>
+<h4 class="sub">Quick wins</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Add the two-language name "Alexandria · الإسكندرية" to the Navbar logo, the Footer brand and the Hero.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Focus and contrast:<ul class="subs"><li>Add a global <code>focus-visible</code> ring.</li><li>Raise footer text from <code>white/40</code> to at least <code>/70</code>.</li><li>Make the 10px tags at least 12px.</li><li>Remove <code>outline-none</code> from the inputs.</li></ul></span></label></li>
+</ul>
+<h4 class="sub">Done beyond the original list</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span>Converted <code>14298.png</code> to <code>great-library-illustration.jpg</code> and <code>portOfAlexanrida.png</code> to <code>port-of-alexandria.jpg</code>. <code>public/images</code> went from 27.3 MB to 9.3 MB.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Deleted 4 more unused images (blog-festival, blog-culture, blog-sustainable, roman-amphitheatre).</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Disclaimer title is now "Unofficial Fan Site"; "Official Heritage Guide" is now "Heritage Guide"; removed the unattributed project quote.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Hero: fixed the button-inside-link CTAs, added the Arabic name, corrected the stat labels. The nav link is now "Governance".</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>News: 41st festival edition, museum reopening dated 2023, no invented announcements.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>404 page, a share fallback, Escape closes the mobile menu, and <code>text-[10px]</code> is now <code>text-xs</code> everywhere.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Gemini image prompts are in <code>docs/image-prompts.md</code>. Abu Qir Metro shows a placeholder until <code>abu-qir-metro-concept.jpg</code> is generated.</span></label></li>
+</ul></div>
+<div class="phase" data-phase="p1"><div class="when">foundation ✅ mostly done 2026-10 (4 items left)</div><h3>Phase 1</h3><div class="progress"><i></i></div><p class="count"></p>
+<h4 class="sub">App shell</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Layout route with <code>&lt;Outlet/&gt;</code> (Navbar, Footer, <code>ScrollToTop</code>, <code>DisclaimerPopup</code>). Remove the copies from the 9 pages.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Remove the fake 2-second loader (<code>App.tsx:20-27</code>). Load each page with <code>React.lazy</code> and use <code>Suspense</code> as the loading fallback.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>main.tsx</code>: wrap the app in <code>&lt;MotionConfig reducedMotion="user"&gt;</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <code>Hero.tsx</code>: give the h1 a fixed accessible name and mark the <code>TypeAnimation</code> span <code>aria-hidden</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Add a skip link.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>ProjectsHero.tsx</code>: change its <code>&lt;h1&gt;</code> to an <code>&lt;h2&gt;</code> so the home page has one h1.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>About.tsx:420</code> and <code>InvestSections.tsx:398</code>: remove the nested <code>&lt;main&gt;</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Turn clickable <code>div</code>s into buttons or links: <code>ProjectCard.tsx:65</code>, <code>About.tsx:236</code>, <code>DidYouKnow.tsx:58</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Use the shadcn <code>Dialog</code> for the project modal and the disclaimer. Use the shadcn <code>Tabs</code> for the Visit, Governor and Invest tabs.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> SEO: add a meta description, an OpenGraph image (1200×630) and a favicon to <code>index.html</code>. Give each page its own <code>&lt;title&gt;</code> and <code>&lt;meta&gt;</code> (React 19).</span></label></li>
+</ul>
+<h4 class="sub">Tokens &amp; cleanup</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Delete the dead code:<ul class="subs"><li><code>Explore.tsx</code>, <code>Features.tsx</code>, <code>Statistics.tsx</code>, <code>DidYouKnow.tsx</code>, <code>Services.tsx</code></li><li><code>ServicesPage.tsx</code>, <code>App.css</code>, <code>use-mobile.ts</code></li><li>The <code>/services</code> links in the Footer</li></ul></span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Remove the unused shadcn UI files and packages, then confirm with <code>npx depcheck</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> <code>eslint.config.js</code>: ignore <code>src/components/ui</code>, or fix its 8 lint errors.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Move the 413 hard-coded hex colours into Tailwind and CSS colour variables.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Apply the "Pharos &amp; Papyrus" palette:<ul class="subs"><li>Colours: <code>#0B3C5D</code>, <code>#0E1A24</code>, <code>#F4ECDC</code>, <code>#E8DFCC</code>, <code>#C49A3A</code>, <code>#A44A2F</code>, <code>#5FA8A0</code></li><li>Tram yellow <code>#F2C230</code> for "live" signals only</li></ul></span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Fonts: Cormorant Garamond for headings, Inter or Open Sans for body text, Noto Naskh Arabic for Arabic. Remove the inline <code>font-['Montserrat']</code>.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-med">Medium</span> Merge the 3 copies of <code>PlaceholderImage</code> into the shared one, with an <code>icon</code> prop.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-med">Medium</span> Replace the 7 copies of the IntersectionObserver code with a <code>useInView</code> hook.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-med">Medium</span> Move hard-coded content (nav links, footer, invest arrays, search terms) into <code>src/data</code>.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-low">Low</span> Use <code>@/</code> imports everywhere and add Prettier.</span></label></li>
+</ul>
+<h4 class="sub">Honest Ledger (trust layer)</h4><ul class="checks">
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Create <code>src/data/facts.ts</code>: one value per figure, each with <code>source</code>, <code>asOf</code> and <code>confidence</code> (Official / Reported / Estimate).</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Make the repeated facts use one value each:<ul class="subs"><li>Corniche length, port share, Pompey's Pillar (26.85 m), Qaitbay (1477–1479), founding (331 BCE)</li><li>Metro capacity, tram ridership, population (about 5.6M)</li></ul></span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Fix the projects totals:<ul class="subs"><li>€2.65B vs €2.5B</li><li>"six" under construction (there are 4)</li><li>€506M vs about €180M</li><li>The "[Redacted]" placeholders</li></ul></span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Remove or add sources for: $40B GDP, the +15/22/18/28% growth figures, 2M+ visitors and 100+ events.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Add a <code>SourceChip</code> component and a "Concept" badge for renders.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Add "Last reviewed" and "Report an inaccuracy" to the footer and the article pages.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Disclaimer: retitle it "Unofficial fan site", show the full dialog on the first visit, then a slim banner after that.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> <b>Decide:</b> label the news as "Illustrative sample", or replace it with real linked news. → <b>Decided: news section removed</b> until there is real content.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-high">High</span> Remaining inconsistencies found in review:<ul class="subs"><li>Population "nearly 7 million" (<code>InvestPage.tsx:~386</code>)</li><li>"Roads Built 200km" vs "rehabilitated" (<code>governorData.ts:~144</code>)</li><li>Mixed BC/AD and BCE/CE</li><li>"Qaitbey" (<code>investData.ts:~100</code>)</li><li>"Behind Al Nozha Airport" should read "former Al Nozha Airport"</li></ul></span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Unattributed quote blocks: <code>InvestPage.tsx:~384-390</code>, <code>aboutData.ts:~351</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> News article 3, "Mediterranean Tech Summit", appears to be invented. Part of the news decision.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-low">Low</span> Fix spelling: Mariout, SIBCO, Om Zagheiw, Karmouz. Standardise Montaza, Qaitbay, Anfushi, Abu Qir and Graeco-Roman.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span><span class="badge b-med">Medium</span> Install <code>@tailwindcss/typography</code> so the article <code>prose</code> classes work. Consider using markdown or DOMPurify instead of <code>dangerouslySetInnerHTML</code>.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Governor content now covers Eng. Ayman Mohamed Ibrahim Attia (since 16 Feb 2026), with a sources list. Portrait placeholder until an official photo is added (see <code>docs/image-prompts.md</code> §5).</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Footer: "Project on GitHub" and "Report an inaccuracy" (GitHub issues) links, plus "Facts last reviewed".</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Recharts split into a lazy <code>ClimateChart</code> chunk. The main bundle went from 1,003 kB to about 445 kB.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-high">High</span> Add <code>public/images/og-image.jpg</code> (prompt in <code>docs/image-prompts.md</code>). <code>index.html</code> already references it.</span></label></li>
+<li><label><input type="checkbox"><span><span class="badge b-med">Medium</span> Spot-check the Arabic-source governor facts (Al-Dostor, Al-Ahram) against the original articles.</span></label></li>
+<li><label><input type="checkbox" checked data-default="1"><span>Wall-of-scripts script set confirmed by the owner (no Hebrew; "EGYPT" added).</span></label></li>
+</ul></div>
+<div class="phase" data-phase="p2"><div class="when">signature features</div><h3>Phase 2</h3><div class="progress"><i></i></div><p class="count"></p>
+<ul class="checks">
+<li><label><input type="checkbox"><span>"Pharos to Future" scroll timeline from 331 BC to 2030, with every era represented and future items marked "planned".</span></label></li>
+<li><label><input type="checkbox"><span>Projects dashboard: a funding-mix chart (EIB/AFD/EU/Government), a committed / identified / unfunded gauge, Vision 2030 goals linked to projects, and status filter chips.</span></label></li>
+<li><label><input type="checkbox"><span>"Wall of scripts" texture on dark sections and the footer.</span></label></li>
+<li><label><input type="checkbox"><span>One wave-scroll divider and inscription-style section labels.</span></label></li>
+<li><label><input type="checkbox"><span>Dusk Corniche hero image with a Qaitbay silhouette.</span></label></li>
+<li><label><input type="checkbox"><span>Footer links that jump to page sections (<code>/visit#transport</code>), with scrolling to those sections in <code>ScrollToTop</code>.</span></label></li>
+<li><label><input type="checkbox"><span>Ctrl+K site search (<code>cmdk</code> is already installed).</span></label></li>
+<li><label><input type="checkbox"><span>Calls to action that fit each page.</span></label></li>
+</ul></div>
+<div class="phase" data-phase="p3"><div class="when">later</div><h3>Phase 3</h3><div class="progress"><i></i></div><p class="count"></p>
+<ul class="checks">
+<li><label><input type="checkbox"><span>Layered city map: ancient coastline, today's Corniche and planned routes, with "indicative location" labels.</span></label></li>
+<li><label><input type="checkbox"><span>Full Arabic with right-to-left layout (i18n, <code>dir="rtl"</code>, logical spacing utilities).</span></label></li>
+<li><label><input type="checkbox"><span>Rising-sea climate story, only with IPCC AR6 sources.</span></label></li>
+<li><label><input type="checkbox"><span>News search, category filters and sort, kept in the URL, once the news is real.</span></label></li>
+<li><label><input type="checkbox"><span>Practical visitor info (hours, tickets, transport) with "data as of" dates.</span></label></li>
+<li><label><input type="checkbox"><span>"Then / now / 2030" photos with credits and "Concept" badges.</span></label></li>
+<li><label><input type="checkbox"><span>Cavafy lines between sections (Greek plus your own or a public-domain translation).</span></label></li>
+</ul></div>
+  <h3 style="margin-top:8px">Won't do (vetoed by the judges)</h3>
+  <div class="veto">
+    <span><s>Investor matching wizard</s> <em>link to GAFI instead</em></span>
+    <span><s>Pharos loading screen</s></span>
+    <span><s>Papyrus unroll · Greek-numeral counters</s></span>
+    <span><s>Mashrabiya / Coptic card corners</s></span>
+    <span><s>Cinzel font · a colour per era</s></span>
+    <span><s>"Le Phare d'Alexandrie" masthead</s></span>
+    <span><s>Charts with no sources · unlabelled renders · counters with no date</s></span>
+  </div>
+</section>
+
+<!-- DECISIONS -->
+<section id="decisions">
+  <h2>6 · Open decisions</h2>
+  <div class="grid g2">
+    <div class="card"><h4>Full Arabic with right-to-left layout</h4>
+      <div class="vs"><div class="side"><b>9</b>Curator: "most Alexandrians read Arabic"</div><div class="x">vs</div><div class="side"><b>3</b>Engineering lead: "doubles every content change"</div></div>
+      <p class="comp"><b>Compromise:</b> the two-language name now, full Arabic once the content is stable.</p></div>
+    <div class="card"><h4>Rising-sea climate story</h4>
+      <div class="vs"><div class="side"><b>8</b>Curator: "Alexandria's defining future story"</div><div class="x">vs</div><div class="side"><b>4</b>Strategist: "alarmist or greenwash unless fully sourced"</div></div>
+      <p class="comp"><b>Compromise:</b> Phase 3, and only with IPCC AR6 sources.</p></div>
+    <div class="card"><h4>News content <span class="badge b-ok">Decided</span></h4>
+      <p>The news section was removed until there is real, sourced content.</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">Review of <em>Alexandria – Digital Gateway</em>, an unofficial fan project. Source file: <code>docs/site-review.md</code>. Facts marked as checked were verified against web sources on 2 Oct 2026; check again before you publish.</div>
+</footer>
+
+<script>
+(function(){
+  var KEY='alex-review-checks-v2', THEME='alex-review-theme';
+  function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+  // theme toggle
+  var root=document.documentElement, t=load(THEME);
+  if(t) root.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark'; root.setAttribute('data-theme',next); save(THEME,next);
+  });
+
+  // roadmap checkboxes
+  var state=load(KEY)||{};
+  document.querySelectorAll('.phase').forEach(function(ph){
+    var id=ph.dataset.phase, boxes=ph.querySelectorAll('input[type=checkbox]'), bar=ph.querySelector('.progress i');
+    function update(){var n=0;boxes.forEach(function(b){if(b.checked)n++});bar.style.width=(boxes.length?n/boxes.length*100:0)+'%'}
+    boxes.forEach(function(b,i){
+      var key=id+'-'+i; if(key in state) b.checked=!!state[key];
+      b.addEventListener('change',function(){state[key]=b.checked;save(KEY,state);update()});
+    });
+    update();
+  });
+
+  // overall counter + filters
+  var all=document.querySelectorAll('#roadmap .checks > li');
+  document.getElementById('todoTotal').textContent=all.length;
+  function overall(){
+    var n=0;all.forEach(function(li){if(li.querySelector('input').checked)n++});
+    document.getElementById('todoDone').textContent=n;
+    document.querySelectorAll('#roadmap .phase').forEach(function(ph){
+      var b=ph.querySelectorAll('.checks > li input'),d=0;b.forEach(function(x){if(x.checked)d++});
+      ph.querySelector('.count').textContent=d+' of '+b.length+' done';
+    });
+  }
+  document.querySelectorAll('#roadmap input').forEach(function(b){b.addEventListener('change',function(){overall();applyFilter()})});
+  var filter='all';
+  function applyFilter(){
+    all.forEach(function(li){
+      var show=filter==='all'||(filter==='open'?!li.querySelector('input').checked:!!li.querySelector('.b-'+filter));
+      li.classList.toggle('hide',!show);
+    });
+    document.querySelectorAll('#roadmap .sub').forEach(function(h){
+      var ul=h.nextElementSibling, any=ul&&ul.querySelector('li:not(.hide)');
+      h.classList.toggle('hide',!any);
+    });
+  }
+  document.querySelectorAll('.filters button').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      filter=btn.dataset.f;
+      document.querySelectorAll('.filters button').forEach(function(x){x.setAttribute('aria-pressed',x===btn?'true':'false')});
+      applyFilter();
+    });
+  });
+  overall();
+})();
+</script>
+</body>
+</html>

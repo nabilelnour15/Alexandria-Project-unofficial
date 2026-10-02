@@ -24,12 +24,12 @@ export default function ProjectList() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="mb-12 border-l-4 border-blue-600 pl-6"
+                className="mb-12 border-l-4 border-sea pl-6"
               >
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 font-['Montserrat'] uppercase tracking-tight">
+                <h2 className="text-ink mb-4">
                   {category.label}
                 </h2>
-                <p className="text-slate-500 text-lg max-w-2xl leading-relaxed">
+                <p className="text-ink-soft text-lg max-w-2xl leading-relaxed">
                   {category.description}
                 </p>
               </motion.div>

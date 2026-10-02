@@ -1,27 +1,62 @@
+import type { FactId } from "./facts";
+
+// Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
+// They are typed as FactId, so a typo fails to compile.
+
+export interface Port {
+  name: string;
+  description: string;
+  factId?: FactId;
+  link?: string;
+  image: string;
+}
+
+export interface InvestmentDriver {
+  title: string;
+  description: string;
+  factId?: FactId;
+  sectors?: string[];
+  types?: string[];
+  intensification?: string;
+  image: string;
+}
+
+const freeZoneFactId: FactId = "freeZoneArea";
+
+// A "why invest" reason is plain text, or `{ text, factId }` when it quotes a sourced figure.
+export type WhyReason = string | { text: string; factId: FactId };
+
 export const investData = {
   whyAlexandria: {
     title: "Why invest in Alexandria?",
     reasons: [
-      "Alexandria is the first Egyptian trading city. It is the hub, where imports and exports are transported through Egypt's # 1 seaport corresponding to over 40% of the trading traffic of goods as well as vessels.",
-      "Industries existing in Alexandria represent nearly 40% of the national industries.",
+      {
+        text: "Alexandria is the first Egyptian trading city. It is the hub, where imports and exports are transported through Egypt's # 1 seaport which handles about 60% of Egypt's foreign trade.",
+        factId: "portTradeShare",
+      },
+      {
+        text: "Alexandria and its surroundings account for around 40% of Egypt's industrial activity (2013 estimate).",
+        factId: "industrialShare",
+      },
       "Alexandria has an outstanding rank in terms of the production of vegetables and fruits.",
       "Alexandria is ranked among the top cities nationwide in terms of the production of fish, poultry, red meat and eggs.",
       "Availability of infrastructure across all areas, e.g. roads transportation, communications, electricity, water and sewage networks.",
       "Availability of a large number of operational companies and plants offered for sale (privatization).",
       "Availability of human resources and experienced calibers of young graduates of all specialties.",
       "Access to the International Northern Coastal Road.",
-      "King Marriout area, which is characterized by its healthy dry climate that is suitable for starting businesses such as spas and specialized hospitals.",
+      "King Mariout area, which is characterized by its healthy dry climate that is suitable for starting businesses such as spas and specialized hospitals.",
       "Tourist villages and their investment throughout the year.",
-      "Access to two international airports in Alexandria (Al-Nozha and Borg Al-Arab) to provide services to the city, which increases investment opportunities and facilitates the traffic of imports and exports.",
+      "Access to Borg Al-Arab International Airport, which serves the city, increases investment opportunities and facilitates the traffic of imports and exports.",
       "Availability of agricultural projects on lands allocated to young graduates.",
       "The private sector, which, based on experience, has proven that it is the driver that is most capable of achieving economic growth rates and leadership in investment.",
-    ],
+    ] satisfies WhyReason[],
   },
   publicFreeZone: {
     title: "Alexandria Public Free Zone",
     description:
-      "Alexandria is the largest Egyptian sea port located on the Mediterranean. The Free Zone is located in Amreya on the Cairo/ Alexandria Road. It spreads across an area of 5,700,000 m2, and is 20 kms away from Alexandria Port and Al-Nozha International Airport. The Free Zone provides a wide range of services including shipping, unloading, navigation and transport. It is close to Alexandria, Al-Dekheila, and Al-Nozha and Borg Al-Arab International Airports.",
-    stats: "Alexandria is the largest free zone in Egypt.",
+      "Alexandria is the largest Egyptian sea port located on the Mediterranean. The Free Zone is located in Amreya on the Cairo/ Alexandria Road. It spreads across an area of 5.7 million m² (1,357 feddans), about 25 km from the city centre and 20 km from Alexandria Port. The Free Zone provides a wide range of services including shipping, unloading, navigation and transport. It is close to the Alexandria and Al-Dekheila ports and Borg Al-Arab International Airport.",
+    stats: "By area, it is the largest public free zone in Egypt.",
+    factId: freeZoneFactId,
     businesses: [
       "Chemicals",
       "Oil Refinement",
@@ -66,9 +101,10 @@ export const investData = {
     {
       name: "Port of Alexandria",
       description:
-        "Main port in Egypt, through which over 55% of Egypt's foreign trade is trafficked.",
+        "Main port in Egypt, handling about 60% of Egypt's foreign trade.",
+      factId: "portTradeShare",
       link: "https://www.apa.gov.eg/",
-      image: "/images/portOfAlexanrida.png",
+      image: "/images/port-of-alexandria.jpg",
     },
     {
       name: "Port of Al-Dekheila",
@@ -76,12 +112,13 @@ export const investData = {
         "Natural extension of Alexandria Port. Established at the site of Dekheila air base, 7km west by sea.",
       image: "/images/DekhaliaPort.jpg",
     },
-  ],
+  ] satisfies Port[],
   investmentDrivers: [
     {
       title: "Industrial Investment",
       description:
-        "Alexandria represents 40% of Egypt's total industrial production. Key areas: Muharram Bey, Kabbari, Al Seyouf, Abu Qir, Borg Al Arab.",
+        "Alexandria and its surroundings account for around 40% of Egypt's industrial activity (2013 estimate). Key areas: Muharram Bey, Kabbari, Al Seyouf, Abu Qir, Borg Al Arab.",
+      factId: "industrialShare",
       sectors: [
         "Chemicals",
         "Metallurgy",
@@ -97,7 +134,7 @@ export const investData = {
     {
       title: "Tourism Investment",
       description:
-        "Distinctive destination with 41+ attractions. Highlights: Qaitbey Citadel, Pompey's Pillar, Bibliotheca Alexandrina.",
+        "Distinctive destination with a wide range of heritage and coastal attractions. Highlights: Qaitbay Citadel, Pompey's Pillar, Bibliotheca Alexandrina.",
       types: [
         "Leisure",
         "Religious",
@@ -116,7 +153,7 @@ export const investData = {
       intensification: "1.96 coefficient",
       image: "/images/invest-agriculture.jpg",
     },
-  ],
+  ] satisfies InvestmentDriver[],
   investmentZones: {
     objectives: [
       "Dissemination of economic and social development",
@@ -130,10 +167,10 @@ export const investData = {
       "Al Nasseria industrial zone",
       "Upper and Lower Mergham industrial zone",
       "The industrial zone in K 31, Desert Road",
-      "Seibco Industrial Zone",
+      "SIBCO Industrial Zone",
       "Ajami industrial zone",
       "Al Nahda industrial zone and its expansions",
-      "Ohm Zagheou Industrial zone",
+      "Om Zagheiw Industrial zone",
       "Borg Al Arab industrial zone",
     ],
   },
@@ -180,7 +217,7 @@ export const investData = {
     },
     {
       title: "International Maritime Rowing Stream",
-      location: "Behind Al Nozha Airport",
+      location: "Near the former Al Nozha Airport",
       length: "2300 m",
       purpose: "Tourist sports recreational project",
       approach: "BOT",

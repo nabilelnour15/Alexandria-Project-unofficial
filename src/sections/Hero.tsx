@@ -1,15 +1,16 @@
 import { useRef } from 'react';
-import { ArrowRight, MapPin, Building2, Landmark, MousePointer2, Zap } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { TypeAnimation } from 'react-type-animation';
+import { Landmark, MousePointer2 } from 'lucide-react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import SourceChip from '../components/SourceChip';
+
+const MotionLink = motion.create(Link);
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const shouldReduceMotion = useReducedMotion();
 
 
   return (
@@ -19,103 +20,63 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
     >
       {/* Background Image with Parallax */}
-      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
+      <motion.div style={shouldReduceMotion ? undefined : { y: y1 }} className="absolute inset-0 z-0">
         <div
           className="absolute inset-0 scale-105"
         >
           <img
             src="/images/Alexandria-Corniche-alexandria.jpg"
-            alt="Alexandria aerial view"
+            alt="The Corniche in Alexandria"
             className="w-full h-full object-cover"
           />
         </div>
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0d1623]/90 via-[#0d1623]/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d1623]/50 via-transparent to-[#0d1623]/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/75 to-ink/50 lg:via-ink/60 lg:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-ink/30" />
       </motion.div>
-
-      {/* Floating Decorative Elements */}
-      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        <motion.div
-            style={{ y: y2, opacity }}
-          className="absolute top-1/4 right-1/4 w-64 h-64 bg-[#0068c8]/10 rounded-full blur-3xl"
-        />
-        <motion.div
-           style={{ y: y2, opacity }}
-          className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-[#3898ec]/10 rounded-full blur-2xl"
-        />
-      </div>
 
       {/* Content */}
       <div className="relative z-20 alex-container pt-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="max-w-2xl">
-            {/* Tag */}
-            <motion.div
+            {/* Main Heading */}
+            {/* The English and Arabic names together form the page's single h1. */}
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-white mb-6"
             >
-              <MapPin className="w-4 h-4 text-[#3898ec]" />
-              <span className="text-white/90 text-sm font-medium uppercase tracking-widest">
-                Alexandria: Heritage in Motion
+              <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.95] mb-4">
+                Alexandria
               </span>
-            </motion.div>
+              <span
+                lang="ar"
+                dir="rtl"
+                className="block w-fit text-4xl md:text-5xl font-semibold text-white"
+              >
+                الإسكندرية
+              </span>
+            </motion.h1>
 
-            {/* Main Heading */}
-            <h1 className="font-['Montserrat'] font-bold text-white mb-6">
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="block text-lg md:text-xl font-medium text-[#3898ec] mb-2"
-              >
-                DISCOVER
-              </motion.span>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="block text-5xl md:text-6xl lg:text-7xl mb-4"
-              >
-                <TypeAnimation
-                  sequence={[
-                    'ALEXANDRIA',
-                    2000,
-                    'HERITAGE',
-                    2000,
-                    'BEAUTY',
-                    2000,
-                    'VISION',
-                    2000,
-                    'SUSTAINABILITY',
-                    2000,
-                  ]}
-                  wrapper="span"
-                  speed={50}
-                  repeat={Infinity}
-                />
-              </motion.div>
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="block text-xl md:text-2xl font-normal text-white/80"
-              >
-                 Where 2,300 Years of Timeless Elegance Meets a Sustainable Future
-              </motion.span>
-            </h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-lg md:text-xl leading-snug text-white/85 max-w-xl mb-4"
+            >
+              Twenty-three centuries on the Mediterranean, and a port city still being built.
+            </motion.p>
 
             {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-white/70 text-lg md:text-xl leading-relaxed mb-8 max-w-xl"
+              className="text-white/75 text-base md:text-lg leading-relaxed mb-8 max-w-xl"
             >
-              Discover the Mediterranean’s pearl, blending centuries of history with a modern vision for a smart, green, and vibrant metropolis.
+              An unofficial guide to the city's history, places to visit, investment and current projects.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -125,25 +86,18 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap gap-4 mb-12"
             >
-              <Link to="/about">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="alex-btn-primary group"
-                >
-                  Experience Heritage
-                  <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-                </motion.button>
-              </Link>
-              <Link to="/governor">
-                <motion.button
-                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/30 transition-all"
-                >
-                  Governor's Vision
-                </motion.button>
-              </Link>
+              <MotionLink
+                to="/about"
+                className="alex-btn-on-dark"
+              >
+                Explore the heritage
+              </MotionLink>
+              <MotionLink
+                to="/governor"
+                className="alex-btn-ghost-dark"
+              >
+                Governance
+              </MotionLink>
             </motion.div>
 
             {/* Quick Stats */}
@@ -154,36 +108,15 @@ export default function Hero() {
               className="flex flex-wrap gap-6"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                  <Landmark className="w-6 h-6 text-[#3898ec]" />
-                </div>
+                <Landmark className="w-7 h-7 text-gold" aria-hidden="true" />
                 <div>
-                  <p className="text-2xl font-bold text-white font-['Montserrat']">
+                  <p className="text-4xl font-semibold leading-none text-white font-display">
                     2,300+
                   </p>
-                  <p className="text-white/60 text-sm">Years of History</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-[#3898ec]" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-white font-['Montserrat']">
-                    40%
+                  <p className="text-white/60 text-sm">
+                    Years of history
+                    <SourceChip factId="foundingYear" className="ml-1 text-white/80" />
                   </p>
-                  <p className="text-white/60 text-sm">Energy Efficiency</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#0068c8]/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-[#3898ec]" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-white font-['Montserrat']">
-                    EGP 90.5B+
-                  </p>
-                  <p className="text-white/60 text-sm">In Transformation</p>
                 </div>
               </div>
             </motion.div>
@@ -197,11 +130,10 @@ export default function Hero() {
             className="hidden lg:flex justify-center items-center"
           >
             <div className="relative group">
-              <div className="absolute inset-0 bg-[#0068c8]/20 rounded-full blur-3xl group-hover:bg-[#0068c8]/30 transition-colors duration-500" />
               <img 
                 src="/images/logo.svg" 
                 alt="Alexandria Brand" 
-                className="relative z-10 w-full max-w-md h-auto brightness-0 invert drop-shadow-2xl"
+                className="relative z-10 w-full max-w-md h-auto brightness-0 invert drop-shadow-lg"
               />
             </div>
           </motion.div>
@@ -211,11 +143,11 @@ export default function Hero() {
       {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+        animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: [0, 10, 0] }}
+        transition={shouldReduceMotion ? { delay: 1 } : { duration: 2, repeat: Infinity, delay: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/70 flex flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="text-xs font-medium tracking-widest uppercase">Scroll</span>
+        <span className="text-xs font-medium">Scroll</span>
         <MousePointer2 className="w-5 h-5" />
       </motion.div>
 

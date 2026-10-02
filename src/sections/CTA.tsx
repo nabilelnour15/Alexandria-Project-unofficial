@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function CTA() {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,50 +25,27 @@ export default function CTA() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 md:py-32 overflow-hidden bg-[#0d1623]"
+      className="relative py-24 md:py-32 overflow-hidden bg-ink wall-of-scripts"
     >
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-
       <div className="alex-container relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          {/* Badge */}
-          <div
-            className={`inline-flex items-center gap-2 px-4 py-1.5 bg-white/5 border border-white/10 backdrop-blur-md rounded-full mb-8 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            <Sparkles className="w-4 h-4 text-[#3898ec]" />
-            <span className="text-white/80 text-sm font-medium tracking-wide">
-              START YOUR JOURNEY
-            </span>
-          </div>
-
           {/* Heading */}
           <h2
-            className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-[1.1] transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+            className={`text-white mb-8 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4' }`}
           >
-            Experience the Magic of{' '}
-            <span className="alex-gradient-text">Alexandria</span>
+            Come and see Alexandria for yourself
           </h2>
 
           {/* Description */}
           <p
-            className={`text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            className={`text-white/75 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
           >
-            Discover a city where history meets the Mediterranean. Ancient wonders,
-            timeless beauty, and unforgettable experiences await your discovery.
+            The visitor guide covers the best time to go, getting around, the
+            main sights and where to eat and stay.
           </p>
 
           {/* CTA Buttons */}
@@ -76,19 +53,12 @@ export default function CTA() {
             className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
           >
-            <button
-              onClick={() => scrollToSection('#visit')}
-              className="alex-btn-primary w-full sm:w-auto min-w-[200px] group"
+            <Link
+              to="/visit"
+              className="alex-btn-on-dark w-full sm:w-auto min-w-[200px]"
             >
-              Plan Your Visit
-              <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-            </button>
-            <button
-              onClick={() => scrollToSection('#contact')}
-              className="alex-btn-secondary w-full sm:w-auto min-w-[200px] !bg-transparent !text-white !border-white/20 hover:!border-white/40 hover:!bg-white/5"
-            >
-              Contact Support
-            </button>
+              Plan your visit
+            </Link>
           </div>
         </div>
       </div>

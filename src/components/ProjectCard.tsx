@@ -1,38 +1,82 @@
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   X, 
   Target, 
   TrendingUp, 
   Clock, 
   CheckCircle2, 
-  AlertCircle 
+  AlertCircle,
+  Image as ImageIcon,
 } from 'lucide-react';
-import type { Project } from '../data/projectsData';
+import { statusLabels, type Project } from '../data/projectsData';
 import { PlaceholderImage } from "./PlaceholderImage";
-// const PlaceholderImage = ({ text = "Image Placeholder", className = "" }: { text?: string, className?: string }) => (
-//   <div className={`w-full bg-slate-100 flex flex-col items-center justify-center gap-3 overflow-hidden relative ${className}`}>
-//     <div className="absolute inset-0 opacity-5">
-//         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, black 1px, transparent 0)`, backgroundSize: '24px 24px' }} />
-//     </div>
-//     <span className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">{text}</span>
-//   </div>
-// );
+import SourceChip from "./SourceChip";
+import ConceptBadge from "./ConceptBadge";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "./ui/dialog";
+/**
+ * Project visual. Projects without an image yet get a deliberate limestone/sea
+ * panel with the placeholder caption and an "Image coming soon" note, instead
+ * of an empty box.
+ */
+const ProjectImage = ({
+  project,
+  className = "",
+}: {
+  project: Project;
+  className?: string;
+}) => {
+  if (project.image) {
+    return (
+      <PlaceholderImage
+        text={project.imagePlaceholder}
+        className={className}
+        src={project.image}
+      />
+    );
+  }
+  return (
+    <div
+      className={`relative w-full flex flex-col items-center justify-center gap-2 overflow-hidden bg-gradient-to-br from-limestone via-limestone-wash to-sea-mist px-6 text-center ${className}`}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 2px 2px, rgb(var(--sea)) 1px, transparent 0)",
+          backgroundSize: "20px 20px",
+        }}
+      />
+      <ImageIcon className="relative w-7 h-7 text-sea/50" aria-hidden="true" />
+      <span className="relative font-display text-lg font-semibold leading-tight text-sea">
+        {project.imagePlaceholder}
+      </span>
+      <span className="relative text-xs font-medium text-ink-soft">Image coming soon</span>
+    </div>
+  );
+};
 
 const StatusBadge = ({ status }: { status: Project["status"] }) => {
   const styles = {
-    Completed: "bg-green-100 text-green-700 border-green-200",
-    "Under Construction": "bg-blue-100 text-blue-700 border-blue-200",
-    "Early Implementation": "bg-indigo-100 text-indigo-700 border-indigo-200",
-    "Under Development": "bg-amber-100 text-amber-700 border-amber-200",
-    Planning: "bg-slate-100 text-slate-600 border-slate-200",
-    Pipeline: "bg-purple-100 text-purple-700 border-purple-200",
+    Completed: "bg-seaglass/15 text-ink border-seaglass/50",
+    Operational: "bg-seaglass/15 text-ink border-seaglass/50",
+    "Under Construction": "bg-sea-mist text-sea border-sea/20",
+    "Early Implementation": "bg-sea-mist text-sea border-sea/20",
+    "Under Development": "bg-sea-mist text-sea border-sea/20",
+    Planning: "bg-limestone/60 text-ink-soft border-limestone",
+    Pipeline: "bg-limestone/60 text-ink-soft border-limestone",
     "Detailed Study Required":
-      "bg-orange-100 text-orange-700 border-orange-200",
+      "bg-terracotta/5 text-terracotta border-terracotta/30",
   };
 
   const Icon =
-    status === "Completed"
+    status === "Completed" || status === "Operational"
       ? CheckCircle2
       : status === "Detailed Study Required"
         ? AlertCircle
@@ -40,10 +84,10 @@ const StatusBadge = ({ status }: { status: Project["status"] }) => {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${styles[status] || styles["Planning"]}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-semibold border ${styles[status] || styles["Planning"]}`}
     >
       <Icon className="w-3.5 h-3.5" />
-      {status}
+      {statusLabels[status]}
     </span>
   );
 };
@@ -62,48 +106,58 @@ export function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
-      onClick={onClick}
-      className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden cursor-pointer group hover:shadow-xl hover:border-blue-100 transition-all duration-300 flex flex-col h-full"
+      className="relative bg-white rounded-lg shadow-sm border border-limestone/70 overflow-hidden cursor-pointer group hover:shadow-md hover:border-sea/15 has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-tram has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:shadow-[0_0_0_5px_rgb(var(--ink))] transition-all duration-300 flex flex-col h-full"
     >
       <div className="relative h-56 overflow-hidden">
-        <PlaceholderImage
-          text={project.imagePlaceholder}
+        <ProjectImage
+          project={project}
           className="h-full group-hover:scale-105 transition-transform duration-700"
-          src={project.image}
         />
         <div className="absolute top-4 left-4">
           <StatusBadge status={project.status} />
         </div>
+        {project.isConcept && project.image && (
+          <ConceptBadge className="absolute bottom-3 left-3" />
+        )}
       </div>
 
       <div className="p-6 flex flex-col flex-grow">
         <div className="mb-4">
-          <span className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-1 block">
+          <span className="text-sea text-xs font-bold mb-1 block">
             {project.subCategory || project.category}
           </span>
-          <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors font-['Montserrat'] leading-tight">
-            {project.title}
+          <h3 className="text-ink group-hover:text-sea transition-colors">
+            {/* The ::after overlay stretches this button over the whole card */}
+            <button
+              type="button"
+              onClick={onClick}
+              aria-haspopup="dialog"
+              className="text-left after:absolute after:inset-0 after:content-[''] focus:outline-none"
+            >
+              {project.title}
+            </button>
           </h3>
         </div>
 
-        <p className="text-slate-500 text-sm line-clamp-3 mb-6 leading-relaxed flex-grow">
+        <p className="text-ink-soft text-sm line-clamp-3 mb-6 leading-relaxed flex-grow">
           {project.description}
         </p>
 
-        <div className="flex items-center justify-between pt-6 border-t border-slate-100 mt-auto">
+        <div className="flex items-center justify-between pt-6 border-t border-limestone/70 mt-auto">
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-xs font-bold text-ink-soft">
               Budget
             </span>
-            <span className="text-slate-900 font-bold text-sm">
+            <span className="text-ink font-bold text-sm inline-flex items-center gap-1">
               {project.budget}
+              {project.factId && <SourceChip factId={project.factId} />}
             </span>
           </div>
           <div className="flex flex-col text-right">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <span className="text-xs font-bold text-ink-soft">
               Timeline
             </span>
-            <span className="text-slate-900 font-bold text-sm">
+            <span className="text-ink font-bold text-sm">
               {project.year}
             </span>
           </div>
@@ -125,139 +179,135 @@ export function ProjectDetailModal({
   if (!project) return null;
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
-          />
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent
+        showCloseButton={false}
+        className="sm:max-w-5xl max-h-[90vh] p-0 gap-0 bg-white rounded-xl border-0 shadow-lg overflow-hidden flex flex-col md:flex-row"
+      >
+        {/* Close Button */}
+        <DialogClose asChild>
+          <button
+            type="button"
+            aria-label="Close project details"
+            className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-white rounded-full text-ink-soft hover:text-sea transition-colors shadow-sm"
           >
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-white rounded-full text-slate-500 hover:text-red-500 transition-colors shadow-sm"
-            >
-              <X className="w-6 h-6" />
-            </button>
+            <X className="w-6 h-6" aria-hidden="true" />
+          </button>
+        </DialogClose>
 
-            {/* Left Column: Image & Abstract */}
-            <div className="md:w-1/3 relative h-64 md:h-auto bg-slate-50 border-r border-slate-100 overflow-y-auto custom-scrollbar">
-              <PlaceholderImage
-                text={project.imagePlaceholder}
-                className="h-64 md:h-1/2 w-full"
-                src={project.image}
-              />
-              <div className="p-8">
-                <StatusBadge status={project.status} />
-                <h2 className="text-2xl font-black text-slate-900 font-['Montserrat'] leading-tight mt-4 mb-2">
-                  {project.title}
-                </h2>
-                <span className="text-slate-500 text-sm font-medium">
-                  {project.category}
-                </span>
+        {/* Left Column: Image & Abstract */}
+        <div className="md:w-1/3 relative h-64 md:h-auto bg-limestone-wash border-r border-limestone/70 overflow-y-auto">
+          <div className="relative h-64 md:h-1/2">
+            <ProjectImage project={project} className="h-full w-full" />
+            {project.isConcept && project.image && (
+              <ConceptBadge className="absolute bottom-3 left-3" />
+            )}
+          </div>
+          <div className="p-8">
+            <StatusBadge status={project.status} />
+            <DialogTitle className="text-2xl font-bold text-ink font-display leading-tight mt-4 mb-2">
+              {project.title}
+            </DialogTitle>
+            <DialogDescription className="text-ink-soft text-sm font-medium">
+              {project.category}
+            </DialogDescription>
 
-                {project.quote && (
-                  <blockquote className="mt-8 pt-8 border-t border-slate-200">
-                    <p className="text-slate-600 italic text-sm leading-relaxed">
-                      "{project.quote}"
-                    </p>
-                  </blockquote>
-                )}
-              </div>
-            </div>
-
-            {/* Right Column: Full Details */}
-            <div className="flex-1 overflow-y-auto p-8 md:p-10 custom-scrollbar space-y-10 bg-white">
-              {/* Description */}
-              <section>
-                <h4 className="flex items-center gap-2 text-lg font-bold text-slate-900 font-['Montserrat'] mb-4">
-                  <span className="w-1 h-6 bg-blue-600 rounded-full" /> Project
-                  Overview
-                </h4>
-                <p className="text-slate-600 leading-relaxed text-lg">
-                  {project.description}
+            {project.quote && (
+              <blockquote className="mt-8 pt-8 border-t border-limestone">
+                <p className="text-ink-soft italic text-sm leading-relaxed">
+                  "{project.quote}"
                 </p>
-              </section>
+              </blockquote>
+            )}
+          </div>
+        </div>
 
-              {/* Technical Specifications */}
-              <section className="grid sm:grid-cols-2 gap-x-8 gap-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                <div className="sm:col-span-2 flex items-center gap-2 text-blue-600 mb-2">
-                  <TrendingUp className="w-5 h-5" />
-                  <h4 className="font-bold">Technical Specifications</h4>
+        {/* Right Column: Full Details */}
+        <div className="flex-1 overflow-y-auto p-8 md:p-10 space-y-10 bg-white">
+          {/* Description */}
+          <section>
+            <h4 className="flex items-center gap-2 text-ink mb-4">
+              <span className="w-1 h-6 bg-sea rounded-full" /> Project
+              Overview
+            </h4>
+            <p className="text-ink-soft leading-relaxed text-lg">
+              {project.description}
+            </p>
+          </section>
+
+          {/* Technical Specifications */}
+          <section className="grid sm:grid-cols-2 gap-x-8 gap-y-6 bg-limestone-wash p-6 rounded-lg border border-limestone/70">
+            <div className="sm:col-span-2 flex items-center gap-2 text-sea mb-2">
+              <TrendingUp className="w-5 h-5" />
+              <h4 className="">Technical Specifications</h4>
+            </div>
+            {Object.entries(project.technicalSpecs).map(([key, val], i) => {
+              const specFactId = project.specFactIds?.[key];
+              return (
+                <div key={i} className="flex flex-col">
+                  <span className="text-xs font-bold text-ink-soft mb-1">
+                    {key}
+                  </span>
+                  <span className="text-ink font-semibold">
+                    {val}
+                    {specFactId && <SourceChip factId={specFactId} className="ml-1" />}
+                  </span>
                 </div>
-                {Object.entries(project.technicalSpecs).map(([key, val], i) => (
-                  <div key={i} className="flex flex-col">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
-                      {key}
+              );
+            })}
+          </section>
+
+          {/* Financial Framework */}
+          {project.financialFramework.length > 0 && (
+            <section>
+              <h4 className="flex items-center gap-2 text-ink mb-6">
+                <span className="w-1 h-6 bg-seaglass rounded-full" />{" "}
+                Financial Framework
+              </h4>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {project.financialFramework.map((f, i) => (
+                  <div
+                    key={i}
+                    className="p-4 bg-white rounded-xl border border-limestone shadow-sm flex flex-col"
+                  >
+                    <span className="text-ink-soft text-xs font-bold mb-1">
+                      {f.source}
                     </span>
-                    <span className="text-slate-900 font-semibold">{val}</span>
+                    <span className="text-xl font-bold text-ink">
+                      {f.amount}
+                    </span>
+                    {f.instrument && (
+                      <span className="text-ink-soft text-xs mt-1">
+                        {f.instrument}
+                      </span>
+                    )}
                   </div>
                 ))}
-              </section>
+              </div>
+            </section>
+          )}
 
-              {/* Financial Framework */}
-              {project.financialFramework.length > 0 && (
-                <section>
-                  <h4 className="flex items-center gap-2 text-lg font-bold text-slate-900 font-['Montserrat'] mb-6">
-                    <span className="w-1 h-6 bg-green-500 rounded-full" />{" "}
-                    Financial Framework
-                  </h4>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {project.financialFramework.map((f, i) => (
-                      <div
-                        key={i}
-                        className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col"
-                      >
-                        <span className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">
-                          {f.source}
-                        </span>
-                        <span className="text-xl font-black text-slate-900">
-                          {f.amount}
-                        </span>
-                        {f.instrument && (
-                          <span className="text-slate-400 text-xs mt-1">
-                            {f.instrument}
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* Vision 2030 Pillars */}
-              <section>
-                <div className="flex items-center gap-2 text-slate-900 mb-4">
-                  <Target className="w-5 h-5 text-red-500" />
-                  <h4 className="text-lg font-bold font-['Montserrat']">
-                    Vision 2030 Alignment
-                  </h4>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {project.vision2030Pillars.map((p, i) => (
-                    <span
-                      key={i}
-                      className="px-4 py-1.5 bg-red-50 text-red-700 rounded-full text-sm font-semibold border border-red-100"
-                    >
-                      {p}
-                    </span>
-                  ))}
-                </div>
-              </section>
+          {/* Vision 2030 Pillars */}
+          <section>
+            <div className="flex items-center gap-2 text-ink mb-4">
+              <Target className="w-5 h-5 text-terracotta" />
+              <h4 className="">
+                Vision 2030 Alignment
+              </h4>
             </div>
-          </motion.div>
+            <div className="flex flex-wrap gap-2">
+              {project.vision2030Pillars.map((p, i) => (
+                <span
+                  key={i}
+                  className="alex-tag text-sm"
+                >
+                  {p}
+                </span>
+              ))}
+            </div>
+          </section>
         </div>
-      )}
-    </AnimatePresence>
+      </DialogContent>
+    </Dialog>
   );
 }

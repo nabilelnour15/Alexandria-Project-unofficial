@@ -1,143 +1,115 @@
-export interface Achievement {
+// Governor content for an unofficial fan-made site.
+// Every fact below comes from one of the sources listed in `sources`.
+// Do not add biography details, figures or quotes without a source.
+
+export interface SourceLink {
+  label: string;
+  url: string;
+}
+
+export interface Priority {
   title: string;
   description: string;
-  items: string[];
-  stats?: { label: string; value: string }[];
-  image: string;
 }
 
 export interface GovernorData {
   name: string;
+  honorific: string;
   title: string;
-  rank: string;
-  born: string;
-  education: string;
   appointedDate: string;
-  image: string;
+  tenure: string;
+  background: string;
+  previousGovernorNote: string;
   biography: {
     summary: string;
-    militaryCareer: string[];
+    career: string[];
     appointment: string;
   };
-  achievements: {
-    infrastructure: Achievement;
-    sustainability: Achievement;
-    publicServices: Achievement;
+  priorities: {
+    intro: string;
+    items: Priority[];
   };
-  vision: {
-    tagline: string;
-    pillars: {
-      title: string;
-      description: string;
-    }[];
-  };
-  quickStats: { label: string; value: string; icon: string }[];
+  sources: SourceLink[];
+  asOf: string;
 }
 
 export const governorData: GovernorData = {
-  name: "Ahmed Khaled Hassan Saeed",
+  name: "Ayman Mohamed Ibrahim Attia",
+  honorific: "Eng.",
   title: "Governor of Alexandria",
-  rank: "Vice-Admiral",
-  born: "1961",
-  education: "Egyptian Naval Academy (Class of 1983)",
-  appointedDate: "July 2024",
-  image: "/images/govanor.jpg",
+  appointedDate: "16 February 2026",
+  tenure: "Since February 2026",
+  background: "Engineer, former Governor of Qalyubia",
+  previousGovernorNote:
+    "Previous governor: Vice-Admiral Ahmed Khaled Hassan Saeed (July 2024 – February 2026).",
   biography: {
     summary:
-      "Vice-Admiral Ahmed Khaled Hassan Saeed is a seasoned Egyptian military figure born in 1961. He is a graduate of the Egyptian Naval Academy (class of 1983).",
-    militaryCareer: [
-      "Commander of the Egyptian Navy (December 2016 – December 2021).",
-      "Oversaw strategic military partnerships with the UK and US.",
-      "Led joint naval exercises and high-level talks.",
-      "Served as Commander of the Strategic Command.",
+      "Ayman Attia is an engineer who graduated in architectural engineering from Alexandria University's Faculty of Engineering in 1997. Before coming to Alexandria he served as Governor of Qalyubia.",
+    career: [
+      "Graduated with a bachelor's degree in architectural engineering from Alexandria University in 1997.",
+      "According to Al-Dostor, he has more than 27 years of experience in construction engineering and the management of major national projects.",
+      "Held leadership positions at Arab Contractors, including membership of the company's board, and headed its Alexandria sector.",
+      "Projects he worked on, as reported by Al-Dostor, include the Julius Nyerere Dam in Tanzania, bridges and tunnels in Alexandria, marine protection works along the Corniche and the construction of Borg El Arab Stadium.",
+      "Sworn in as Governor of Qalyubia before President Abdel Fattah El-Sisi in July 2024.",
     ],
     appointment:
-      "Following his naval career, he was appointed as Governor of Alexandria by President Abdel Fattah el-Sisi in July 2024.",
+      "He was sworn in as Governor of Alexandria before President Abdel Fattah El-Sisi on 16 February 2026, having previously served as Governor of Qalyubia.",
   },
-  achievements: {
-    infrastructure: {
-      title: "Mega-Infrastructure & Transport",
-      description:
-        "Under the Governor’s oversight, Alexandria has entered a significant urban development phase with a focus on large-scale project implementation.",
-      items: [
-        "63 projects completed (EGP 90.5 billion); 31 projects under implementation.",
-        "Approximately 200 km of roads rehabilitated or newly constructed.",
-        "Expansion of the Alexandria Corniche covering 117 km.",
-        "Abu Qir Metro: Handling 40,000+ passengers per hour.",
-        "Raml Tram: Daily capacity increased from 80,000 to 450,000 passengers.",
-      ],
-      stats: [
-        { label: "Completed Projects", value: "63" },
-        { label: "Road Rehab", value: "200km" },
-        { label: "Metro Capacity", value: "40k/hr" },
-      ],
-      image: "/images/roads.jpg",
-    },
-    sustainability: {
-      title: "Environmental Sustainability",
-      description:
-        "Aggressive push toward 'green mobility' and energy rationalization to make Alexandria a smart city.",
-      items: [
-        "Fleet of 55 electric buses currently in operation.",
-        "Conversion of 200 diesel buses to natural gas (scheduled July 2025).",
-        "40% reduction in energy consumption from lighting poles.",
-        "10% energy reduction from luminous advertising boards.",
-        "Strict enforcement via fines for energy violations.",
-      ],
-      stats: [
-        { label: "Electric Buses", value: "55" },
-        { label: "Energy Cut", value: "40%" },
-        { label: "Conversion", value: "200 buses" },
-      ],
-      image: "/images/bus-elc.png",
-    },
-    publicServices: {
-      title: "Public Services & Quality of Life",
-      description:
-        "Upgrading essential services, beach facilities, and economic relief for citizens.",
-      items: [
-        "Enhanced Beach Readiness: Life-guard training and electronic booking system.",
-        "Cleanliness: 99.96% completion rate in spatial change monitoring system.",
-        "Economic Relief: Expansion of 'one-day markets' for affordable basic goods.",
-        "Education: Upgraded and maintained school infrastructure.",
-      ],
-      stats: [
-        { label: "Monitoring Rate", value: "99.96%" },
-        { label: "Spatial Changes", value: "56,400+" },
-        { label: "Markets", value: "City-wide" },
-      ],
-      image: "/images/plaza.jpg",
-    },
-  },
-  vision: {
-    tagline: "Building Value and Improving Quality of Life",
-    pillars: [
+  priorities: {
+    intro:
+      "Reported priorities and activities since he took office, paraphrased from Egyptian news coverage.",
+    items: [
       {
-        title: "Comprehensive and Sustainable Development",
+        title: "Citizen services",
         description:
-          "Enhance Alexandria’s historical status as a regional and global hub while preserving its cultural character.",
+          "According to Al-Dostor, on taking office he pledged to put serving citizens first and to respond quickly to residents' needs. A week later he inspected the governorate's citizen-service department and an Egypt Services centre.",
       },
       {
-        title: "Smart City Transformation",
+        title: "Urgent executive plans",
         description:
-          "Making Alexandria the leading smart city in Egypt through digital infrastructure and asset optimization.",
+          "At his first meeting with executive leaders (24 February 2026), Al-Dostor reports that he called for urgent plans on sanitation, street discipline and removing violations, protecting farmland from encroachment, and emergency readiness, together with stepped-up market inspections.",
       },
       {
-        title: "International Cooperation",
+        title: "Roads and traffic",
         description:
-          "Pursuing cooperation with international donors for health, education, and infrastructure projects.",
+          "Al-Dostor reports that he inspected expansion works on the Al-Mandara bridge in February 2026 and directed lighting and resurfacing works there.",
       },
       {
-        title: "Social Equity & Housing",
+        title: "Cleanliness and waste",
         description:
-          "Surveying land for 60,000 new housing units to relocate residents from unsafe buildings.",
+          "According to Al-Ahram Gate (July 2026), he met the Minister of Local Development and Environment to review waste management in Alexandria, which the report says produces about 6,000 tonnes of waste a day.",
       },
     ],
   },
-  quickStats: [
-    { label: "Projects Completed", value: "63", icon: "Building" },
-    { label: "Roads Built", value: "200km", icon: "Route" },
-    { label: "Investments", value: "EGP 90.5B", icon: "DollarSign" },
-    { label: "Energy Savings", value: "40%", icon: "Zap" },
+  sources: [
+    {
+      label: "Al-Dostor: new governor's first statement (16 Feb 2026, Arabic)",
+      url: "https://www.dostor.org/5422366",
+    },
+    {
+      label: "Al-Dostor: new governor takes up his duties (Feb 2026, Arabic)",
+      url: "https://www.dostor.org/5422613",
+    },
+    {
+      label: "Al-Dostor: inspection of citizen services (23 Feb 2026, Arabic)",
+      url: "https://www.dostor.org/5431175",
+    },
+    {
+      label: "Al-Dostor: first meeting with executive leaders (24 Feb 2026, Arabic)",
+      url: "https://www.dostor.org/5432121",
+    },
+    {
+      label: "Al-Ahram Gate: cleanliness meeting in Alexandria (13 Jul 2026, Arabic)",
+      url: "https://gate.ahram.org.eg/News/5769800.aspx",
+    },
+    {
+      label: "Arab Contractors: Ayman Attia sworn in as Governor of Qalyubia (4 Jul 2024)",
+      url: "https://arabcont.com/English/Release-2024-2050",
+    },
+    {
+      label: "Egyptian Streets: Egypt announces new governors (4 Jul 2024)",
+      url: "https://egyptianstreets.com/2024/07/04/egypt-announces-new-governors-for-cairo-alexandria-and-other-cities/",
+    },
   ],
+  asOf: "2026-10",
 };

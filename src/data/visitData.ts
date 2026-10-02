@@ -2,8 +2,41 @@ import {
   Plane, Train, Bus, Car, 
   MapPin, Camera, ShoppingBag, 
   Landmark, BookOpen, GraduationCap, 
-  Briefcase, Sun
+  Briefcase, Sun,
+  type LucideIcon,
 } from 'lucide-react';
+import type { FactId } from './facts';
+
+// Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
+// They are typed as FactId, so a typo fails to compile.
+
+export interface TransportItem {
+  type: string;
+  icon: LucideIcon;
+  description: string;
+  factId?: FactId;
+}
+
+export interface TransportTab {
+  id: string;
+  label: string;
+  content: TransportItem[];
+}
+
+export interface Attraction {
+  name: string;
+  desc: string;
+  location: string;
+  image: string;
+  factId?: FactId;
+}
+
+export interface AttractionCategory {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  items: Attraction[];
+}
 
 export const climateData = {
   months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -14,28 +47,28 @@ export const climateData = {
   description: "Alexandria has a hot desert climate (BWh), but highly influenced by sea breeze. Summers are sunny, hot (avg 31°C), and humid, though evenings are breezy. Winters are mild (lows ~10-12°C) with occasional rain. Best time to visit is spring (March–June) and autumn (September–November)."
 };
 
-export const transportTabs = [
+export const transportTabs: TransportTab[] = [
   {
     id: 'get-in',
-    label: 'Getting In',
+    label: 'Getting in',
     content: [
       {
-        type: 'By Plane',
+        type: 'By plane',
         icon: Plane,
         description: 'Borg el Arab (HBE) is 45km SW. No public transport; taxis cost LE400+ and take 60-90 min. Serves Cairo, Luxor, Gulf States, and Istanbul.'
       },
       {
-        type: 'By Train',
+        type: 'By train',
         icon: Train,
-        description: 'Frequent AC trains from Cairo. "Specials" take 2.5hrs. Foreigner rates: AC1 $40, AC2 $35. Arrive Misr Station (Downtown) or Sidi Gaber.'
+        description: 'Frequent AC trains from Cairo. "Specials" take 2.5hrs. Tickets are priced in EGP and vary by class; check Egyptian National Railways for current fares. Arrive Misr Station (Downtown) or Sidi Gaber.'
       },
       {
-        type: 'By Bus',
+        type: 'By bus',
         icon: Bus,
         description: 'Operators include Go Bus, West Delta, Super Jet (LE100-300). Main station is Moharam Bek, but some stop at Sidi Gaber.'
       },
       {
-        type: 'By Car',
+        type: 'By car',
         icon: Car,
         description: 'Agriculture Road (90km/h, crowded) or Desert Road (100km/h, faster). Both routes take approx 3 hours from Cairo.'
       }
@@ -43,33 +76,34 @@ export const transportTabs = [
   },
   {
     id: 'get-around',
-    label: 'Getting Around',
+    label: 'Getting around',
     content: [
       {
-        type: 'Taxi & Rideshare',
+        type: 'Taxi & rideshare',
         icon: Car,
         description: 'Yellow/black taxis are unmetered; agree on fare first. Uber and Careem are available (Careem requires local #).'
       },
       {
         type: 'Tram',
         icon: Train,
-        description: 'Blue (Ramleh) and Yellow (City) lines. Oldest in Africa. Flat fare LE1. First car in Blue trams is women-only.'
+        description: 'Blue (Raml) and Yellow (City) lines. The Raml line has run since 1863 (horse-drawn at first) and is being modernised. Fares are low and paid in EGP on board. First car in Blue trams is women-only.',
+        factId: 'ramlTramOpened'
       },
       {
-        type: 'Bus & Minibus',
+        type: 'Bus & minibus',
         icon: Bus,
         description: '14-person microbuses operate on hop-and-go basis. Confusing for non-locals; rely on hand signals or destination shouts.'
       },
       {
         type: 'Walking',
         icon: MapPin,
-        description: 'The Corniche stretches 30km and is perfect for walking. Downtown/Bahari areas are very walkable.'
+        description: 'The long seafront Corniche is perfect for walking. Downtown/Bahari areas are very walkable.'
       }
     ]
   }
 ];
 
-export const attractionCategories = [
+export const attractionCategories: AttractionCategory[] = [
   {
     id: "historical",
     label: "Historical",
@@ -77,20 +111,22 @@ export const attractionCategories = [
     items: [
       {
         name: "Citadel of Qaitbay",
-        desc: "1477 fortress on Pharos site. Maritime Museum inside. LE150 foreigners.",
+        desc: "Fortress built 1477–1479 on the Pharos site. Maritime Museum inside. LE150 foreigners.",
         location: "Anfushi",
+        factId: "qaitbayCitadelBuilt",
         image: "/images/citadel.jpg",
       },
       {
         name: "Catacombs of Kom el Shoqafa",
         desc: 'Roman burial site, "Mound of Shards". Deep spiral stairway. LE150.',
-        location: "Carmouz",
+        location: "Karmouz",
         image: "/images/the-tombs-of-Kom-el-Shoqafa.jpg",
       },
       {
         name: "Pompey's Pillar",
-        desc: "25m granite column for Diocletian (297 AD). LE150.",
+        desc: "26.85 m granite column for Diocletian (c. 298 CE). LE150.",
         location: "Karmouz",
+        factId: "pompeysPillarHeight",
         image: "/images/Serapeum-of-Alexandria.jpg",
       },
       {
@@ -102,7 +138,7 @@ export const attractionCategories = [
       {
         name: "Montaza Palace",
         desc: "Royal gardens (LE25 entry) and palace complex (Salamlek hotel).",
-        location: "El Montazah",
+        location: "Montaza",
         image: "/images/A-wonderful-picture-of-Montazah-Palace.jpg",
       },
       {
@@ -126,7 +162,7 @@ export const attractionCategories = [
       },
       {
         name: "Graeco-Roman Museum",
-        desc: "Vast collection (3rd cent BC - 3rd cent CE). LE150.",
+        desc: "Vast collection (3rd century BCE – 3rd century CE). LE150.",
         location: "Latin Quarter",
         image: "/images/Greco-Roman-Museum-in-Alexandria.jpg",
       },
@@ -158,7 +194,7 @@ export const attractionCategories = [
       {
         name: "El-Mursi Abul-Abbas Mosque",
         desc: "Stunning mosque with 73m minaret over a Sufi saint's tomb.",
-        location: "Anfoushi",
+        location: "Anfushi",
         image: "/images/Sidi-Morsi-Abu-al-Abbas-Mosque-alexandria.jpg",
       },
       {
@@ -182,8 +218,9 @@ export const attractionCategories = [
     items: [
       {
         name: "Bibliotheca Alexandrina",
-        desc: "Massive library, planetarium, antiquities museum. LE150 foreigners.",
+        desc: "Opened 2002. Massive library, planetarium, antiquities museum. LE150 foreigners.",
         location: "Shatby",
+        factId: "bibliothecaOpened",
         image: "/images/Alexandria_Bibliotheca.jpg",
       },
       {
@@ -206,7 +243,7 @@ export const activitiesData = [
   {
     title: 'Do',
     icon: Camera,
-    items: ['Double Decker Bus (Corniche LE25)', 'Montazah Royal Gardens', 'Diving (Sunken Cities/Cleopatra Palace)', 'Cinema (Renaissance Royal)', 'Boat Ride at Ras El-Tin'],
+    items: ['Double Decker Bus (Corniche LE25)', 'Montaza Royal Gardens', 'Diving (Sunken Cities/Cleopatra Palace)', 'Cinema (Renaissance Royal)', 'Boat Ride at Ras El-Tin'],
   },
   {
     title: 'Buy',
@@ -260,7 +297,7 @@ export const accommodationData = [
     ]
   },
   {
-    category: 'Mid-Range',
+    category: 'Mid-range',
     options: [
       { name: 'Steigenberger Cecil', desc: 'Grand old hotel, central location.' },
       { name: 'Le Metropole', desc: 'Turn-of-the-century style, rooftop views.' },
