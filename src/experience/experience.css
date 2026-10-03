@@ -1,0 +1,40 @@
+/* CSS-first effects for the /experience page (docs/motion-plan.md). */
+
+/* G. Raml tram progress: the tram rides the rail with the page scroll. */
+.xp-tram {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .xp-tram {
+    display: block;
+    animation: xp-tram linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@keyframes xp-tram {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(100% - 1.75rem)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-tram {
+    display: none;
+  }
+}
+
+/* Section 3 details. */
+.xp h2,
+.xp h3 {
+  text-wrap: balance;
+}
+
+.xp p {
+  text-wrap: pretty;
+}
+
+.xp img {
+  outline: 1px solid rgb(0 0 0 / 0.1);
+  outline-offset: -1px;
+}

@@ -11,7 +11,7 @@ import { useDisclaimer } from '../lib/disclaimer';
 const DisclaimerPopup = lazy(() => import('./DisclaimerPopup'));
 
 // Pages whose hero is dark, so the navbar stays transparent until scrolled.
-const TRANSPARENT_NAV_PATHS = ['/', '/about', '/invest'];
+const TRANSPARENT_NAV_PATHS = ['/', '/about', '/invest', '/experience'];
 
 /** Shared by the banner and the spacer below, so they always match. */
 const DISCLAIMER_BANNER_HEIGHT = 'h-12 sm:h-9';

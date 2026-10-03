@@ -127,6 +127,7 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 ## Phase 2: signature features
 
 - [ ] 🟠 Motion and scroll experience: follow `docs/motion-plan.md` ("The Pharos remembered": beam reveal, layered-city scroll story, tram progress bar).
+  - Prototype built as a separate page at `/experience` (`src/pages/ExperiencePage.tsx`, `src/experience/`); the existing pages are unchanged. Still to do: browser QA, the real dusk photo and archival images, and deciding whether to promote it to the home page.
 - [ ] "Pharos to Future" scroll timeline from 331 BC to 2030, with every era represented and future items marked "planned".
 - [ ] Projects dashboard: a funding-mix chart (EIB/AFD/EU/Government), a committed / identified / unfunded gauge, Vision 2030 goals linked to projects, and status filter chips.
 - [ ] "Wall of scripts" texture on dark sections and the footer.
