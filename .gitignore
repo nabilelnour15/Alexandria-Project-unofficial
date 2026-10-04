@@ -107,3 +107,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Raw image drops (AI batches etc.); only curated files go in public/images
+/images/

@@ -4,6 +4,8 @@ Prompts for the images the site still needs. Line numbers were taken on 2026-10-
 
 ## How to use
 
+**Quickest:** `npm run gen:image -- <filename>.jpg` builds the full prompt from this file (preamble + prompt + "Do not include: …" from Avoid), calls Gemini, then crops, resizes and compresses the result into `public/images/`. Needs `GEMINI_API_KEY` in `.env.local`. Then do steps 2, 5 and 6 below. The manual steps:
+
 1. Paste the **style preamble** below, then the prompt for the image, into Gemini image generation. Add the **Avoid** line as a final instruction ("Do not include: …").
 2. Generate at or above the listed size and pick the best result. Regenerate if any text, logo, watermark or identifiable face appears.
 3. Export as **JPG**. Aim for **under 300 KB with the longest side at most 1920 px**. Or run the same Pillow pass used on `public/images`: `ImageOps.exif_transpose`, `thumbnail((1920, 1920))`, `save(quality=80, optimize=True, progressive=True)`.
@@ -32,6 +34,8 @@ For textures and illustrations, drop "Photorealistic, editorial-quality" and kee
 ## 1. Site-wide and signature visuals
 
 ### og-image.jpg
+
+> **Current file (Oct 2026):** a real CC0 Wikimedia photo of Qaitbay at night (see `docs/image-credits.md`). Generate this prompt with `--force` only if you want to replace it.
 
 - **Used in:** `index.html` (to add as `<meta property="og:image" content="/images/og-image.jpg">`; see the SEO item in `docs/TODO.md`)
 - **Size:** 1200×630 (1.91:1)
@@ -71,6 +75,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### abu-qir-metro-concept.jpg
 
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
+
 - **Used in:** `src/data/projectsData.ts:145` (`image:` of `abu-qir-metro`; it currently shows a Cairo Metro photo. Another agent is changing the path to `/images/abu-qir-metro-concept.jpg`)
 - **Size:** 4:3, 1600×1200
 - **Prompt:** Concept visualisation of a modern elevated suburban metro line running east from central Alexandria towards Abu Qir. A sleek, modern electric train (white and sea-blue, no branding) on a clean concrete viaduct passes above a busy avenue lined with cream and limestone mid-rise apartment blocks with balconies and laundry, typical of eastern Alexandria. A glimpse of the Mediterranean and a few palm trees in the distance. Late-afternoon Mediterranean light, slightly hazy sea air. Accurate scale, realistic concrete, overhead catenary wires, a simple open-air elevated station with a curved canopy in the mid-ground.
@@ -78,6 +84,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 - **On-site label:** "Concept illustration — AI-generated".
 
 ### raml-tram-concept.jpg
+
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
 
 - **Used in:** `src/data/projectsData.ts:112-113` (`raml-tram`; currently hotlinked from railwaynews.net). Can also replace the Unsplash image at `src/data/newsData.ts:44` (tram news item).
 - **Size:** 4:3, 1600×1200
@@ -87,6 +95,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### brt-corridor-concept.jpg
 
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
+
 - **Used in:** `src/data/projectsData.ts:187-188` (`brt-corridors`; currently hotlinked from aqarmap.com.eg)
 - **Size:** 4:3, 1600×1200
 - **Prompt:** Concept visualisation of a bus rapid transit corridor on a wide Alexandria avenue: two dedicated central bus lanes with a raised island station with a shaded canopy, a long articulated electric bus in white and sea-blue with no branding, ordinary traffic in the side lanes, cream and limestone apartment blocks on both sides. Clear Mediterranean daylight, neat landscaping strips.
@@ -94,6 +104,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 - **On-site label:** "Concept illustration — AI-generated".
 
 ### sludge-to-energy-concept.jpg
+
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
 
 - **Used in:** `src/data/projectsData.ts:209` (`sludge-to-energy` has only `imagePlaceholder`; add an `image` field)
 - **Size:** 4:3, 1600×1200
@@ -103,6 +115,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### solar-water-treatment-concept.jpg
 
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
+
 - **Used in:** `src/data/projectsData.ts:228` (`solar-water-treatment`; add an `image` field)
 - **Size:** 4:3, 1600×1200
 - **Prompt:** Concept visualisation of rows of solar panels on the flat roofs and open ground of a water treatment plant on the outskirts of Alexandria: round clarifier tanks, filter basins, pump buildings, and neat rows of photovoltaic panels reflecting a clear blue sky. Bright Mediterranean midday light, limestone-coloured ground.
@@ -110,6 +124,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 - **On-site label:** "Concept illustration — AI-generated".
 
 ### regional-control-center-concept.jpg
+
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
 
 - **Used in:** `src/data/projectsData.ts:250` (`regional-control-center`; add an `image` field)
 - **Size:** 4:3, 1600×1200
@@ -119,6 +135,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### wastewater-network-concept.jpg
 
+> **Still needed:** the Oct 2026 attempt had garbled AI text labels ("Water water", "Sewage sewage"). Regenerate with no labels.
+
 - **Used in:** `src/data/projectsData.ts:268` (`wastewater-network`; add an `image` field)
 - **Size:** 4:3, 1600×1200
 - **Prompt:** Cut-away concept view of an Alexandria street during pipe-network works: a neat trench with large new concrete sewer pipes being placed, barriers and a small excavator, cream apartment blocks with balconies behind, the surface section showing the pipe network below in a clean illustrative cross-section. Daylight, orderly site.
@@ -127,6 +145,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### suds-green-drainage-concept.jpg
 
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
+
 - **Used in:** `src/data/projectsData.ts:286` (`suds`; add an `image` field)
 - **Size:** 4:3, 1600×1200
 - **Prompt:** Concept visualisation of sustainable urban drainage on an Alexandria residential street after light winter rain: planted rain gardens and bioswales along the pavement, permeable paving, small street trees, water collecting in the planted areas instead of the road, cream and limestone buildings with balconies. Fresh, overcast Mediterranean winter light with wet reflections.
@@ -134,6 +154,8 @@ All of these show planned or in-progress projects, so each one **must** carry it
 - **On-site label:** "Concept illustration — AI-generated".
 
 ### rail-factory-borg-el-arab-concept.jpg
+
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
 
 - **Used in:** `src/data/projectsData.ts:305` (`alstom-complex`; add an `image` field)
 - **Size:** 4:3, 1600×1200
@@ -151,11 +173,15 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### kuta-land-hotel-concept.jpg
 
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
+
 - **Data:** `investData.ts:161` "Utilization of Kuta Land"
 - **Prompt:** Concept visualisation of an empty, fenced seafront development plot in central Alexandria at golden hour, with a faint, translucent white architectural massing model of a low-rise luxury hotel drawn over the plot to show it is a proposal. Cream and limestone city blocks and the calm sea around it.
 - **Avoid:** text, logos, hotel brand names, the Bibliotheca Alexandrina building in detail, skyscrapers, identifiable people.
 
 ### recreational-medical-city-concept.jpg
+
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
 
 - **Data:** `investData.ts:168` "Recreational or Medical City"
 - **Prompt:** Aerial concept visualisation of a large planned campus on the edge of Alexandria: low white medical and leisure buildings, shaded walkways, green parks, a lake and sports fields, all drawn in a soft architectural-model style with light shadows, the dense city faintly visible at the edge.
@@ -163,12 +189,16 @@ All of these show planned or in-progress projects, so each one **must** carry it
 
 ### pharos-restoration-concept.jpg
 
+> **Still needed:** the Oct 2026 attempt showed a generic modern lighthouse, not the ancient Pharos. Regenerate as the three-tiered ancient tower, clearly an artistic reconstruction.
+
 - **Data:** `investData.ts:175` "Restoration of the Ancient Lighthouse (Pharos)"
 - **Prompt:** Clearly illustrative architectural concept of a reconstructed ancient lighthouse museum on a harbour headland: a tall three-stage tower (square base, octagonal middle, cylindrical top) in pale limestone, drawn in a soft watercolour and pencil style, with a modest modern museum pavilion and small marina at its foot, sea in deep blue (#0B3C5D), warm papyrus sky.
 - **Avoid:** photorealism (it must read as an illustration), text, logos, people, fantasy glowing beacons, pyramids, desert.
 - **On-site label:** "Concept illustration — AI-generated; not an official design".
 
 ### rowing-stream-concept.jpg
+
+> **Done (Oct 2026):** in `public/images/`, from the owner's Gemini batch.
 
 - **Data:** `investData.ts:182` "International Maritime Rowing Stream"
 - **Prompt:** Concept visualisation of a long, straight 2 km rowing course of calm water on flat land at the edge of Alexandria: lane buoys in a row, a low modern boathouse and grandstand with a shaded roof, reeds and palms along the banks, early-morning mist and soft light. Two distant rowing shells as small silhouettes.

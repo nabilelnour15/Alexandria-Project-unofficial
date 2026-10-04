@@ -21,7 +21,10 @@ npm run dev       # Vite dev server
 npm run build     # tsc -b (type-check) then vite build -> dist/
 npm run lint      # ESLint (flat config; src/components/ui is ignored)
 npm run preview   # serve the production build (use it to test deep links)
+npm run gen:image -- <name>.jpg   # Gemini image from docs/image-prompts.md -> public/images (--list, --prompt, --size, --force)
 ```
+
+`gen:image` reads `GEMINI_API_KEY` from `.env.local` (gitignored; template in `.env.example`). Never give a key a `VITE_` prefix, because Vite bundles those into the public site. Never ask for the key in chat. Add new prompts to `docs/image-prompts.md` first, and check every result for text, logos or faces before using it.
 
 No test framework is configured. `npm run build` type-checks: `tsconfig.app.json` is strict with `noUnusedLocals`/`noUnusedParameters`, so unused imports or props break the build. Lint should stay at 0 errors.
 
@@ -52,6 +55,7 @@ No test framework is configured. `npm run build` type-checks: `tsconfig.app.json
   - Files live in `public/images/` and are referenced as `/images/...`. Keep them compressed (≤1920px, JPG quality ≈80).
   - `docs/image-prompts.md` holds the Gemini prompts for concept images and the governor-portrait guidance.
   - Add `loading="lazy" decoding="async"` to images below the fold.
+  - Record every real photo's author, licence and source in `docs/image-credits.md`.
 
 ## Styling conventions
 
@@ -87,6 +91,7 @@ A curated ECC set is installed globally. The list is in `~/.claude/ecc-curated.m
 | Dead code and duplicates (remaining Phase 1 items) | `refactor-cleaner` agent. |
 | Build failures | `build-error-resolver` agent. |
 | Too many tools loaded | `context-budget` skill. |
+| Researching content for `src/data` | Project agents in `.claude/agents/`: `source-researcher` (sonnet, medium) finds entries with evidence, one category per agent, run in parallel. Then `claim-verifier` (haiku, low) re-checks each `{claim, url}`. The main session merges the results and asks the owner about every conflict. The researcher reads pages through the NotebookLM MCP (`gemini-notebook-mcp`, local scope, unofficial, `nlm login`), which keeps them out of Claude's context. It falls back to WebFetch when the MCP isn't available. |
 
 ## Docs
 
