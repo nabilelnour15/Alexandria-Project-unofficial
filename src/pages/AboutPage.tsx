@@ -1,5 +1,4 @@
 import About from '../sections/About';
-import CTA from '../sections/CTA';
 import PageMeta from '../components/PageMeta';
 
 export default function AboutPage() {
@@ -10,7 +9,6 @@ export default function AboutPage() {
           description="The history, landmarks, museums, culture and food of Alexandria, from its founding by Alexander the Great to the modern Mediterranean city."
         />
         <About />
-        <CTA />
       </div>
     );
 }

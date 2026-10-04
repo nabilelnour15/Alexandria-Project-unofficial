@@ -145,8 +145,8 @@ export const projectsData = {
         "Cultural heritage",
       ],
       imagePlaceholder: "Modernized Raml tram concept",
-      image:
-        "https://railwaynews.net/wp-content/uploads/ZDRT5BD6NetGnU_gLb1sC.jpg",
+      image: "/images/raml-tram-concept.jpg",
+      isConcept: true,
     },
     {
       id: "abu-qir-metro",
@@ -183,9 +183,8 @@ export const projectsData = {
         "Gender-responsive design",
       ],
       imagePlaceholder: "Abu Qir metro viaduct",
-      // No image yet: ProjectCard shows a limestone/sea "Image coming soon" panel with
-      // `imagePlaceholder` until abu-qir-metro-concept.jpg is generated (see docs/image-prompts.md).
-      // image: "/images/abu-qir-metro-concept.jpg",
+      image: "/images/abu-qir-metro-concept.jpg",
+      isConcept: true,
     },
     // Sustainable Transport - Surface
     {
@@ -230,8 +229,8 @@ export const projectsData = {
       financialFramework: [],
       vision2030Pillars: ["Sustainable transport", "Urban mobility"],
       imagePlaceholder: "BRT concept",
-      image:
-        "https://aqarmap.com.eg/ar/advice/wp-content/uploads/2022/07/%D8%A7%D8%AA%D9%88%D8%A8%D9%8A%D8%B3-brt-1.jpg",
+      image: "/images/brt-corridor-concept.jpg",
+      isConcept: true,
     },
     // Energy & Efficiency
     {
@@ -253,6 +252,8 @@ export const projectsData = {
       financialFramework: [],
       vision2030Pillars: ["Circular economy", "Renewable energy"],
       imagePlaceholder: "Biogas facility",
+      image: "/images/sludge-to-energy-concept.jpg",
+      isConcept: true,
     },
     {
       id: "solar-water-treatment",
@@ -272,6 +273,8 @@ export const projectsData = {
       financialFramework: [],
       vision2030Pillars: ["Renewable energy", "Decarbonization"],
       imagePlaceholder: "Solar panels at water plant",
+      image: "/images/solar-water-treatment-concept.jpg",
+      isConcept: true,
     },
     {
       id: "regional-control-center",
@@ -294,6 +297,8 @@ export const projectsData = {
       ],
       vision2030Pillars: ["Energy security", "Renewable integration"],
       imagePlaceholder: "Control center",
+      image: "/images/regional-control-center-concept.jpg",
+      isConcept: true,
     },
     // Water & Wastewater
     {
@@ -330,6 +335,8 @@ export const projectsData = {
       financialFramework: [],
       vision2030Pillars: ["Climate action", "Urban resilience"],
       imagePlaceholder: "Urban green drainage",
+      image: "/images/suds-green-drainage-concept.jpg",
+      isConcept: true,
     },
     // Industrial
     {
@@ -349,6 +356,8 @@ export const projectsData = {
       financialFramework: [],
       vision2030Pillars: ["Localization", "Economic growth"],
       imagePlaceholder: "Industrial complex",
+      image: "/images/rail-factory-borg-el-arab-concept.jpg",
+      isConcept: true,
     },
   ],
   vision2030: {

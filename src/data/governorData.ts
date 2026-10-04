@@ -7,9 +7,13 @@ export interface SourceLink {
   url: string;
 }
 
-export interface Priority {
+/** One dated line of the tenure record; `sourceUrls` point into `sources`. */
+export interface RecordEntry {
+  /** Display date, as precise as the source allows. */
+  date: string;
   title: string;
-  description: string;
+  text: string;
+  sourceUrls: string[];
 }
 
 export interface GovernorData {
@@ -23,12 +27,10 @@ export interface GovernorData {
   biography: {
     summary: string;
     career: string[];
-    appointment: string;
   };
-  priorities: {
-    intro: string;
-    items: Priority[];
-  };
+  /** Oldest first. */
+  record: RecordEntry[];
+  recordIntro: string;
   sources: SourceLink[];
   asOf: string;
 }
@@ -50,37 +52,45 @@ export const governorData: GovernorData = {
       "According to Al-Dostor, he has more than 27 years of experience in construction engineering and the management of major national projects.",
       "Held leadership positions at Arab Contractors, including membership of the company's board, and headed its Alexandria sector.",
       "Projects he worked on, as reported by Al-Dostor, include the Julius Nyerere Dam in Tanzania, bridges and tunnels in Alexandria, marine protection works along the Corniche and the construction of Borg El Arab Stadium.",
-      "Sworn in as Governor of Qalyubia before President Abdel Fattah El-Sisi in July 2024.",
-    ],
-    appointment:
-      "He was sworn in as Governor of Alexandria before President Abdel Fattah El-Sisi on 16 February 2026, having previously served as Governor of Qalyubia.",
-  },
-  priorities: {
-    intro:
-      "Reported priorities and activities since he took office, paraphrased from Egyptian news coverage.",
-    items: [
-      {
-        title: "Citizen services",
-        description:
-          "According to Al-Dostor, on taking office he pledged to put serving citizens first and to respond quickly to residents' needs. A week later he inspected the governorate's citizen-service department and an Egypt Services centre.",
-      },
-      {
-        title: "Urgent executive plans",
-        description:
-          "At his first meeting with executive leaders (24 February 2026), Al-Dostor reports that he called for urgent plans on sanitation, street discipline and removing violations, protecting farmland from encroachment, and emergency readiness, together with stepped-up market inspections.",
-      },
-      {
-        title: "Roads and traffic",
-        description:
-          "Al-Dostor reports that he inspected expansion works on the Al-Mandara bridge in February 2026 and directed lighting and resurfacing works there.",
-      },
-      {
-        title: "Cleanliness and waste",
-        description:
-          "According to Al-Ahram Gate (July 2026), he met the Minister of Local Development and Environment to review waste management in Alexandria, which the report says produces about 6,000 tonnes of waste a day.",
-      },
     ],
   },
+  recordIntro:
+    "Dated entries drawn from the sources below. Reported activity is paraphrased from Egyptian news coverage, not from the governorate.",
+  record: [
+    {
+      date: "July 2024",
+      title: "Sworn in as Governor of Qalyubia",
+      text: "Sworn in as Governor of Qalyubia before President Abdel Fattah El-Sisi.",
+      sourceUrls: [
+        "https://arabcont.com/English/Release-2024-2050",
+        "https://egyptianstreets.com/2024/07/04/egypt-announces-new-governors-for-cairo-alexandria-and-other-cities/",
+      ],
+    },
+    {
+      date: "16 February 2026",
+      title: "Sworn in as Governor of Alexandria",
+      text: "He was sworn in as Governor of Alexandria before President Abdel Fattah El-Sisi, having previously served as Governor of Qalyubia. According to Al-Dostor, on taking office he pledged to put serving citizens first and to respond quickly to residents' needs.",
+      sourceUrls: ["https://www.dostor.org/5422366"],
+    },
+    {
+      date: "23 February 2026",
+      title: "Citizen services",
+      text: "A week after taking office he inspected the governorate's citizen-service department and an Egypt Services centre.",
+      sourceUrls: ["https://www.dostor.org/5431175"],
+    },
+    {
+      date: "24 February 2026",
+      title: "Urgent executive plans",
+      text: "At his first meeting with executive leaders, Al-Dostor reports that he called for urgent plans on sanitation, street discipline and removing violations, protecting farmland from encroachment, and emergency readiness, together with stepped-up market inspections.",
+      sourceUrls: ["https://www.dostor.org/5432121"],
+    },
+    {
+      date: "July 2026",
+      title: "Cleanliness and waste",
+      text: "According to Al-Ahram Gate, he met the Minister of Local Development and Environment to review waste management in Alexandria, which the report says produces about 6,000 tonnes of waste a day.",
+      sourceUrls: ["https://gate.ahram.org.eg/News/5769800.aspx"],
+    },
+  ],
   sources: [
     {
       label: "Al-Dostor: new governor's first statement (16 Feb 2026, Arabic)",

@@ -196,6 +196,7 @@ export const investData = {
   opportunities: [
     {
       title: "Utilization of Kuta Land",
+      image: "/images/kuta-land-hotel-concept.jpg",
       location: "Central District (near Bibliotheca Alexandrina)",
       area: "16,800 m2",
       purpose: "7-star tourist hotel",
@@ -203,6 +204,7 @@ export const investData = {
     },
     {
       title: "Establishment of a Recreational or Medical City",
+      image: "/images/recreational-medical-city-concept.jpg",
       location: "Behind Carrefour",
       area: "350 acres",
       purpose: "Full leisure range or specialized medical city",
@@ -217,6 +219,7 @@ export const investData = {
     },
     {
       title: "International Maritime Rowing Stream",
+      image: "/images/rowing-stream-concept.jpg",
       location: "Near the former Al Nozha Airport",
       length: "2300 m",
       purpose: "Tourist sports recreational project",

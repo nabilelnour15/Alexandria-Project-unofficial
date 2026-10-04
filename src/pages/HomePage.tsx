@@ -4,6 +4,7 @@ import About from '../sections/About';
 import Visit from '../sections/Visit';
 import GovernorSection from '../sections/GovernorSection';
 import Invest from '../sections/Invest';
+import Services from '../sections/Services';
 import CTA from '../sections/CTA';
 import PageMeta from '../components/PageMeta';
 
@@ -14,8 +15,9 @@ export default function HomePage() {
             <Hero />
             <About isTeaser />
             <Visit isTeaser />
+            <Services isTeaser />
             <GovernorSection />
-            <Invest isTeaser />
+            <Invest />
             <ProjectsHero />
             <CTA />
         </div>

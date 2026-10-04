@@ -13,15 +13,9 @@ export default function ProjectsPage() {
         description="Major infrastructure and development projects in Alexandria, with status, budgets, timelines and how they align with Egypt Vision 2030."
       />
       <ProjectsHero headingLevel={1} />
-
-      <div id="explore-projects">
-        <ProjectList />
-      </div>
-
+      <ProjectList />
       <Vision2030Section />
-
       <FactsNote />
-
       <CTA />
     </div>
   );

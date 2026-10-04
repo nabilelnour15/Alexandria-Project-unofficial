@@ -43,6 +43,8 @@ export const climateData = {
   highs: [18, 19, 21, 24, 27, 29, 31, 31, 30, 28, 24, 20],
   lows: [10, 10, 12, 14, 18, 22, 24, 24, 23, 19, 15, 11],
   precipitation: [53, 35, 13, 2.6, 1, 0, 0, 0, 0.8, 8.3, 37, 53],
+  /** Months the description below recommends (spring and autumn). */
+  bestMonths: ['Mar', 'Apr', 'May', 'Jun', 'Sep', 'Oct', 'Nov'],
   seaTemp: [18, 17, 17, 18, 20, 23, 25, 26, 26, 25, 22, 20],
   description: "Alexandria has a hot desert climate (BWh), but highly influenced by sea breeze. Summers are sunny, hot (avg 31°C), and humid, though evenings are breezy. Winters are mild (lows ~10-12°C) with occasional rain. Best time to visit is spring (March–June) and autumn (September–November)."
 };
@@ -261,6 +263,12 @@ export const activitiesData = [
     items: ['Workstation (Smouha)', 'Mind Yard (Coworking)', 'Espresso Lab (Cafe/Work)', 'Natural gas sector', 'International schools'],
   }
 ];
+
+export const diningTiers = [
+  { key: 'budget', label: 'Budget' },
+  { key: 'midRange', label: 'Mid-range' },
+  { key: 'splurge', label: 'Splurge' },
+] as const;
 
 export const diningData = {
   budget: [

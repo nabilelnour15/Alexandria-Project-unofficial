@@ -120,7 +120,8 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 - [x] Governor content now covers Eng. Ayman Mohamed Ibrahim Attia (since 16 Feb 2026), with a sources list. Portrait placeholder until an official photo is added (see `docs/image-prompts.md` §5).
 - [x] Footer: "Project on GitHub" and "Report an inaccuracy" (GitHub issues) links, plus "Facts last reviewed".
 - [x] Recharts split into a lazy `ClimateChart` chunk. The main bundle went from 1,003 kB to about 445 kB.
-- [ ] 🟠 Add `public/images/og-image.jpg` (prompt in `docs/image-prompts.md`). `index.html` already references it.
+- [x] 🟠 Add `public/images/og-image.jpg` (prompt in `docs/image-prompts.md`). `index.html` already references it. Done Oct 2026 with a real CC0 Wikimedia photo of Qaitbay at night (credit in `docs/image-credits.md`). It can be swapped for the AI version later.
+  - [ ] Replace the placeholder domain `alexandria-unofficial.example` in the `og:image`, `og:url` and `twitter:image` tags in `index.html` once the site has its real URL.
 - [ ] 🟡 Spot-check the Arabic-source governor facts (Al-Dostor, Al-Ahram) against the original articles.
 - [x] Wall-of-scripts script set confirmed by the owner (no Hebrew; "EGYPT" added).
 
@@ -136,6 +137,83 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 - [ ] Footer links that jump to page sections (`/visit#transport`), with scrolling to those sections in `ScrollToTop`.
 - [ ] Ctrl+K site search (`cmdk` is already installed).
 - [ ] Calls to action that fit each page.
+
+### "Live here" page (`/live`): services guide, community, getting around
+Residents' page alongside Visit (visitors) and Invest (business). Ideas taken from `alexandria-web-oasis`, rebuilt to fit the trust rules: we point people to the real provider and never do the transaction ourselves. One nav item, with shadcn `Tabs`: Services · Community · Getting around.
+
+**Not doing (from Oasis):** fake "Apply now" or pay-bill flows, usage percentages and popularity stars, dead "Report an issue" buttons, suggestion votes, public-meeting sign-ups. Votes, comments and sign-ups would need a backend with auth, moderation and a privacy policy.
+
+**Rule clarified (owner, Oct 2026):** linking *out* to an official portal as the place to go is fine. Showing government contact details as if they were the site's own is still banned.
+
+- [ ] 🟠 Research and verify the content. This is most of the work. Check each link against the real provider and give it an `asOf`. Leave out any link we can't verify, the same rule as `unsourcedFigures`.
+  - **Round 1 done (Oct 2026):**
+    - 5 Sonnet research agents, then 24 claims re-checked by Haiku.
+    - Data files now hold 14 services, 2 places and 4 recurring events, each labelled `Official` or `Reported`.
+    - Fire is settled as **180**, from the Ministry of Interior page. 125 is the water hotline.
+  - **Round 2 to-do:**
+    - Official sources for ambulance 123 and the Ministry of Health hotline (105 or 15335; sources conflict).
+    - Pages that need a browser (JavaScript only or certificate errors):
+      - Digital Egypt service list
+      - Telecom Egypt `my.te.eg`
+      - Tax Authority e-invoicing
+      - Alexandria Chamber of Commerce
+      - Universal Health Insurance in Alexandria
+    - Tram and buses: there's no official transport authority site. `alexapta.org` says it is **not official**, so never link it.
+    - Places with no 2026 evidence: Jesuit Cultural Centre, Goethe-Institut, Gudran/Wekalet Behna, Resala, Red Crescent.
+    - Not found at all: Institut français, Cervantes, makerspaces, public libraries.
+    - Events with no organiser-published dates yet: the two film festivals. No current editions found for the marathon, the Biennale or the Song Festival.
+    - Electricity via Fawry: the only source is from 2020, so it's left out until the provider's own page confirms it.
+- [x] 🟠 `src/data/servicesData.ts`: `ServiceLink` with `title`, `titleAr`, `category`, `provider`, `channel` (online / in-person / phone), `url`, optional `howTo` steps and `asOf`.
+  - No fees, processing times or popularity unless the provider publishes them, and then only through `factId` and a `SourceChip`.
+  - Emergency numbers (police, ambulance, fire), each with a source.
+  - "Report a problem" links to the real complaints channel and says plainly that we can't pass reports on.
+- [x] 🟠 `src/data/communityData.ts`:
+  - Places and organisations: cultural centres, libraries, volunteering groups, makerspaces.
+  - Recurring events with a *typical month* and the organiser's link. Exact dates only when the organiser has published them. Hide past events at render time.
+- [x] 🟠 `sections/Services.tsx` (with `isTeaser`: emergency numbers on the home page) and `sections/Community.tsx`.
+  - Category filter chips plus a text filter, with the selection kept in the URL (`?cat=utilities`).
+  - Cards show the provider, a channel badge, `ExternalLink` with "Opens [provider]'s site", and "Checked <month>".
+- [x] 🟠 `pages/LivePage.tsx`: lazy route, `PageMeta`, one `h1`, a navbar item and footer links. Add a home-page teaser. The tab is kept in the URL (`?tab=`).
+  - [ ] Browser QA at phone width. Window resizing didn't work during the Oct 2026 check, so only desktop was seen.
+- [x] 🟡 "Suggest a place or event": a GitHub issue form (`.github/ISSUE_TEMPLATE/suggest-listing.yml`) linked the same way as "Report an inaccuracy" in `lib/factFormat.ts`. The owner reviews suggestions and adds them to the data file.
+  - **Decide:** GitHub needs an account. If that's too much of a barrier, use a Tally or Google Form and add a privacy note.
+- [ ] 🟡 `scripts/check-links.mjs`: a manual check that every outbound `url` still resolves. Run it at each "Last reviewed".
+- [ ] 🟡 Getting around: live traffic, see the section below.
+
+### Live traffic ("Getting around" tab on `/live`)
+There's no open government traffic API for Alexandria, and Waze only shares data with partner cities.
+
+- [x] 🟠 **Step 1 (no key, no cost):** done as `sections/GettingAround.tsx`: Google Maps traffic layer and Waze links centred on the city, plus tram and metro facts.
+  - "Check live traffic" deep links to Google Maps and Waze for key corridors (Corniche, Mahmoudeya axis, desert road entrance).
+  - A short transport section that reuses the sourced tram and metro facts from `facts.ts`.
+- [ ] 🟡 **Step 2:** a live map using TomTom raster tiles: Map Display as the base and Traffic Flow on top. Free tier: 200K tiles a month for each.
+  - Use Leaflet (light, about 40 kB gzipped). Lazy-load it like `ClimateChart` so the entry chunk stays clean.
+  - Show the map only after a "Load live map" click, which saves quota and doesn't block first paint.
+  - Mark it as live with a tram-yellow "Live" pill. Credit "Traffic data © TomTom" and add "Not an official source".
+  - Restrict the API key to the site's domain (`VITE_TOMTOM_KEY`). If tiles fail or the quota runs out, fall back to the Step 1 links.
+  - **Check first:** TomTom's terms on mixing with other base maps, key referrer restrictions, and how good Alexandria's flow coverage is (try the evaluation account).
+- [ ] 🟢 TomTom Traffic Index figures for Alexandria (congestion level, time per 10 km) in `facts.ts` with `asOf`, shown as context next to the map.
+- [ ] 🟢 Later: the DT4A / Transport for Cairo Alexandria GTFS (mapped 2022, 104 routes) for a static routes layer. Check the licence first. Possible overlap with the Phase 3 layered city map.
+
+### Page redesigns (Oct 2026)
+Done with the design skills (frontend-design, make-interfaces-feel-better, react-patterns): one signature element per page, editorial structure instead of the card kit, and no framer-motion on these pages.
+- [x] About: a type-led hero with the city's names, and a chronicle with sticky years. The four dish images are now AI concept images, replacing hotlinked food photos.
+- [x] Visit: a month-by-month climate table, with the recharts chart loading only when you click for it.
+- [x] Invest: a "trade ledger" hero and a "Where to look next" section linking to GAFI.
+- [x] Live here: emergency numbers as large type, with directory rows below.
+- [x] Projects: a stage ledger with status filters and a "who is paying" view.
+- [x] Governance: a dated record in office, each entry with its source (6 of 7 claims checked by the claim-verifier).
+- [ ] 🟠 Browser QA at phone width for all six pages. Window resizing didn't work in this session.
+- [ ] 🟡 Governance: the Al-Mandara bridge entry was removed because no source covers it. Add it back only with a link.
+- [ ] 🟡 Governance portrait: Wikimedia Commons has nothing. Ask the governorate's media office for permission to use an official photo (with credit). Never use an AI likeness.
+- [ ] 🟡 Electric Bus project: replace the hotlinked dailynewsegypt.com photo with a freely licensed one.
+- [ ] 🟡 Visit climate: the figures cite "WMO" but have no `factId`, so they need a `facts.ts` entry. The same goes for the Invest figures with no `factId` (162.1k acres, the 1.96 coefficient, the 1.7M t sand reserve).
+- [ ] 🟡 Invest: the stock images (`invest-*.jpg`, `white_sand.jpg`, `sodium_chloride.jpg`, `law_invest.jpg`) have no known source. Check whether they're licensed or AI. `invest-power.jpg`, which shows identifiable officials, is no longer used.
+- [ ] 🟢 About: the Great Library image is a painting of unknown origin. It's captioned "Artistic reconstruction" for now; find its source.
+- [ ] 🟢 Projects: "committed vs identified vs unfunded" needs sourced `facts.ts` entries before it can be built.
+- [ ] 🟢 Deep links like `/about#explore` open at the wrong spot, because the route is lazy-loaded (see the ScrollToTop item above).
+- [ ] 🟢 Dead code: `SectionTitle.tsx`, and `PlaceholderImage` (used only inside the commented-out Invest opportunities).
+- [ ] 🟢 Live here: a native speaker should check the Arabic hero line «الحياة في الإسكندرية».
 
 ## Phase 3: later
 - [ ] Layered city map: ancient coastline, today's Corniche and planned routes, with "indicative location" labels.

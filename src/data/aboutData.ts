@@ -1,4 +1,3 @@
-import { Globe, Landmark, Building2 } from "lucide-react";
 import { facts, type FactId } from "./facts";
 
 // Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
@@ -181,75 +180,6 @@ export const timelineEvents: TimelineEvent[] = [
   },
 ];
 
-export const civilizationalLayers = [
-  {
-    period: "Foundation and the Hellenistic city",
-    dates: "331–30 BCE",
-    details: [
-      {
-        subtitle: "Alexander's choice of site",
-        content:
-          "Inspired by a dream of Homer, suggesting the location for one of antiquity's greatest cities.",
-      },
-      {
-        subtitle: "Ptolemaic patronage",
-        content:
-          "Preeminent center of learning with 400k-700k scrolls and the Pharos Lighthouse.",
-      },
-      {
-        subtitle: "A mixed population",
-        content:
-          "A large, mixed population of Greeks, Egyptians, Jews, Syrians, and Romans.",
-      },
-    ],
-    icon: Globe,
-  },
-  {
-    period: "Roman Egypt and Late Antiquity",
-    dates: "30 BCE–641 CE",
-    details: [
-      {
-        subtitle: "Roman annexation",
-        content:
-          "Imperial province capital and the Mediterranean's premier commercial port.",
-      },
-      {
-        subtitle: "An early Christian centre",
-        content:
-          "One of five patriarchates; Catechetical School developed innovative biblical interpretations.",
-      },
-      {
-        subtitle: "Theological disputes",
-        content:
-          "Controversies that shaped global Christianity; the death of Hypatia in 415 CE.",
-      },
-    ],
-    icon: Landmark,
-  },
-  {
-    period: "From the Arab conquest to today",
-    dates: "641 CE – Present",
-    details: [
-      {
-        subtitle: "Mamluk fortification",
-        content:
-          "The Citadel of Qaitbay (1477–1479) was built on the site of the fallen Lighthouse.",
-      },
-      {
-        subtitle: "European influence",
-        content:
-          "Belle époque architecture and a large cosmopolitan foreign community.",
-      },
-      {
-        subtitle: "Recent revival",
-        content:
-          "Bibliotheca Alexandrina (2002) and the 2025 Mediterranean Capital of Culture designation.",
-      },
-    ],
-    icon: Building2,
-  },
-];
-
 export const summaryData = {
   title: "Twenty-three centuries on the coast",
   description:
@@ -406,6 +336,7 @@ export const culture2025 = {
   ],
 };
 
+// Dish images are AI-generated illustrations (owner's Gemini batch, Oct 2026); show ConceptBadge.
 export const culinaryTraditions = {
   seafood:
     "Daily catch from the Mediterranean and Lake Mariout combines Egyptian, Greek, and Levantine techniques.",
@@ -413,25 +344,22 @@ export const culinaryTraditions = {
     {
       name: "Sayadieh",
       desc: "Spiced rice with caramelized onions and fish.",
-      image:
-        "https://asif.org/wp-content/uploads/2021/05/Jaffa-9-1-1024x731.jpg",
+      image: "/images/sayadieh-concept.jpg",
     },
     {
       name: "Shrimp tagine",
       desc: "Shrimp in herb-infused tomato sauce.",
-      image:
-        "https://cairoscene.com/Content/Admin/Uploads/Articles/ArticlesMainPhoto/1128523/aaedd28e-0360-4c19-b47c-9d99469632e2.jpg",
+      image: "/images/shrimp-tagine-concept.jpg",
     },
     {
       name: "Grilled mullet (bouri)",
       desc: "Simply grilled whole fish with lemon.",
-      image: "https://slowmed.eu/media/Grilled-Mullet.jpg",
+      image: "/images/grilled-mullet-concept.jpg",
     },
     {
       name: "Grilled calamari",
       desc: "Grilled squid with garlic and herbs.",
-      image:
-        "https://greekislandstaverna.com/wp-content/uploads/2025/09/fried-squid-rings-breaded-with-lemon-on-a-plate-2025-01-09-05-13-04-utc-1-scaled-1.jpg",
+      image: "/images/grilled-calamari-concept.jpg",
     },
   ],
 };
