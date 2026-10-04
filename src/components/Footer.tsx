@@ -18,6 +18,7 @@ const footerLinks = {
   ],
   visit: [
     { name: 'Plan your trip', href: '/visit' },
+    { name: 'Living in Alexandria', href: '/live' },
   ],
   business: [
     { name: 'Invest in Alexandria', href: '/invest' },

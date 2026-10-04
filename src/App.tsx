@@ -8,6 +8,7 @@ const InvestPage = lazy(() => import('./pages/InvestPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const GovernorPage = lazy(() => import('./pages/GovernorPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
+const LivePage = lazy(() => import('./pages/LivePage'));
 const ExperiencePage = lazy(() => import('./pages/ExperiencePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -18,6 +19,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/visit" element={<VisitPage />} />
+          <Route path="/live" element={<LivePage />} />
           <Route path="/invest" element={<InvestPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/governor" element={<GovernorPage />} />

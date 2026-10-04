@@ -24,3 +24,9 @@ export const LAST_REVIEWED_LABEL = formatFactDate(LAST_REVIEWED);
 
 export const REPORT_ISSUE_URL =
   'https://github.com/nabilelnour15/Alexandria-Project-unofficial/issues/new';
+
+/** Opens the "Suggest a place or event" issue form (.github/ISSUE_TEMPLATE/suggest-listing.yml). */
+export const SUGGEST_LISTING_URL = `${REPORT_ISSUE_URL}?template=suggest-listing.yml`;
+
+/** Month number (1–12) to its English name. */
+export const monthName = (month: number): string => MONTHS[month - 1] ?? '';
