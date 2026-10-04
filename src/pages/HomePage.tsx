@@ -12,13 +12,14 @@ export default function HomePage() {
     return (
         <div className="bg-white">
             <PageMeta description="An unofficial fan guide to Alexandria, Egypt: 2,300 years of history, places to visit, city projects and investment opportunities on the Mediterranean." />
+            {/* Sequence follows the hero index. Backgrounds: dark photo, white, wash, white, ink, wash, white, papyrus. */}
             <Hero />
             <About isTeaser />
             <Visit isTeaser />
             <Services isTeaser />
-            <GovernorSection />
             <Invest />
             <ProjectsHero />
+            <GovernorSection />
             <CTA />
         </div>
     );

@@ -22,7 +22,7 @@ export default function ProjectsHero({
   return (
     <section
       aria-labelledby="projects-hero-title"
-      className={isPage ? 'bg-limestone-wash pb-20 pt-32 md:pb-28 md:pt-40' : 'bg-white py-24 md:py-32'}
+      className={isPage ? 'bg-limestone-wash pb-20 pt-32 md:pb-28 md:pt-40' : 'bg-limestone-wash py-24 md:py-32'}
     >
       <div className="alex-container grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-7">

@@ -14,7 +14,7 @@ const isCategory = (value: string | null): value is ServiceCategory =>
 function ServicesTeaser() {
   const emergency = services.filter((s) => s.category === 'emergency');
   return (
-    <section className="alex-section bg-limestone-wash">
+    <section className="alex-section bg-white">
       <div className="alex-container">
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">

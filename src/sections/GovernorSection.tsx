@@ -5,7 +5,7 @@ import PortraitPlaceholder from '../components/PortraitPlaceholder';
 /** Home-page teaser for the /governor page. */
 export default function GovernorSection() {
   return (
-    <section aria-labelledby="governor-teaser-title" className="bg-white py-24">
+    <section aria-labelledby="governor-teaser-title" className="bg-white alex-section">
       <div className="alex-container grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
         <div>
           <p className="font-display text-xl text-sea">{governorData.title}</p>

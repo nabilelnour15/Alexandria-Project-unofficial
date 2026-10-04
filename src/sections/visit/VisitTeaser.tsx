@@ -5,7 +5,7 @@ import { attractionCategories } from '@/data/visitData';
 export default function VisitTeaser() {
   const items = attractionCategories.find((c) => c.id === 'historical')?.items.slice(0, 3) ?? [];
   return (
-    <section className="alex-section bg-white">
+    <section className="alex-section bg-limestone-wash">
       <div className="alex-container">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
