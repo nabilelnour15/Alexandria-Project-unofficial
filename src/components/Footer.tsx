@@ -15,6 +15,7 @@ const footerLinks = {
     { name: 'About Alexandria', href: '/about' },
     { name: 'The governor', href: '/governor' },
     { name: 'City projects', href: '/projects' },
+    { name: 'City briefing', href: '/news' },
   ],
   visit: [
     { name: 'Plan your trip', href: '/visit' },

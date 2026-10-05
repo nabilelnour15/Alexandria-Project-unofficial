@@ -106,7 +106,7 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 - [x] 🟡 Add a `SourceChip` component and a "Concept" badge for renders.
 - [x] 🟡 Add "Last reviewed" and "Report an inaccuracy" to the footer and the article pages.
 - [x] 🟡 Disclaimer: retitle it "Unofficial fan site", show the full dialog on the first visit, then a slim banner after that.
-- [x] 🟠 **Decide:** label the news as "Illustrative sample", or replace it with real linked news. → **Decided: news section removed** until there is real content.
+- [x] 🟠 **Decide:** label the news as "Illustrative sample", or replace it with real linked news. → **Decided: news section removed** until there is real content. → **Done (2026-10):** back as `/news` "City briefing": real reports only, summarised in our words and linked to the outlet (`newsData.ts`, each claim re-verified).
 - [x] 🟠 Remaining inconsistencies found in review:
   - Population "nearly 7 million" (`InvestPage.tsx:~386`)
   - "Roads Built 200km" vs "rehabilitated" (`governorData.ts:~144`)
@@ -219,7 +219,8 @@ Done with the design skills (frontend-design, make-interfaces-feel-better, react
 - [ ] Layered city map: ancient coastline, today's Corniche and planned routes, with "indicative location" labels.
 - [ ] Full Arabic with right-to-left layout (i18n, `dir="rtl"`, logical spacing utilities).
 - [ ] Rising-sea climate story, only with IPCC AR6 sources.
-- [ ] News search, category filters and sort, kept in the URL, once the news is real.
+- [x] News topic filter kept in the URL (`/news?topic=`). Search and sort can wait until there are more items.
+- [ ] News: refresh `newsData.ts` monthly (source-researcher → claim-verifier). Optional home teaser of the latest 3.
 - [ ] Practical visitor info (hours, tickets, transport) with "data as of" dates.
 - [ ] "Then / now / 2030" photos with credits and "Concept" badges.
 - [ ] Cavafy lines between sections (Greek plus your own or a public-domain translation).

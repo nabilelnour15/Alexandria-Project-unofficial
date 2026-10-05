@@ -9,6 +9,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const GovernorPage = lazy(() => import('./pages/GovernorPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const LivePage = lazy(() => import('./pages/LivePage'));
+const NewsPage = lazy(() => import('./pages/NewsPage'));
 const ExperiencePage = lazy(() => import('./pages/ExperiencePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/visit" element={<VisitPage />} />
           <Route path="/live" element={<LivePage />} />
+          <Route path="/news" element={<NewsPage />} />
           <Route path="/invest" element={<InvestPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/governor" element={<GovernorPage />} />
