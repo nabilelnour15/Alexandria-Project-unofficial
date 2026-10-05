@@ -1,17 +1,9 @@
-import { useState, useEffect, type ReactNode } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect, lazy, Suspense, type ReactNode } from 'react';
+import { Menu, Search, X } from 'lucide-react';
+import { navLinks } from '@/lib/navLinks';
 import { Link, useLocation } from 'react-router-dom';
 
-const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Governance', href: '/governor' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'News', href: '/news' },
-  { name: 'About', href: '/about' },
-  { name: 'Visit', href: '/visit' },
-  { name: 'Live here', href: '/live' },
-  { name: 'Invest', href: '/invest' },
-];
+const SiteSearch = lazy(() => import('./SiteSearch'));
 
 export default function Navbar({
   isInternal = false,
@@ -24,6 +16,34 @@ export default function Navbar({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const [searchOpen, setSearchOpen] = useState(false);
+  // Mount the search chunk the first time it is opened, then keep it mounted.
+  const [searchLoaded, setSearchLoaded] = useState(false);
+  const openSearch = () => {
+    setSearchLoaded(true);
+    setSearchOpen(true);
+  };
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const k = event.key.toLowerCase();
+      if (k === 'k' && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setSearchLoaded(true);
+        setSearchOpen((o) => !o);
+        return;
+      }
+      if (k === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        const el = event.target as HTMLElement | null;
+        if (el && (el.isContentEditable || /^(input|textarea|select)$/i.test(el.tagName))) return;
+        event.preventDefault();
+        setSearchLoaded(true);
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const [menuPath, setMenuPath] = useState(location.pathname);
 
   // Close the mobile menu whenever the route changes
@@ -130,6 +150,19 @@ export default function Navbar({
 
             {/* Right Actions */}
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={openSearch}
+                aria-label="Search the site"
+                aria-keyshortcuts="Control+K Meta+K"
+                className={`hidden lg:flex p-2 rounded-lg items-center gap-2 transition-colors duration-300 ${isScrolled || isInternal
+                  ? 'text-ink hover:bg-limestone/60'
+                  : 'text-white hover:bg-white/10'
+                  }`}
+              >
+                <Search className="w-5 h-5" aria-hidden="true" />
+                <kbd className="text-xs font-sans opacity-70" aria-hidden="true">⌘K</kbd>
+              </button>
               {/* Mobile Menu Button */}
               <button
                 type="button"
@@ -163,6 +196,18 @@ export default function Navbar({
         >
           <div className="alex-container py-4">
             <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  openSearch();
+                }}
+                aria-label="Search the site"
+                className="flex items-center gap-2 px-4 py-3 text-left font-medium text-ink rounded-lg hover:bg-sea-mist hover:text-sea transition-colors duration-200"
+              >
+                <Search className="w-5 h-5" aria-hidden="true" />
+                Search
+              </button>
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -181,6 +226,11 @@ export default function Navbar({
           </div>
         </div>
       </nav>
+      {searchLoaded && (
+        <Suspense fallback={null}>
+          <SiteSearch open={searchOpen} onOpenChange={setSearchOpen} />
+        </Suspense>
+      )}
     </>
   );
 }
