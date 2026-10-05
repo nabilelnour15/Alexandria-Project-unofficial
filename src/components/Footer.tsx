@@ -19,10 +19,17 @@ const footerLinks = {
   ],
   visit: [
     { name: 'Plan your trip', href: '/visit' },
+    { name: 'Getting around', href: '/visit#transport' },
+    { name: 'What to see', href: '/visit#see' },
+    { name: 'When to go', href: '/visit#when' },
     { name: 'Living in Alexandria', href: '/live' },
   ],
   business: [
     { name: 'Invest in Alexandria', href: '/invest' },
+    { name: 'Sectors, zones and laws', href: '/invest#investment-zones' },
+    { name: 'Companies already here', href: '/invest#companies' },
+    { name: 'Project list', href: '/projects#projects' },
+    { name: 'Project status', href: '/projects#ledger' },
   ],
 };
 

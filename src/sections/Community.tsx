@@ -76,7 +76,7 @@ export default function Community() {
 
   return (
     <div className="space-y-20">
-      <section aria-labelledby="community-places">
+      <section id="places" aria-labelledby="community-places" className="scroll-mt-28">
         <h2 id="community-places" className="text-ink">
           Places and organisations
         </h2>
@@ -109,7 +109,7 @@ export default function Community() {
         </ul>
       </section>
 
-      <section aria-labelledby="community-events">
+      <section id="events" aria-labelledby="community-events" className="scroll-mt-28">
         <h2 id="community-events" className="text-ink">
           Through the year
         </h2>

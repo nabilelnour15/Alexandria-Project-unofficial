@@ -92,7 +92,7 @@ export default function Services({ isTeaser = false }: { isTeaser?: boolean }) {
   return (
     <div>
       {emergency.length > 0 && (
-        <section aria-labelledby="emergency-numbers" className="mb-12 bg-limestone-wash px-6 py-10 md:px-10">
+        <section id="emergency" aria-labelledby="emergency-numbers" className="scroll-mt-28 mb-12 bg-limestone-wash px-6 py-10 md:px-10">
           <h3 id="emergency-numbers" className="text-ink">
             Emergency numbers
           </h3>
