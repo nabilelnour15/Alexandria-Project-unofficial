@@ -1,4 +1,5 @@
 import type { FactId } from "./facts";
+import type { ImageCredit } from "./imageCredit";
 
 // Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
 // They are typed as FactId, so a typo fails to compile.
@@ -9,6 +10,7 @@ export interface Port {
   factId?: FactId;
   link?: string;
   image: string;
+  credit?: ImageCredit;
 }
 
 export interface InvestmentDriver {
@@ -19,6 +21,7 @@ export interface InvestmentDriver {
   types?: string[];
   intensification?: string;
   image: string;
+  credit?: ImageCredit;
 }
 
 const freeZoneFactId: FactId = "freeZoneArea";
@@ -84,7 +87,13 @@ export const investData = {
         "Production of silica firebricks",
         "Manufacture of silicon carbide",
       ],
-      image: "/images/white_sand.jpg",
+      image: "/images/white-sand-mediterranean-coast.jpg",
+      credit: {
+        author: "Fayza",
+        license: "CC BY-SA 3.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+        source: "https://commons.wikimedia.org/wiki/File:Marsa_Matrouh_city_in_Egypt_on_the_northern_coast_of_the_Mediterranean_10.JPG",
+      },
     },
     {
       name: "Sodium Chloride",
@@ -93,7 +102,13 @@ export const investData = {
       description:
         "Extracted from sea water via solar evaporation or vacuum evaporation.",
       uses: "Production of caustic soda and chlorine, used in the salt industry.",
-      image: "/images/sodium_chloride.jpg",
+      image: "/images/salt-works-lake-mariout.jpg",
+      credit: {
+        author: "TheEgyptian (English Wikipedia)",
+        license: "CC BY-SA 3.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+        source: "https://commons.wikimedia.org/wiki/File:Salt_refining-Lake_Mariout.JPG",
+      },
     },
   ],
   ports: [
@@ -128,7 +143,13 @@ export const investData = {
         "Cement",
         "Oil",
       ],
-      image: "/images/invest-industrial.jpg",
+      image: "/images/alexandria-port-cranes.jpg",
+      credit: {
+        author: "Abdelrhman 1990",
+        license: "CC BY-SA 4.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+        source: "https://commons.wikimedia.org/wiki/File:Alexandria_Port.jpg",
+      },
     },
     {
       title: "Tourism Investment",
@@ -143,13 +164,25 @@ export const investData = {
         "Festivals",
         "Conferences",
       ],
-      image: "/images/invest-tourism.jpg",
+      image: "/images/stanley-bridge-alexandria-2019.jpg",
+      credit: {
+        author: "Шухрат Саъдиев (Shukhrat Sadiev)",
+        license: "CC BY-SA 4.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+        source: "https://commons.wikimedia.org/wiki/File:Stanley_Bridge,_Alexandria,_Jan._2019-1.jpg",
+      },
     },
     {
       title: "Agricultural Investment",
       description:
         "Farming around Alexandria depends on the Mahmoudiyah Canal and, on the north-west coast, on rainfall.",
-      image: "/images/invest-agriculture.jpg",
+      image: "/images/egypt-farmland-green.jpg",
+      credit: {
+        author: "Amr F.Nagy",
+        license: "CC0",
+        licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        source: "https://commons.wikimedia.org/wiki/File:Egyptian_countryside_full_green.jpg",
+      },
     },
   ] satisfies InvestmentDriver[],
   investmentZones: {

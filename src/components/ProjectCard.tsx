@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { statusLabels, type Project } from '../data/projectsData';
 import SourceChip from './SourceChip';
 import ConceptBadge from './ConceptBadge';
+import PhotoCredit from './PhotoCredit';
 import {
   Dialog,
   DialogClose,
@@ -31,15 +32,18 @@ export function ProjectFigure({
     );
   }
   return (
-    <div className={`relative ${className}`}>
-      <img
-        src={project.image}
-        alt={project.imagePlaceholder}
-        loading="lazy"
-        decoding="async"
-        className="h-full w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-black/10"
-      />
-      {project.isConcept && <ConceptBadge className="absolute bottom-2 left-2" />}
+    <div>
+      <div className={`relative ${className}`}>
+        <img
+          src={project.image}
+          alt={project.imagePlaceholder}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-black/10"
+        />
+        {project.isConcept && <ConceptBadge className="absolute bottom-2 left-2" />}
+      </div>
+      <PhotoCredit credit={project.credit} className="mt-1.5" />
     </div>
   );
 }

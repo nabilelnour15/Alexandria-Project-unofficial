@@ -1,4 +1,5 @@
 import type { FactId } from "./facts";
+import type { ImageCredit } from "./imageCredit";
 
 // Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
 export interface HeroStat {
@@ -38,6 +39,8 @@ export interface Project {
   }[];
   readonly imagePlaceholder: string;
   readonly image?: string;
+  /** Photo credit for `image`, shown under it. */
+  readonly credit?: ImageCredit;
   /** True when `image` is an AI-generated concept illustration (shows a label on the card). */
   readonly isConcept?: boolean;
   readonly quote?: string;
@@ -209,7 +212,13 @@ export const projectsData = {
       financialFramework: [],
       vision2030Pillars: ["Sustainable transport", "Technology demonstration"],
       imagePlaceholder: "Electric bus fleet",
-      image: "https://images.dailynewsegypt.com/2019/01/electric-bus.jpg",
+      image: "/images/electric-bus-alexandria.jpg",
+      credit: {
+        author: "Abdelrhman 1990",
+        license: "CC BY-SA 4.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+        source: "https://commons.wikimedia.org/wiki/File:Alexandria_Electric_bus.jpg",
+      },
     },
     {
       id: "brt-corridors",

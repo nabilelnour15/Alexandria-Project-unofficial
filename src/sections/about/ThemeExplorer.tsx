@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react';
 import ConceptBadge from '@/components/ConceptBadge';
+import PhotoCredit from '@/components/PhotoCredit';
 import SourceChip from '@/components/SourceChip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { FactId } from '@/data/facts';
+import type { ImageCredit } from '@/data/imageCredit';
 import {
   culinaryTraditions,
   culture2025,
@@ -36,6 +38,7 @@ function Entry({
   children,
   concept = false,
   caption,
+  credit,
 }: {
   image: string;
   alt: string;
@@ -43,6 +46,7 @@ function Entry({
   children: ReactNode;
   concept?: boolean;
   caption?: string;
+  credit?: ImageCredit;
 }) {
   return (
     <article className="grid gap-6 border-t border-limestone py-10 first:border-t-0 first:pt-0 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10">
@@ -50,6 +54,7 @@ function Entry({
         <img loading="lazy" decoding="async" src={image} alt={alt} className={`aspect-[4/3] ${imgClass}`} />
         {concept && <ConceptBadge className="absolute bottom-2 left-2" />}
         {caption && <p className="mt-2 text-sm text-ink-soft">{caption}</p>}
+        <PhotoCredit credit={credit} className="mt-1.5" />
       </div>
       <div>
         <h3 className="text-ink">{title}</h3>
@@ -97,7 +102,8 @@ export default function ThemeExplorer() {
                   image={item.image}
                   alt=""
                   title={item.name}
-                  caption={item.image.includes('illustration') ? 'Artistic reconstruction, not a photograph.' : undefined}
+                  caption={item.caption}
+                  credit={item.credit}
                 >
                   <p className="text-ink">{item.desc}</p>
                   <p>

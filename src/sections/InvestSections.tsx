@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { ExternalLink } from 'lucide-react';
+import PhotoCredit from '@/components/PhotoCredit';
 import SourceChip from '@/components/SourceChip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { ImageCredit } from '@/data/imageCredit';
 import { investData } from '@/data/investData';
 
 const TABS = [
@@ -15,10 +17,25 @@ const TABS = [
 const imgClass = 'w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-black/10';
 
 /** Image beside text, separated from the next entry by a hairline. */
-function Entry({ image, alt, title, children }: { image: string; alt: string; title: string; children: ReactNode }) {
+function Entry({
+  image,
+  alt,
+  title,
+  credit,
+  children,
+}: {
+  image: string;
+  alt: string;
+  title: string;
+  credit?: ImageCredit;
+  children: ReactNode;
+}) {
   return (
     <article className="grid gap-6 border-t border-limestone py-10 first:border-t-0 first:pt-0 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10">
-      <img loading="lazy" decoding="async" src={image} alt={alt} className={`aspect-[4/3] ${imgClass}`} />
+      <div>
+        <img loading="lazy" decoding="async" src={image} alt={alt} className={`aspect-[4/3] ${imgClass}`} />
+        <PhotoCredit credit={credit} className="mt-1.5" />
+      </div>
       <div>
         <h3 className="text-ink">{title}</h3>
         <div className="mt-3 max-w-[65ch] space-y-3 text-pretty leading-[1.75] text-ink-soft">{children}</div>
@@ -103,7 +120,7 @@ export default function InvestSections() {
           {investmentDrivers.map((d) => {
             const tags = d.sectors ?? d.types;
             return (
-              <Entry key={d.title} image={d.image} alt="" title={d.title}>
+              <Entry key={d.title} image={d.image} alt="" title={d.title} credit={d.credit}>
                 <p className="text-ink">
                   {d.description}
                   {d.factId && <SourceChip factId={d.factId} className="ml-1 text-ink-soft" />}
@@ -121,7 +138,7 @@ export default function InvestSections() {
 
         <TabsContent value="raw" className="mt-0">
           {rawMaterials.map((mat) => (
-            <Entry key={mat.name} image={mat.image} alt="" title={mat.name}>
+            <Entry key={mat.name} image={mat.image} alt="" title={mat.name} credit={mat.credit}>
               <p className="text-ink">
                 {mat.location}, {mat.region}
               </p>
@@ -147,8 +164,8 @@ export default function InvestSections() {
         </TabsContent>
 
         <TabsContent value="laws" className="mt-0">
-          <div className="grid gap-12 md:grid-cols-12">
-            <div className="md:col-span-7">
+          <div className="max-w-3xl">
+            <div>
               <h3 className="text-ink">Legal protections and incentives</h3>
               <ul className="mt-6">
                 {investmentLaws.provisions.map((law) => (
@@ -166,13 +183,6 @@ export default function InvestSections() {
                 ))}
               </ul>
             </div>
-            <img
-              loading="lazy"
-              decoding="async"
-              src="/images/law_invest.jpg"
-              alt=""
-              className={`aspect-[4/5] md:col-span-5 ${imgClass}`}
-            />
           </div>
         </TabsContent>
       </div>

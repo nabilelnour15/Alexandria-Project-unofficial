@@ -1,4 +1,5 @@
 import { facts, type FactId } from "./facts";
+import type { ImageCredit } from "./imageCredit";
 
 // Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
 export interface FactSpec {
@@ -29,6 +30,9 @@ interface Landmark {
   legacy: string;
   desc: string;
   image: string;
+  /** Caption under the image, e.g. when it is an illustration rather than a photograph. */
+  caption?: string;
+  credit?: ImageCredit;
   factId?: FactId;
 }
 
@@ -212,7 +216,15 @@ export const landmarksData: {
         "Modern Bibliotheca Alexandrina (2002) explicitly revives this heritage, with a design capacity of 8 million volumes.",
       factId: "bibliothecaCapacity",
       desc: "The ancient world's premier center of knowledge, with collections of 400,000 to 700,000 scrolls.",
-      image: "/images/great-library-illustration.jpg",
+      image: "/images/great-library-corven-engraving.jpg",
+      caption:
+        "19th-century engraving by O. Von Corven: an imagined view of the Great Library, not a photograph. Public domain.",
+      credit: {
+        author: "O. Von Corven (19th century)",
+        license: "Public domain",
+        licenseUrl: "https://commons.wikimedia.org/wiki/Template:PD-old",
+        source: "https://commons.wikimedia.org/wiki/File:Ancientlibraryalex.jpg",
+      },
     },
     {
       name: "Lighthouse of Alexandria (Pharos)",
