@@ -93,6 +93,13 @@ A curated ECC set is installed globally. The list is in `~/.claude/ecc-curated.m
 | Too many tools loaded | `context-budget` skill. |
 | Researching content for `src/data` | Project agents in `.claude/agents/`: `source-researcher` (sonnet, medium) finds entries with evidence, one category per agent, run in parallel. Then `claim-verifier` (haiku, low) re-checks each `{claim, url}`. The main session merges the results and asks the owner about every conflict. The researcher reads pages through the NotebookLM MCP (`gemini-notebook-mcp`, local scope, unofficial, `nlm login`), which keeps them out of Claude's context. It falls back to WebFetch when the MCP isn't available. |
 
+## Content bots (GitHub Actions)
+
+- `news-refresh.yml` runs every 3 days and `data-audit.yml` runs every Monday; both can also be started by hand from the Actions tab. Their instructions are in `.github/prompts/`.
+- A read-only job runs `claude-code-action` (Sonnet orchestrating `source-researcher`, `news-writer` and `claim-verifier`) and hands over only a patch limited to `src/data`. `bot-pr.yml` then applies it, builds, lints and opens or updates a PR into `main` (branches `bot/news-refresh` and `bot/data-audit`). Nothing is published without the owner merging.
+- `scripts/check-links.mjs` checks every URL in `src/data` before the audit, so Claude only looks at failures.
+- Setup: the `ANTHROPIC_API_KEY` repository secret, and *Settings → Actions → General → Allow GitHub Actions to create and approve pull requests*. Schedules run only once the workflow files are on `production` (the default branch).
+
 ## Docs
 
 `docs/site-review.md` and `docs/site-review.html` hold the review and the judged ideas. `docs/TODO.md` holds the phased task list. Update TODO.md when you finish items.

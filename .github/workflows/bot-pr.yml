@@ -1,0 +1,135 @@
+# Reusable second stage of the content bots (news-refresh.yml, data-audit.yml).
+# The Claude job runs read-only and hands over a patch; this job checks that the patch
+# only touches allowed data files, applies it, builds and lints the site, then pushes a
+# bot branch and opens (or updates) a pull request into main for the owner to review.
+name: Bot pull request
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: Branch the bot pushes to (bot/news-refresh or bot/data-audit)
+        required: true
+        type: string
+      base_sha:
+        description: Commit the patch was made against
+        required: true
+        type: string
+      branch_sha:
+        description: Remote head of the bot branch when the run started ('' if it didn't exist)
+        required: false
+        type: string
+        default: ''
+      allowed_paths:
+        description: Extended regex every changed path must match
+        required: true
+        type: string
+      title:
+        description: Pull request title
+        required: true
+        type: string
+      label:
+        description: Label added to the pull request
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write # creating the label
+    # No token in the job env: only the steps that push or call gh get one.
+    env:
+      BRANCH: ${{ inputs.branch }}
+      BRANCH_SHA: ${{ inputs.branch_sha }}
+      ALLOWED: ${{ inputs.allowed_paths }}
+      TITLE: ${{ inputs.title }}
+      LABEL: ${{ inputs.label }}
+    steps:
+      - name: Check the branch name
+        run: |
+          [[ "$BRANCH" =~ ^bot/(news-refresh|data-audit)$ ]] || { echo "::error::Unexpected branch '$BRANCH'"; exit 1; }
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.base_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: bot-changes
+          path: ${{ runner.temp }}/bot
+
+      # The patch was built from untrusted work, so check it before touching the tree:
+      # only allowed data files, modified in place, as plain text.
+      - name: Validate the patch
+        run: |
+          patch="$RUNNER_TEMP/bot/changes.patch"
+          if grep -qE '^(GIT binary patch|Binary files|(new|deleted) file mode|old mode|new mode|rename (from|to)|copy (from|to)|similarity index)' "$patch"; then
+            echo "::error::The patch adds, deletes, renames or changes the mode of a file, or contains binary data."
+            exit 1
+          fi
+          git apply --numstat -z "$patch" | tr '\0' '\n' | awk -F'\t' 'NF>=3 {print $3}' > "$RUNNER_TEMP/paths.txt"
+          [ -s "$RUNNER_TEMP/paths.txt" ] || { echo "::error::Empty patch"; exit 1; }
+          if grep -vE "$ALLOWED" "$RUNNER_TEMP/paths.txt"; then
+            echo "::error::The patch touches files outside: $ALLOWED"
+            exit 1
+          fi
+          git apply --check "$patch"
+
+      - name: Apply the patch
+        run: git apply --index "$RUNNER_TEMP/bot/changes.patch"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # package.json and the configs are untouched (checked above), so this runs trusted code.
+      - name: Build and lint the result
+        run: |
+          npm ci
+          npm run build
+          npm run lint
+
+      - name: Commit and push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "$TITLE ($(date -u +%F))"
+          # The lease fails the push if the branch moved since the run started (e.g. someone
+          # pushed to it or it was deleted), instead of overwriting their work.
+          git push --force-with-lease="refs/heads/$BRANCH:$BRANCH_SHA" \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/$BRANCH"
+
+      # The report was written by an agent that read web pages: cap it, defuse @mentions
+      # and issue-closing keywords, and say so at the top.
+      - name: Prepare the report
+        run: |
+          {
+            echo '> [!WARNING]'
+            echo '> Written by a content bot from public web pages. Check each source link before merging.'
+            echo
+            head -c 60000 "$RUNNER_TEMP/bot/bot-report.md" \
+              | sed -E 's/@([A-Za-z0-9_-]+)/@\xE2\x80\x8B\1/g; s/\b(close[sd]?|fix(e[sd])?|resolve[sd]?)( +#)/\1\xE2\x80\x8B\3/Ig'
+          } > "$RUNNER_TEMP/body.md"
+
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "$LABEL" --color C49A3A --description "Opened by a content bot" --force
+          open_pr=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$open_pr" ]; then
+            gh pr create --base main --head "$BRANCH" --title "$TITLE" --body-file "$RUNNER_TEMP/body.md" --label "$LABEL"
+          else
+            gh pr comment "$open_pr" --body-file "$RUNNER_TEMP/body.md"
+          fi

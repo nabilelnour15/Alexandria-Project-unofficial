@@ -109,3 +109,7 @@ dist-ssr
 *.sw?
 # Raw image drops (AI batches etc.); only curated files go in public/images
 /images/
+
+# Content bots (GitHub Actions)
+bot-report.md
+link-report.json
