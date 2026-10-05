@@ -4,7 +4,21 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        display: ["'Cormorant Garamond'", "'Iowan Old Style'", "Georgia", "serif"],
+        sans: ["'Open Sans'", "system-ui", "-apple-system", "'Segoe UI'", "sans-serif"],
+        arabic: ["'Noto Naskh Arabic'", "'Geeza Pro'", "'Traditional Arabic'", "serif"],
+      },
       colors: {
+        // "Pharos & Papyrus" palette (channels defined in src/index.css)
+        sea: { DEFAULT: "rgb(var(--sea) / <alpha-value>)", deep: "rgb(var(--sea-deep) / <alpha-value>)", mist: "rgb(var(--sea-mist) / <alpha-value>)" },
+        ink: { DEFAULT: "rgb(var(--ink) / <alpha-value>)", raised: "rgb(var(--ink-raised) / <alpha-value>)", soft: "rgb(var(--ink-soft) / <alpha-value>)" },
+        papyrus: "rgb(var(--papyrus) / <alpha-value>)",
+        limestone: { DEFAULT: "rgb(var(--limestone) / <alpha-value>)", wash: "rgb(var(--limestone-wash) / <alpha-value>)" },
+        gold: "rgb(var(--gold) / <alpha-value>)",
+        terracotta: "rgb(var(--terracotta) / <alpha-value>)",
+        seaglass: "rgb(var(--seaglass) / <alpha-value>)",
+        tram: "rgb(var(--tram) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -80,5 +94,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 }

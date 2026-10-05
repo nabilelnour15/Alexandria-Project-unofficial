@@ -4,26 +4,25 @@ import About from '../sections/About';
 import Visit from '../sections/Visit';
 import GovernorSection from '../sections/GovernorSection';
 import Invest from '../sections/Invest';
-import News from '../sections/News';
+import Services from '../sections/Services';
+import NewsTeaser from '../sections/NewsTeaser';
 import CTA from '../sections/CTA';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import PageMeta from '../components/PageMeta';
 
 export default function HomePage() {
     return (
-        <div className="min-h-screen bg-white">
-            <Navbar />
-            <main>
-                <Hero />
-                <About isTeaser />
-                <Visit isTeaser />
-                <GovernorSection />
-                <Invest isTeaser />
-                <News isTeaser />
-                <ProjectsHero />
-                <CTA />
-            </main>
-            <Footer />
+        <div className="bg-white">
+            <PageMeta description="An unofficial fan guide to Alexandria, Egypt: 2,300 years of history, places to visit, city projects and investment opportunities on the Mediterranean." />
+            {/* Sequence follows the hero index. Backgrounds: dark photo, white, wash, white, ink, wash, white, white (ruled), papyrus. */}
+            <Hero />
+            <About isTeaser />
+            <Visit isTeaser />
+            <Services isTeaser />
+            <Invest />
+            <ProjectsHero />
+            <GovernorSection />
+            <NewsTeaser />
+            <CTA />
         </div>
     );
 }

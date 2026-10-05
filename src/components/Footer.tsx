@@ -1,36 +1,28 @@
 import {
-  MapPin,
-  Phone,
-  Mail,
+  Info,
+  ExternalLink,
   ArrowUp,
+  Github,
+  Flag,
+  CalendarCheck,
 } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
+import { LAST_REVIEWED_LABEL, REPORT_ISSUE_URL } from '../lib/factFormat';
 
 const footerLinks = {
   explore: [
     { name: 'About Alexandria', href: '/about' },
-    { name: 'History & Heritage', href: '/about' },
-    { name: 'Landmarks', href: '/visit' },
-    { name: 'Culture & Arts', href: '/about' },
+    { name: 'The governor', href: '/governor' },
+    { name: 'City projects', href: '/projects' },
+    { name: 'City briefing', href: '/news' },
   ],
   visit: [
-    { name: 'Plan Your Trip', href: '/visit' },
-    { name: 'Attractions', href: '/visit' },
-    { name: 'Hotels & Accommodation', href: '/visit' },
-    { name: 'Restaurants', href: '/visit' },
+    { name: 'Plan your trip', href: '/visit' },
+    { name: 'Living in Alexandria', href: '/live' },
   ],
   business: [
-    { name: 'Investment Opportunities', href: '/invest' },
-    { name: 'Business Directory', href: '/invest' },
-    { name: 'Free Trade Zone', href: '/invest' },
-    { name: 'Start a Business', href: '/invest' },
-  ],
-  government: [
-    { name: 'City Services', href: '/services' },
-    { name: 'Permits & Licenses', href: '/services' },
-    { name: 'Pay Fees', href: '/services' },
-    { name: 'Report Issues', href: '/services' },
+    { name: 'Invest in Alexandria', href: '/invest' },
   ],
 };
 
@@ -42,50 +34,19 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="bg-[#0d1623] relative overflow-hidden">
-      {/* Top Wave */}
-      <div className="absolute top-0 left-0 right-0">
-        <svg
-          viewBox="0 0 1440 60"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 60L60 55C120 50 240 40 360 35C480 30 600 30 720 32.5C840 35 960 40 1080 42.5C1200 45 1320 45 1380 45L1440 45V0H1380C1320 0 1200 0 1080 0C960 0 840 0 720 0C600 0 480 0 360 0C240 0 120 0 60 0H0V60Z"
-            fill="#f8fafc"
-          />
-        </svg>
-      </div>
-
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-            backgroundSize: '40px 40px',
-          }}
-        />
-      </div>
-
-      <div className="alex-container relative z-10 pt-24 pb-8">
+    <footer id="contact" className="bg-ink wall-of-scripts relative overflow-hidden border-t-2 border-gold/60">
+      <div className="alex-container relative z-10 pt-20 pb-8">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-[#0068c8] rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-2xl font-['Montserrat']">
-                  A
-                </span>
-              </div>
               <div>
-                <h3 className="text-white font-bold text-xl font-['Montserrat']">
-                  Alexandria
+                <h3 className="text-white">
+                  Alexandria <span className="text-white/70 font-semibold">·</span>{' '}
+                  <span lang="ar" dir="rtl">الإسكندرية</span>
                 </h3>
-                <p className="text-white/60 text-sm">The Mediterranean Jewel</p>
+                <p className="text-white/70 text-sm">An unofficial guide to the city</p>
               </div>
             </div>
 
@@ -94,32 +55,57 @@ export default function Footer() {
               heritage, modern innovation, and Mediterranean beauty.
             </p>
 
-            {/* Contact Info */}
+            {/* Unofficial Notice */}
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-white/70">
-                <MapPin className="w-5 h-5 text-[#3898ec]" />
-                <span className="text-sm">Governorate Building, Alexandria</span>
+              <div className="flex items-start gap-3 text-white/70">
+                <Info className="w-5 h-5 text-seaglass shrink-0 mt-0.5" />
+                <span className="text-sm">
+                  Unofficial fan project — not affiliated with the Alexandria Governorate
+                </span>
               </div>
-              <div className="flex items-center gap-3 text-white/70">
-                <Phone className="w-5 h-5 text-[#3898ec]" />
-                <span className="text-sm">+20 3 XXX XXXX</span>
-              </div>
-              <div className="flex items-center gap-3 text-white/70">
-                <Mail className="w-5 h-5 text-[#3898ec]" />
-                <span className="text-sm">info-unofficial@alexandria.gov.eg</span>
-              </div>
+              <a
+                href="https://alexandria.gov.eg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-white/70 hover:text-seaglass transition-colors"
+              >
+                <ExternalLink className="w-5 h-5 text-seaglass shrink-0" />
+                <span className="text-sm">Official Alexandria Governorate site (alexandria.gov.eg)</span>
+              </a>
+              <a
+                href="https://github.com/nabilelnour15/Alexandria-Project-unofficial"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-white/70 hover:text-seaglass transition-colors"
+              >
+                <Github className="w-5 h-5 text-seaglass shrink-0" />
+                <span className="text-sm">Project on GitHub</span>
+              </a>
+              <a
+                href={REPORT_ISSUE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-white/70 hover:text-seaglass transition-colors"
+              >
+                <Flag className="w-5 h-5 text-seaglass shrink-0" />
+                <span className="text-sm">Report an inaccuracy</span>
+              </a>
+              <p className="flex items-center gap-3 text-white/50">
+                <CalendarCheck className="w-5 h-5 text-seaglass shrink-0" aria-hidden="true" />
+                <span className="text-sm">Facts last reviewed: {LAST_REVIEWED_LABEL}</span>
+              </p>
             </div>
           </div>
 
           {/* Links Columns */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Explore</h4>
+            <h4 className="text-gold mb-4">Explore</h4>
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
+                    className="text-white/70 text-sm hover:text-seaglass transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -129,13 +115,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Visit</h4>
+            <h4 className="text-gold mb-4">Visit</h4>
             <ul className="space-y-3">
               {footerLinks.visit.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
+                    className="text-white/70 text-sm hover:text-seaglass transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -145,13 +131,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Business</h4>
+            <h4 className="text-gold mb-4">Business</h4>
             <ul className="space-y-3">
               {footerLinks.business.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
+                    className="text-white/70 text-sm hover:text-seaglass transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -160,24 +146,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Government Column - Hidden for now */}
-          {/* 
-          <div>
-            <h4 className="text-white font-semibold mb-4">Government</h4>
-            <ul className="space-y-3">
-              {footerLinks.government.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-white/60 text-sm hover:text-[#3898ec] transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div> 
-          */}
         </div>
 
         {/* Divider */}
@@ -185,11 +153,8 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Copyright & Disclaimer */}
             <div className="text-center md:text-left">
-              <p className="text-white/50 text-sm mb-1">
-                &copy; {new Date().getFullYear()} Alexandria. All rights reserved.
-              </p>
-              <p className="text-white/40 text-xs mt-2">
-                This site is made with love to the city. It is not an official one, made by <span className="text-white/60 font-medium">Nabil El-Nour</span>.
+              <p className="text-white/70 text-sm">
+                &copy; {new Date().getFullYear()} Nabil El-Nour — fan project. Not affiliated with the Alexandria Governorate.
               </p>
             </div>
 
@@ -202,7 +167,7 @@ export default function Footer() {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-white/60 hover:bg-[#0068c8] hover:text-white transition-all duration-300"
+                    className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-white/60 hover:bg-sea hover:text-white transition-all duration-300"
                   >
                     <Icon className="w-5 h-5" />
                   </a>
@@ -213,9 +178,9 @@ export default function Footer() {
             {/* Back to Top */}
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"
             >
-              <span className="text-sm">Back to Top</span>
+              <span className="text-sm">Back to top</span>
               <ArrowUp className="w-4 h-4" />
             </button>
           </div>

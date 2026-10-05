@@ -1,0 +1,129 @@
+# Weekly: check every link, fact, the governor and project statuses in src/data,
+# fix what is clearly out of date, add a few verified new entries, report the rest,
+# and open a pull request. Instructions for Claude: .github/prompts/data-audit.md
+# Needs the ANTHROPIC_API_KEY repository secret. Schedules only run once this file is on
+# the default branch (production); the bot itself works from main and opens PRs into main.
+name: Weekly data audit
+
+on:
+  schedule:
+    - cron: '0 3 * * 1' # Mondays 03:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: content-bot
+  cancel-in-progress: false
+
+permissions: {}
+
+env:
+  BRANCH: bot/data-audit
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    # Read-only on purpose: this job reads arbitrary web pages, so it can't push anything.
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      base_sha: ${{ steps.base.outputs.sha }}
+      branch_sha: ${{ steps.base.outputs.branch_sha }}
+      has_changes: ${{ steps.package.outputs.has_changes }}
+    steps:
+      - name: Check the API key is set
+        env:
+          KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::error::Add the ANTHROPIC_API_KEY repository secret (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          # Work happens on main (production is the default branch, which schedules run from).
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Continue the open audit pull request, if any
+        id: base
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          branch_sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$BRANCH" --jq .object.sha 2>/dev/null || true)
+          if [ -n "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')" ]; then
+            git checkout --detach "$branch_sha"
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "branch_sha=$branch_sha" >> "$GITHUB_OUTPUT"
+          echo "today=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Plain script first, so Claude only spends tokens on links that actually failed.
+      - name: Check links
+        run: node scripts/check-links.mjs link-report.json
+
+      # Claude gets no shell, may only edit src/data and its report, and can't read
+      # system or git files.
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Today is ${{ steps.base.outputs.today }}.
+            Follow the instructions in .github/prompts/data-audit.md exactly.
+          claude_args: |
+            --model claude-sonnet-5-5
+            --max-turns 120
+            --allowedTools "Read,Glob,Grep,WebSearch,WebFetch,Agent,Task,Edit(src/data/**),Write(bot-report.md),Edit(bot-report.md)"
+            --disallowedTools "Bash,NotebookEdit,Read(//proc/**),Read(//etc/**),Read(//sys/**),Read(~/**),Read(.git/**),Read(.env*)"
+
+      # Package from a fresh checkout so nothing in this working tree can influence the
+      # patch. Only existing, regular src/data/*.ts files are copied across.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.base.outputs.sha }}
+          path: clean
+          persist-credentials: false
+
+      - name: Package the changes
+        id: package
+        run: |
+          for f in clean/src/data/*.ts; do
+            src="${f#clean/}"
+            if [ -f "$src" ] && [ ! -L "$src" ]; then cp "$src" "$f"; fi
+          done
+          if [ -f bot-report.md ] && [ ! -L bot-report.md ]; then head -c 200000 bot-report.md > "$RUNNER_TEMP/bot-report.md"; else echo "The bot wrote no report." > "$RUNNER_TEMP/bot-report.md"; fi
+          cat "$RUNNER_TEMP/bot-report.md" >> "$GITHUB_STEP_SUMMARY"
+          git -C clean diff --no-ext-diff --no-textconv -- src/data > "$RUNNER_TEMP/changes.patch"
+          if [ -s "$RUNNER_TEMP/changes.patch" ]; then echo "has_changes=true" >> "$GITHUB_OUTPUT"; else echo "has_changes=false" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bot-changes
+          path: |
+            ${{ runner.temp }}/changes.patch
+            ${{ runner.temp }}/bot-report.md
+          retention-days: 14
+
+  pull-request:
+    needs: audit
+    if: needs.audit.outputs.has_changes == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    uses: ./.github/workflows/bot-pr.yml
+    with:
+      branch: bot/data-audit
+      base_sha: ${{ needs.audit.outputs.base_sha }}
+      branch_sha: ${{ needs.audit.outputs.branch_sha }}
+      allowed_paths: '^src/data/[A-Za-z0-9_-]+\.ts$'
+      title: 'Data audit: weekly fixes from the bot'
+      label: data-bot

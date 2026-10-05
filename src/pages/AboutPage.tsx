@@ -1,17 +1,14 @@
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import About from '../sections/About';
-import CTA from '../sections/CTA';
+import PageMeta from '../components/PageMeta';
 
 export default function AboutPage() {
     return (
-      <div className="min-h-screen bg-white">
-        <Navbar />
-        <main>
-          <About />
-          <CTA />
-        </main>
-        <Footer />
+      <div className="bg-white">
+        <PageMeta
+          title="About Alexandria"
+          description="The history, landmarks, museums, culture and food of Alexandria, from its founding by Alexander the Great to the modern Mediterranean city."
+        />
+        <About />
       </div>
     );
 }

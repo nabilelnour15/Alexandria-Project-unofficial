@@ -1,17 +1,82 @@
-import { Globe, Landmark, Building2 } from "lucide-react";
+import { facts, type FactId } from "./facts";
 
-export const aboutEssence = {
+// Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
+export interface FactSpec {
+  label: string;
+  value: string;
+  factId?: FactId;
+}
+
+export interface ArchaeologyBlock {
+  /** Only set when the attribution has been verified. */
+  quote?: string;
+  author?: string;
+  methods: { label: string; desc: string }[];
+}
+
+export interface TimelineEvent {
+  year: string;
+  title: string;
+  desc: string;
+  longDesc: string;
+  image: string;
+  /** Describes the photo when it does not show the event itself. */
+  imageAlt?: string;
+}
+
+interface Landmark {
+  name: string;
+  legacy: string;
+  desc: string;
+  image: string;
+  factId?: FactId;
+}
+
+interface Monument {
+  name: string;
+  stats: string;
+  fact: string;
+  image: string;
+  factId?: FactId;
+}
+
+interface Fortification {
+  name: string;
+  origin: string;
+  function: string;
+  image: string;
+  factId?: FactId;
+}
+
+interface Essence {
   geography: {
-    title: "The Unique Essence of Alexandria",
-    subtitle: "Principal Port & Second City",
+    title: string;
+    subtitle: string;
+    factId: FactId;
+    description: string;
+    location: string;
+    strategy: string;
+    character: { title: string; description: string; architecture: string };
+  };
+  comparison: {
+    title: string;
+    rows: { dim: string; alex: string; nile: string }[];
+  };
+}
+
+export const aboutEssence: Essence = {
+  geography: {
+    title: "What sets Alexandria apart",
+    subtitle: "Egypt's main port and second city",
+    factId: "population",
     description:
-      "Alexandria occupies a singular position in Egypt's urban geography as the nation's principal Mediterranean port and second-largest city, with a metropolitan population of approximately 5 million residents.",
+      "Alexandria occupies a singular position in Egypt's urban geography as the nation's principal Mediterranean port and second-largest city, with a governorate population of about 5.6 million (CAPMAS, January 2024).",
     location:
-      "Located roughly 225 kilometers northwest of Cairo at the western edge of the Nile Delta, the city stretches across 30 kilometers of Mediterranean coastline between Agamy and Abu Qeir.",
+      "Located roughly 225 kilometers northwest of Cairo at the western edge of the Nile Delta, the city stretches along the Mediterranean coastline between Agamy and Abu Qir.",
     strategy:
-      "The site's selection by Alexander the Great in April 331 BCE reflected exceptional strategic foresight. The natural harbor, protected by the offshore island of Pharos, offered superior anchorage while avoiding the silting problems that plagued river-mouth ports.",
+      "The site's selection by Alexander the Great in 331 BCE reflected exceptional strategic foresight. The natural harbor, protected by the offshore island of Pharos, offered superior anchorage while avoiding the silting problems that plagued river-mouth ports.",
     character: {
-      title: "Mediterranean Character",
+      title: "Mediterranean character",
       description:
         "Alexandria's Mediterranean identity manifests in multiple dimensions. Climatically, the city enjoys moderated temperatures and higher humidity than the desert interior, with winter rainfall sufficient that locals joke about owning umbrellas—a rarity in Egypt.",
       architecture:
@@ -19,7 +84,7 @@ export const aboutEssence = {
     },
   },
   comparison: {
-    title: "Alexandria vs. Nile Cities",
+    title: "Alexandria and the Nile cities",
     rows: [
       {
         dim: "Climate",
@@ -32,7 +97,7 @@ export const aboutEssence = {
         nile: "Islamic/traditional: courtyards, inward-oriented",
       },
       {
-        dim: "Public Space",
+        dim: "Public space",
         alex: "Corniche (waterfront promenade)",
         nile: "Nile Corniche (highway/privatized)",
       },
@@ -45,154 +110,109 @@ export const aboutEssence = {
   },
 };
 
-export const timelineEvents = [
+export const timelineEvents: TimelineEvent[] = [
   {
     year: "331 BCE",
-    title: "Foundation by Alexander the Great",
+    title: "Founded by Alexander the Great",
     desc: "Inspired by Homer's dream, laid out by Dinocrates of Rhodes.",
     longDesc:
-      "Alexander the Great founded Alexandria in January 331 BCE during his conquest of Egypt, renaming the small fishing village of Rhakotis after himself. The site was strategically chosen for its natural harbor, protected by the island of Pharos, and its position between the Mediterranean Sea and Lake Mareotis, facilitating trade and defense. According to legend, Alexander had a dream in which the poet Homer appeared, reciting verses from the Odyssey about the island of Pharos, which convinced him of the location's potential. The city was planned on a grid system by the architect Dinocrates of Rhodes, featuring wide streets, including the main Canopic Street, and was intended to be a Hellenistic cultural and economic hub blending Greek and Egyptian influences.",
+      "Alexander the Great founded Alexandria in 331 BCE during his conquest of Egypt, renaming the small fishing village of Rhakotis after himself. The site was strategically chosen for its natural harbor, protected by the island of Pharos, and its position between the Mediterranean Sea and Lake Mareotis, facilitating trade and defense. According to legend, Alexander had a dream in which the poet Homer appeared, reciting verses from the Odyssey about the island of Pharos, which convinced him of the location's potential. The city was planned on a grid system by the architect Dinocrates of Rhodes, featuring wide streets, including the main Canopic Street, and was intended to be a Hellenistic cultural and economic hub blending Greek and Egyptian influences.",
     image: "/images/Alexander-the-Great.jpg",
   },
   {
     year: "323–30 BCE",
-    title: "Ptolemaic Glory Period",
-    desc: "Library, Lighthouse, Mouseion established. Population peaks at 500k–1M.",
+    title: "The Ptolemaic capital",
+    desc: "The Library, the Lighthouse and the Mouseion are founded. One of the largest cities of the ancient world.",
     longDesc:
-      "Following Alexander's death in 323 BCE, his general Ptolemy I Soter seized control of Egypt, establishing Alexandria as the capital of the Ptolemaic Kingdom. This era marked its transformation into the intellectual and commercial center of the Hellenistic world. The Great Library, founded around 295 BCE, housed up to 700,000 scrolls. The Pharos Lighthouse, completed around 280 BCE, stood over 100 meters tall and was one of the Seven Wonders. The city's population swelled up to 1 million, making it one of the largest in the ancient world, supported by thriving trade in grain, papyrus, and spices. Alexandria blended Greek, Egyptian, and Jewish cultures, producing the Septuagint translation of the Hebrew Bible.",
+      "Following Alexander's death in 323 BCE, his general Ptolemy I Soter seized control of Egypt, establishing Alexandria as the capital of the Ptolemaic Kingdom. This era marked its transformation into the intellectual and commercial center of the Hellenistic world. The Great Library, founded around 295 BCE, housed up to 700,000 scrolls. The Pharos Lighthouse, completed around 280 BCE, stood over 100 meters tall and was one of the Seven Wonders. The city grew into one of the largest in the ancient world, supported by thriving trade in grain, papyrus, and spices. Alexandria blended Greek, Egyptian, and Jewish cultures, producing the Septuagint translation of the Hebrew Bible.",
     image: "/images/lighthouse.jpg",
   },
   {
     year: "30 BCE",
-    title: "Roman Annexation",
-    desc: "Egypt becomes imperial province. Alexandria continues as commercial capital.",
+    title: "Roman annexation",
+    desc: "Egypt becomes an imperial province. Alexandria continues as commercial capital.",
     longDesc:
       "After the defeat of Mark Antony and Cleopatra VII at the Battle of Actium, Octavian captured Alexandria in 30 BCE, marking the end of the Ptolemaic dynasty. Alexandria retained its status as a major commercial hub, exporting wheat and papyrus, becoming the second-largest city in the Roman Empire. Roman rule brought infrastructure improvements like aqueducts and baths, but also tensions and conflicts. Christianity spread, with figures like Origen contributing to theological scholarship, though the city faced periodic unrest, including the destruction of parts of the Library during civil conflicts.",
     image: "/images/Ancient-Roman-theater-alexandria.jpg",
   },
   {
     year: "641 CE",
-    title: "Islamic Transformation",
-    desc: "Arab conquest introduces new religious frameworks. Qaitbay built on Lighthouse ruins.",
+    title: "Arab conquest",
+    desc: "Arab forces end Byzantine rule, and the capital of Egypt moves inland to Fustat.",
     longDesc:
-      "In 641 CE, Arab forces under General Amr ibn al-As conquered Alexandria, ending Byzantine rule. This marked a shift to Islam as the dominant religion. The city declined somewhat as the capital moved to Fustat (near Cairo), but remained a key port. The Pharos Lighthouse, damaged by earthquakes, finally collapsed around 1323 CE. In 1477, Sultan Qaitbay built his Citadel on its ruins, using salvaged stones, to defend against Ottoman threats; it stands today as a symbol of medieval Islamic architecture.",
+      "In 641 CE, Arab forces under Amr ibn al-As took Alexandria, ending Byzantine rule. Islam gradually became the majority religion. The capital of Egypt moved to Fustat, near present-day Cairo, and Alexandria lost its political role, but it remained Egypt's main Mediterranean port for trade with Europe.",
+    image: "/images/Sidi-Morsi-Abu-al-Abbas-Mosque-alexandria.jpg",
+    imageAlt: "The Abu al-Abbas al-Mursi Mosque, a later landmark of Islamic Alexandria",
+  },
+  {
+    year: "1477–1479",
+    title: "Qaitbay builds his citadel",
+    desc: "The Mamluk sultan Qaitbay fortifies the harbour on the ruins of the Lighthouse.",
+    longDesc:
+      "Earthquakes in the 14th century brought down what remained of the Pharos Lighthouse, which had collapsed by 1323. Between 1477 and 1479 the Mamluk sultan al-Ashraf Qaitbay built a fortress on its site at the eastern tip of Pharos island, reusing some of its stone, to guard the harbour against attack from the sea. The Citadel of Qaitbay still stands there today.",
     image: "/images/citadel.jpg",
+    imageAlt: "The Citadel of Qaitbay",
+  },
+  {
+    year: "1517",
+    title: "Ottoman rule",
+    desc: "Egypt becomes an Ottoman province, and Alexandria shrinks to a small port town.",
+    longDesc:
+      "The Ottomans conquered Egypt in 1517. Under their rule Alexandria remained a port, but trade shifted towards Rosetta and Damietta and the city shrank to a small town around its harbours. It did not grow again until the 19th century.",
+    image: "/images/alexandria-castle-egypt.jpg",
+    imageAlt: "Fishing boats in the Eastern Harbour below the Citadel of Qaitbay",
   },
   {
     year: "19th–20th Century",
-    title: "European Influence & Cosmopolitan Era",
-    desc: "Belle époque architecture, foreign communities (40% of population by 1940s).",
+    title: "The cosmopolitan city",
+    desc: "Belle époque architecture and large Greek, Italian and other foreign communities.",
     longDesc:
-      "Muhammad Ali Pasha modernized Alexandria in the 19th century, attracting European investors. The opening of the Suez Canal in 1869 boosted trade, leading to a boom in Belle Époque architecture. By the late 19th century, Alexandria became a cosmopolitan melting pot with Greeks, Italians, and French comprising up to 40% of the population. It was a hub for finance, culture, and nightlife, home to writers like Constantine Cavafy and Lawrence Durrell. The 1952 Revolution led to nationalization and the exodus of many foreigners.",
+      "Muhammad Ali Pasha modernized Alexandria in the 19th century, attracting European investors. The opening of the Suez Canal in 1869 boosted trade, leading to a boom in Belle Époque architecture. By the late 19th century, Alexandria became a cosmopolitan melting pot with large Greek, Italian, and French communities. It was a hub for finance, culture, and nightlife, home to writers like Constantine Cavafy and Lawrence Durrell. The 1952 Revolution led to nationalization and the exodus of many foreigners.",
     image: "/images/MohamedAli.jpg",
   },
   {
     year: "2002–Present",
-    title: "Revival and Contemporary Renaissance",
-    desc: "Bibliotheca Alexandrina inaugurated, 2025 Culture Capital designation.",
+    title: "The Bibliotheca and after",
+    desc: "The Bibliotheca Alexandrina opens; Alexandria is named a 2025 Mediterranean Capital of Culture.",
     longDesc:
       "In 2002, the Bibliotheca Alexandrina was inaugurated as a modern revival of the ancient Library, designed by Snøhetta. It serves as a library, museum, and cultural center. Alexandria has undergone urban revival, including waterfront redevelopment. In 2024, it was designated as the first Mediterranean Capital of Culture and Dialogue for 2025. This title highlights its historical role in intercultural exchange, with forums, exhibitions, and performances planned to foster Mediterranean collaboration.",
     image: "/images/Alexandria_Bibliotheca.jpg",
   },
 ];
 
-export const civilizationalLayers = [
-  {
-    period: "Foundation & Hellenistic Glory",
-    dates: "331–30 BCE",
-    details: [
-      {
-        subtitle: "Alexander's Vision",
-        content:
-          "Inspired by a dream of Homer, suggesting the location for one of antiquity's greatest cities.",
-      },
-      {
-        subtitle: "Ptolemaic Investment",
-        content:
-          "Preeminent center of learning with 400k-700k scrolls and the Pharos Lighthouse.",
-      },
-      {
-        subtitle: "Multicultural Metropolis",
-        content:
-          "Peak population of 500k-1M Greeks, Egyptians, Jews, Syrians, and Romans.",
-      },
-    ],
-    icon: Globe,
-  },
-  {
-    period: "Roman Egypt and Late Antiquity",
-    dates: "30 BCE–641 CE",
-    details: [
-      {
-        subtitle: "Roman Annexation",
-        content:
-          "Imperial province capital and the Mediterranean's premier commercial port.",
-      },
-      {
-        subtitle: "Early Christian Center",
-        content:
-          "One of five patriarchates; Catechetical School developed innovative biblical interpretations.",
-      },
-      {
-        subtitle: "Theological Development",
-        content:
-          "Controversies that shaped global Christianity; the death of Hypatia in 415 CE.",
-      },
-    ],
-    icon: Landmark,
-  },
-  {
-    period: "Islamic Era to Contemporary Revival",
-    dates: "641 CE – Present",
-    details: [
-      {
-        subtitle: "Islamic Transformation",
-        content:
-          "Qaitbay Citadel (1477) built on Lighthouse ruins, creating material continuity.",
-      },
-      {
-        subtitle: "European Influence",
-        content:
-          "Belle époque architecture; 40% foreign-born population by the 1940s.",
-      },
-      {
-        subtitle: "Contemporary Revival",
-        content:
-          "Bibliotheca Alexandrina (2002) and the 2025 Mediterranean Capital of Culture designation.",
-      },
-    ],
-    icon: Building2,
-  },
-];
-
 export const summaryData = {
-  title: "Alexandria: Timeless Pearl of the Mediterranean",
+  title: "Twenty-three centuries on the coast",
   description:
-    "From Alexander's visionary foundation to its contemporary revival as a Mediterranean Capital of Culture, Alexandria remains Egypt's most distinctive urban treasure—a city where ancient wisdom meets modern creativity, where Mediterranean breezes carry the echoes of twenty-five centuries of civilization.",
+    "From Alexander's foundation to its year as a Mediterranean Capital of Culture, Alexandria has been a port, a seat of learning and a meeting point of cultures for more than twenty-three centuries.",
   pillars: [
     {
-      title: "Ancient Wisdom",
-      desc: "Reviving the legacy of the Great Library for contemporary scholarship",
+      title: "Learning",
+      desc: "The Bibliotheca Alexandrina carries on the name of the ancient Library",
     },
     {
-      title: "Mediterranean Spirit",
-      desc: "Unique coastal identity distinct from Egypt's Nile-centered civilization",
+      title: "The sea",
+      desc: "A coastal city with a character distinct from Egypt's Nile valley",
     },
     {
-      title: "Global Dialogue",
-      desc: "2025 Mediterranean Capital of Culture connecting civilizations",
+      title: "Exchange",
+      desc: "Named a 2025 Mediterranean Capital of Culture and Dialogue",
     },
   ],
 };
 
-export const landmarksData = {
+export const landmarksData: {
+  ancient: Landmark[];
+  monuments: Monument[];
+  fortifications: Fortification[];
+} = {
   ancient: [
     {
       name: "Great Library of Alexandria",
       legacy:
-        "Modern Bibliotheca Alexandrina (2002) explicitly revives this heritage with capacity for 8 million volumes.",
+        "Modern Bibliotheca Alexandrina (2002) explicitly revives this heritage, with a design capacity of 8 million volumes.",
+      factId: "bibliothecaCapacity",
       desc: "The ancient world's premier center of knowledge, with collections of 400,000 to 700,000 scrolls.",
-      image: "/images/14298.png",
+      image: "/images/great-library-illustration.jpg",
     },
     {
       name: "Lighthouse of Alexandria (Pharos)",
@@ -213,7 +233,8 @@ export const landmarksData = {
     {
       name: "Pompey's Pillar",
       stats:
-        "26.85m red granite column. Erected for Emperor Diocletian in 297 CE.",
+        "26.85 m red granite column. Erected for Emperor Diocletian, c. 298 CE.",
+      factId: "pompeysPillarHeight",
       fact: "Monolith quarried at Aswan, representing extraordinary logistical achievement.",
       image: "/images/Serapeum-of-Alexandria.jpg",
     },
@@ -230,6 +251,7 @@ export const landmarksData = {
       name: "Citadel of Qaitbay",
       origin:
         "Built 1477–1479 on the ruins of the Lighthouse, reusing its stones.",
+      factId: "qaitbayCitadelBuilt",
       function: "Maritime museum with panoramic views.",
       image: "/images/feature-citadel-1.jpg",
     },
@@ -242,27 +264,30 @@ export const landmarksData = {
   ],
 };
 
+// The UI shows only the first word of `value`, so keep the number first.
+const bibliothecaSpecs: FactSpec[] = [
+  { label: "Design capacity (volumes)", value: "8M volumes", factId: "bibliothecaCapacity" },
+  { label: "Reading hall seats", value: `${facts.bibliothecaReadingSeats.value} seats`, factId: "bibliothecaReadingSeats" },
+  { label: "Museums", value: `${facts.bibliothecaMuseums.value} museums`, factId: "bibliothecaMuseums" },
+  { label: "Annual visitors", value: "1.5M a year", factId: "bibliothecaVisitors" },
+];
+
 export const modernInfrastructure = {
   bibliotheca: {
     title: "The Bibliotheca Alexandrina",
-    specs: [
-      { label: "Collection capacity", value: "8 million volumes" },
-      { label: "Reading room", value: "2,500 readers" },
-      { label: "Museums", value: "4 specialized" },
-      { label: "Annual visits", value: "1.5 million+" },
-    ],
+    specs: bibliothecaSpecs,
     symbol:
       "The Manuscript Museum holds a copy of Aristotle's Constitution of Athens scroll fragment.",
   },
   corniche: {
     title: "The Corniche",
-    length: "12-mile (19km) waterfront promenade.",
+    length: "A long seafront promenade along the city's waterfront.",
     social:
       "Historic cafés like Athineos, Trianon, and Délices maintain social life along the waterfront.",
     image: "/images/Alexandria-Corniche-alexandria.jpg",
   },
   montaza: {
-    title: "Montaza Palace & Gardens",
+    title: "Montaza Palace and gardens",
     role: "19th-century royal hunting lodge, now Alexandria's largest public park.",
     gardens:
       "Extensive tree cover, formal gardens, and beach access offering urban respite.",
@@ -290,16 +315,16 @@ export const museumRegistry = [
     focus:
       "Renovated in 2023, dedicated specifically to Hellenistic and Roman art.",
     highlights: "Fayum mummy portraits (ancient portraiture).",
-    image: "/images/roman-amphitheatre.avif",
+    image: "/images/Greco-Roman-Museum-in-Alexandria.jpg",
   },
 ];
 
 export const culture2025 = {
   title: "2025 Mediterranean Capital of Culture",
   themes: [
-    "Youth & Digitalization",
-    "Creative Industries",
-    "Bilateral Cooperation",
+    "Youth and digital skills",
+    "Creative industries",
+    "Bilateral cooperation",
   ],
   tirana:
     "Partnership with Tirana, Albania focus on Ottoman, European, and nationalist influences.",
@@ -311,6 +336,7 @@ export const culture2025 = {
   ],
 };
 
+// Dish images are AI-generated illustrations (owner's Gemini batch, Oct 2026); show ConceptBadge.
 export const culinaryTraditions = {
   seafood:
     "Daily catch from the Mediterranean and Lake Mariout combines Egyptian, Greek, and Levantine techniques.",
@@ -318,37 +344,38 @@ export const culinaryTraditions = {
     {
       name: "Sayadieh",
       desc: "Spiced rice with caramelized onions and fish.",
-      image:
-        "https://asif.org/wp-content/uploads/2021/05/Jaffa-9-1-1024x731.jpg",
+      image: "/images/sayadieh-concept.jpg",
     },
     {
-      name: "Shrimp Tagine",
+      name: "Shrimp tagine",
       desc: "Shrimp in herb-infused tomato sauce.",
-      image:
-        "https://cairoscene.com/Content/Admin/Uploads/Articles/ArticlesMainPhoto/1128523/aaedd28e-0360-4c19-b47c-9d99469632e2.jpg",
+      image: "/images/shrimp-tagine-concept.jpg",
     },
     {
-      name: "Grilled Mullet (Bouri)",
+      name: "Grilled mullet (bouri)",
       desc: "Simply grilled whole fish with lemon.",
-      image: "https://slowmed.eu/media/Grilled-Mullet.jpg",
+      image: "/images/grilled-mullet-concept.jpg",
     },
     {
-      name: "Calamari Meshwi",
+      name: "Grilled calamari",
       desc: "Grilled squid with garlic and herbs.",
-      image:
-        "https://greekislandstaverna.com/wp-content/uploads/2025/09/fried-squid-rings-breaded-with-lemon-on-a-plate-2025-01-09-05-13-04-utc-1-scaled-1.jpg",
+      image: "/images/grilled-calamari-concept.jpg",
     },
   ],
 };
 
-export const integrationData = {
+export const integrationData: {
+  architectural: { district: string; style: string }[];
+  archaeology: ArchaeologyBlock;
+} = {
   architectural: [
     { district: "Downtown", style: "Neoclassical, Art Nouveau, Art Deco" },
     { district: "Anfushi", style: "Islamic monuments, vernacular housing" },
     { district: "Eastern", style: "Modernist towers, resort development" },
   ],
+  // The unattributed quote "Old Alexandria is just below your feet." was removed:
+  // its source could not be verified.
   archaeology: {
-    quote: '"Old Alexandria is just below your feet."',
     methods: [
       { label: "Side-scan sonar", desc: "Seafloor mapping" },
       { label: "Magnetometry", desc: "Ferrous materials detection" },

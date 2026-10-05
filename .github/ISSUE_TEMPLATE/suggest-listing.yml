@@ -1,0 +1,50 @@
+name: Suggest a place or event
+description: Suggest a community place, organisation or yearly event for the "Live here" page.
+title: "[Listing] "
+labels: ["listing-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping. This is an **unofficial fan site**, so we can only list things we can check against the organiser's own page.
+        Suggestions go to the site's maintainer, not to any government body.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is it?
+      options:
+        - Cultural centre or arts space
+        - Library
+        - Volunteering group
+        - Makerspace or community workshop
+        - Heritage group
+        - Yearly event or festival
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: In English, Arabic or both.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Official website or page
+      description: The organiser's own site or social page, so we can check it.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything else?
+      description: District, the usual month for events, or a link that shows recent activity.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I haven't included anyone's personal phone number or email.
+          required: true

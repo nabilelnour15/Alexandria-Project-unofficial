@@ -1,3 +1,11 @@
+import type { FactId } from "./facts";
+
+// Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
+export interface HeroStat {
+  readonly label: string;
+  readonly value: string;
+  readonly factId?: FactId;
+}
 
 export interface Project {
   readonly id: string;
@@ -6,6 +14,7 @@ export interface Project {
   readonly subCategory?: string;
   readonly status:
     | "Completed"
+    | "Operational"
     | "Under Construction"
     | "Pipeline"
     | "Early Implementation"
@@ -29,51 +38,72 @@ export interface Project {
   }[];
   readonly imagePlaceholder: string;
   readonly image?: string;
+  /** True when `image` is an AI-generated concept illustration (shows a label on the card). */
+  readonly isConcept?: boolean;
   readonly quote?: string;
+  /** Fact behind `budget`, if any. */
+  readonly factId?: FactId;
+  /** Facts behind individual `technicalSpecs` entries, keyed by spec name. */
+  readonly specFactIds?: Readonly<Record<string, FactId>>;
 }
+
+// `status` values are identifiers (ProjectCard styles key on them; facts.projectsUnderConstruction
+// counts them). Show these sentence-case labels instead.
+export const statusLabels: Readonly<Record<Project["status"], string>> = {
+  Completed: "Completed",
+  Operational: "Operational",
+  "Under Construction": "Under construction",
+  Pipeline: "Pipeline",
+  "Early Implementation": "Early implementation",
+  "Under Development": "Under development",
+  Planning: "Planning",
+  "Detailed Study Required": "Detailed study required",
+};
 
 export const projectsData = {
   hero: {
-    title: "Alexandria's Green Infrastructure Revolution",
+    title: "Transport, energy and water projects in Alexandria",
     subtitle:
-      "Egypt's Mediterranean Gateway Transforms Through Sustainable Transport and Energy Innovation",
+      "What is planned or being built, who is paying for it, and how far each project has got.",
+    // Sum of listed budgets: 592 + 1,764 + 20 + 30 + 33 + 50 + 35 = €2,524M (see facts.projectsTotal).
+    // GCAP: 20 + 64.6 + 60 + 35 = €179.6M across the listed pipeline items.
     stats: [
-      { label: "Invested (2016-2026)", value: "€2.65B+" },
+      { label: "Listed project budgets", value: "≈€2.5B", factId: "projectsTotal" },
       { label: "Coordination", value: "4 MDBs" },
-      { label: "Major Projects", value: "6 Flagship" },
-      { label: "GCAP Pipeline", value: "€506M" },
-    ],
+      { label: "Under construction", value: "4 projects", factId: "projectsUnderConstruction" },
+      { label: "GCAP listed pipeline items", value: "≈€180M" },
+    ] as readonly HeroStat[],
     summary:
-      "Alexandria has mobilized over €2.5 billion in sustainable infrastructure investments from 2016–2026, dominated by two flagship rail projects—the €592 million Raml Tram Modernization and the €1.39 billion Abu Qir Metro Phase 1. Both projects are explicitly aligned with Egypt Vision 2030 and financed through unprecedented multilateral coordination.",
+      "The projects listed here add up to ≈€2.5B in listed project budgets, dominated by two flagship rail projects—the €592 million Raml Tram Modernization and the €1.764 billion Abu Qir Metro Phase 1. Four of the listed projects are under construction. Both rail projects are aligned with Egypt Vision 2030 and co-financed by multilateral lenders.",
   },
   categories: [
     {
       id: "transport",
-      label: "Sustainable Transport",
+      label: "Sustainable transport",
       description:
         "Rail-based mass transit modernization complemented by intelligent surface transport systems.",
     },
     {
       id: "energy",
-      label: "Energy & Efficiency",
+      label: "Energy & efficiency",
       description:
         "Waste-to-energy innovation, solar infrastructure expansion, and grid modernization.",
     },
     {
       id: "water",
-      label: "Water & Wastewater",
+      label: "Water & wastewater",
       description:
         "Network expansion, treatment upgrades, and climate-resilient supply.",
     },
     {
       id: "climate",
-      label: "Climate Resilience",
+      label: "Climate resilience",
       description:
         "Integrated adaptation strategies combining coastal protection and sustainable drainage.",
     },
     {
       id: "industrial",
-      label: "Industrial & Logistics",
+      label: "Industrial & logistics",
       description: "Strategic industrial development and port decarbonization.",
     },
   ],
@@ -83,19 +113,25 @@ export const projectsData = {
       id: "raml-tram",
       title: "Alexandria Raml Tram Modernization",
       category: "transport",
-      subCategory: "Rail-Based Mass Transit",
+      subCategory: "Rail-based mass transit",
       status: "Under Construction",
-      budget: "€592 Million",
+      budget: "€592 million",
+      factId: "ramlTramCost",
       year: "2026-2027",
       description:
-        "The Alexandria Raml Tram Modernization Project transforms the world’s oldest continuously operating electric tram system (1863) into a digitally controlled light rail transit (LRT) system.",
+        "The Alexandria Raml Tram Modernization Project transforms one of the world's oldest tram systems (opened 1863 as a horse-drawn line, electrified 1902) into a digitally controlled light rail transit (LRT) system.",
       technicalSpecs: {
         Length: "13.2 km",
         Stations: "24",
-        "Speed Increase": "+91%",
-        Capacity: "500,000/day",
+        "Speed increase": "+91%",
+        "Target ridership": "500,000 passengers/day",
         Vehicles: "Hyundai Rotem LRT",
         Signaling: "Hitachi Rail",
+      },
+      specFactIds: {
+        Length: "ramlTramLength",
+        Stations: "ramlTramStations",
+        "Target ridership": "ramlTramRidershipTarget",
       },
       financialFramework: [
         { source: "EIB", amount: "€138M" },
@@ -104,150 +140,165 @@ export const projectsData = {
         { source: "Egypt Govt", amount: "€346M" },
       ],
       vision2030Pillars: [
-        "Sustainable Transport",
-        "Environmental Sustainability",
-        "Cultural Heritage",
+        "Sustainable transport",
+        "Environmental sustainability",
+        "Cultural heritage",
       ],
-      imagePlaceholder: "Modernized Raml Tram Concept",
-      image:
-        "https://railwaynews.net/wp-content/uploads/ZDRT5BD6NetGnU_gLb1sC.jpg",
+      imagePlaceholder: "Modernized Raml tram concept",
+      image: "/images/raml-tram-concept.jpg",
+      isConcept: true,
     },
     {
       id: "abu-qir-metro",
       title: "Alexandria Abu Qir Metro Phase 1",
       category: "transport",
-      subCategory: "Rail-Based Mass Transit",
+      subCategory: "Rail-based mass transit",
       status: "Under Construction",
-      budget: "€1.39 Billion",
+      budget: "€1.764 billion",
+      factId: "abuQirMetroCost",
       year: "2025-2028",
       description:
-        "Transforms an underutilized suburban railway into a high-capacity metro system. The four-multilateral-bank coordination is unprecedented.",
+        "Transforms an underutilized suburban railway into a high-capacity metro system, co-financed by four multilateral lenders (EIB, EBRD, AFD and AIIB) and the Government of Egypt.",
       technicalSpecs: {
         Length: "21.7 km",
         Stations: "20",
-        Capacity: "60,000 pax/hr",
-        "Journey Time": "25 min",
+        Capacity: "60,000 pax/hr/direction",
+        "Journey time": "25 min",
+      },
+      specFactIds: {
+        Length: "abuQirMetroLength",
+        Stations: "abuQirMetroStations",
+        Capacity: "abuQirMetroCapacity",
       },
       financialFramework: [
+        { source: "EIB", amount: "€750M" },
         { source: "EBRD", amount: "€250M" },
-        { source: "EIB", amount: "[Redacted]" },
-        { source: "AFD", amount: "[Redacted]" },
-        { source: "AIIB", amount: "First Urban Rail" },
+        { source: "AFD", amount: "€250M" },
+        { source: "AIIB", amount: "€250M" },
+        { source: "Egypt Govt", amount: "€264M" },
       ],
       vision2030Pillars: [
-        "100% Green Economy Transition",
+        "100% green economy transition",
         "Transit-oriented development",
         "Gender-responsive design",
       ],
-      quote:
-        "The four-MDB coordination mechanism represents unprecedented harmonization in Egyptian infrastructure.",
-      imagePlaceholder: "Abu Qir Metro Viaduct",
-      image: "https://images.dailynewsegypt.com/2021/11/Cairo-Line-2.jpg",
+      imagePlaceholder: "Abu Qir metro viaduct",
+      image: "/images/abu-qir-metro-concept.jpg",
+      isConcept: true,
     },
     // Sustainable Transport - Surface
     {
       id: "electric-bus",
       title: "Electric Bus Initiative",
       category: "transport",
-      subCategory: "Surface Transport",
-      status: "Completed",
-      budget: "Not Disclosed",
-      year: "2023-2026",
+      subCategory: "Surface transport",
+      status: "Operational",
+      budget: "Not disclosed",
+      year: "2018-present",
       description:
-        "Egypt's first operational municipal electric bus deployment, launched March 2023.",
+        "Alexandria's electric bus program, which began in 2018 when the first 15 BYD electric buses arrived in the city. The fleet was reported at 55 buses in 2025.",
       technicalSpecs: {
-        "Current Fleet": "15 operational",
-        "Expansion Target": "40 buses total",
+        "Initial fleet": "15 buses (2018)",
+        "Fleet (2025)": "55 buses (reported)",
         Range: "250 km",
         Supplier: "BYD",
       },
+      specFactIds: {
+        "Fleet (2025)": "electricBusFleet",
+      },
       financialFramework: [],
-      vision2030Pillars: ["Sustainable Transport", "Technology Demonstration"],
-      imagePlaceholder: "Electric Bus Fleet",
+      vision2030Pillars: ["Sustainable transport", "Technology demonstration"],
+      imagePlaceholder: "Electric bus fleet",
       image: "https://images.dailynewsegypt.com/2019/01/electric-bus.jpg",
     },
     {
       id: "brt-corridors",
       title: "BRT Corridors",
       category: "transport",
-      subCategory: "Surface Transport",
+      subCategory: "Surface transport",
       status: "Planning",
-      budget: "€20 Million (Est.)",
-      year: "Planning Phase",
+      budget: "€20 million (est.)",
+      year: "Planning phase",
       description:
         "Cost-effective intermediate-capacity solution identified in GCAP for short-medium term implementation.",
       technicalSpecs: {
         Corridors: "2 priority routes",
-        "Cost Efficiency": "5-10% of rail",
+        "Cost efficiency": "5-10% of rail",
         Integration: "With metro/tram",
       },
       financialFramework: [],
-      vision2030Pillars: ["Sustainable Transport", "Urban Mobility"],
-      imagePlaceholder: "BRT Concept",
-      image:
-        "https://aqarmap.com.eg/ar/advice/wp-content/uploads/2022/07/%D8%A7%D8%AA%D9%88%D8%A8%D9%8A%D8%B3-brt-1.jpg",
+      vision2030Pillars: ["Sustainable transport", "Urban mobility"],
+      imagePlaceholder: "BRT concept",
+      image: "/images/brt-corridor-concept.jpg",
+      isConcept: true,
     },
     // Energy & Efficiency
     {
       id: "sludge-to-energy",
       title: "Sludge-to-Energy Facility (E1)",
       category: "energy",
-      subCategory: "Waste-to-Energy",
+      subCategory: "Waste-to-energy",
       status: "Early Implementation",
-      budget: "€30 Million",
-      year: "Early Implementation",
+      budget: "€30 million",
+      year: "Early implementation",
       description:
         'Addresses critical environmental challenge: 200 tons of sewage sludge daily transported to saturated "9N" landfill.',
       technicalSpecs: {
-        Technology: "Anaerobic Digestion",
-        "Biogas Production": "18,500 m³/day",
+        Technology: "Anaerobic digestion",
+        "Biogas production": "18,500 m³/day",
         Electricity: "5 MWh/day",
-        "Sludge Reduction": "30-35%",
+        "Sludge reduction": "30-35%",
       },
       financialFramework: [],
-      vision2030Pillars: ["Circular Economy", "Renewable Energy"],
-      imagePlaceholder: "Biogas Facility",
+      vision2030Pillars: ["Circular economy", "Renewable energy"],
+      imagePlaceholder: "Biogas facility",
+      image: "/images/sludge-to-energy-concept.jpg",
+      isConcept: true,
     },
     {
       id: "solar-water-treatment",
       title: "Scaling Solar for Water Treatment (E2)",
       category: "energy",
-      subCategory: "Solar Infrastructure",
+      subCategory: "Solar infrastructure",
       status: "Under Development",
-      budget: "€33 Million",
-      year: "Under Development",
+      budget: "€33 million",
+      year: "Under development",
       description:
         "Dedicated solar installations for water treatment plant electricity supply, demonstrating sectoral decarbonization pathway.",
       technicalSpecs: {
-        "Annual Energy": "106,000 MWh",
-        "GHG Reduction": "44,200 tCO₂e",
+        "Annual energy": "106,000 MWh",
+        "GHG reduction": "44,200 tCO₂e",
         Sites: "4 WWTPs + booster",
       },
       financialFramework: [],
-      vision2030Pillars: ["Renewable Energy", "Decarbonization"],
-      imagePlaceholder: "Solar Panels at Water Plant",
+      vision2030Pillars: ["Renewable energy", "Decarbonization"],
+      imagePlaceholder: "Solar panels at water plant",
+      image: "/images/solar-water-treatment-concept.jpg",
+      isConcept: true,
     },
     {
       id: "regional-control-center",
       title: "Regional Control Center Modernization",
       category: "energy",
-      subCategory: "Grid Modernization",
+      subCategory: "Grid modernization",
       status: "Under Construction",
-      budget: "€50 Million",
-      year: "Under Construction",
+      budget: "€50 million",
+      year: "Under construction",
       description:
         "Critical infrastructure for Egypt’s electricity sector transformation with exceptional 20% grant share.",
       technicalSpecs: {
-        "Loss Reduction": "10%",
+        "Loss reduction": "10%",
         Coverage: "9M population",
-        Components: "ADMS, Renewable Forecasting",
+        Components: "ADMS, renewable forecasting",
       },
       financialFramework: [
         { source: "EU Grant", amount: "€10M (20%)" },
         { source: "AFD", amount: "€40M" },
       ],
-      vision2030Pillars: ["Energy Security", "Renewable Integration"],
-      imagePlaceholder: "Control Center",
+      vision2030Pillars: ["Energy security", "Renewable integration"],
+      imagePlaceholder: "Control center",
+      image: "/images/regional-control-center-concept.jpg",
+      isConcept: true,
     },
     // Water & Wastewater
     {
@@ -256,7 +307,7 @@ export const projectsData = {
       category: "water",
       status: "Detailed Study Required",
       budget: "TBD",
-      year: "Study Phase",
+      year: "Study phase",
       description:
         "Expansion of sewerage coverage to unserved areas, identified as priority in GCAP water sector roadmap.",
       technicalSpecs: {
@@ -265,7 +316,7 @@ export const projectsData = {
       },
       financialFramework: [],
       vision2030Pillars: ["Health", "Environment"],
-      imagePlaceholder: "Infrastructure Expansion",
+      imagePlaceholder: "Infrastructure expansion",
     },
     // Climate Resilience
     {
@@ -273,17 +324,19 @@ export const projectsData = {
       title: "Sustainable Drainage Systems (SuDS)",
       category: "climate",
       status: "Under Development", // Labeled "Short-Term Priority" in text, mapping to closest status or adding new one
-      budget: "€35 Million",
-      year: "1-3 Year Implementation",
+      budget: "€35 million",
+      year: "1-3 year implementation",
       description:
         "Green infrastructure approach targeting city hotspots. Co-benefits: Flood risk reduction, groundwater recharge, urban cooling.",
       technicalSpecs: {
-        Approach: "Green Infrastructure",
-        Target: "City Hotspots",
+        Approach: "Green infrastructure",
+        Target: "City hotspots",
       },
       financialFramework: [],
-      vision2030Pillars: ["Climate Action", "Urban Resilience"],
-      imagePlaceholder: "Urban Green Drainage",
+      vision2030Pillars: ["Climate action", "Urban resilience"],
+      imagePlaceholder: "Urban green drainage",
+      image: "/images/suds-green-drainage-concept.jpg",
+      isConcept: true,
     },
     // Industrial
     {
@@ -291,57 +344,59 @@ export const projectsData = {
       title: "Alstom Industrial Complex — Borg El Arab",
       category: "industrial",
       status: "Under Construction",
-      budget: "Strategic Investment",
+      budget: "Strategic investment",
       year: "Announced 2025",
       description:
         "Strategic industrial development focusing on railway manufacturing localization.",
       technicalSpecs: {
-        "Total Area": "40 feddans",
+        "Total area": "40 feddans",
         Scope: "LRT, Monorail, HSR",
         Impact: "Export capacity to Africa & Middle East",
       },
       financialFramework: [],
-      vision2030Pillars: ["Localization", "Economic Growth"],
-      imagePlaceholder: "Industrial Complex",
+      vision2030Pillars: ["Localization", "Economic growth"],
+      imagePlaceholder: "Industrial complex",
+      image: "/images/rail-factory-borg-el-arab-concept.jpg",
+      isConcept: true,
     },
   ],
   vision2030: {
-    title: "Egypt Vision 2030 Strategic Alignment",
+    title: "Egypt Vision 2030 strategic alignment",
     description:
-      "All major infrastructure projects demonstrate explicit Vision 2030 alignment across economic, social, and environmental dimensions, with six flagship initiatives currently under construction.",
+      "All major infrastructure projects demonstrate explicit Vision 2030 alignment across economic, social, and environmental dimensions, with four projects currently under construction.",
     pillars: [
       {
-        title: "Economic Competitiveness",
+        title: "Economic competitiveness",
         items: [
-          "Productivity Gains",
-          "Manufacturing Localization",
-          "Logistics Efficiency",
+          "Productivity gains",
+          "Manufacturing localization",
+          "Logistics efficiency",
         ],
       },
       {
-        title: "Social Equity",
-        items: ["Transport Access", "Affordable Services", "Universal Design"],
+        title: "Social equity",
+        items: ["Transport access", "Affordable services", "Universal design"],
       },
       {
-        title: "Environmental Sustainability",
+        title: "Environmental sustainability",
         items: [
-          "Modal Shift Impact",
-          "Renewable Expansion",
-          "Circular Economy",
+          "Modal shift impact",
+          "Renewable expansion",
+          "Circular economy",
         ],
       },
     ],
   },
   gcap: {
     title: "Alexandria Green City Action Plan (GCAP)",
-    budget: "€506M Total Identified",
+    budget: "≈€180M in listed pipeline items",
     description:
       "A comprehensive 10-15 year strategic framework integrating all infrastructure sectors.",
     pipeline: [
       { sector: "Transport", value: "€20M+ (BRT)" },
       { sector: "Energy", value: "€64.6M identified" },
       { sector: "Water/Wastewater", value: "€60M+" },
-      { sector: "Climate Resilience", value: "€35M+ (SuDS)" },
+      { sector: "Climate resilience", value: "€35M+ (SuDS)" },
     ],
   },
 } as const;
