@@ -219,8 +219,11 @@ Done with the design skills (frontend-design, make-interfaces-feel-better, react
 - [ ] Layered city map: ancient coastline, today's Corniche and planned routes, with "indicative location" labels.
 - [ ] Full Arabic with right-to-left layout (i18n, `dir="rtl"`, logical spacing utilities).
 - [ ] Rising-sea climate story, only with IPCC AR6 sources.
-- [x] News topic filter kept in the URL (`/news?topic=`). Search and sort can wait until there are more items.
-- [ ] News: refresh `newsData.ts` monthly (source-researcher → claim-verifier). Optional home teaser of the latest 3.
+- [x] News search and topic filter kept in the URL (`/news?q=&topic=`), with a Governorate topic and an "In the news" strip on `/governor`.
+- [x] News is a blog: `/news/:id` posts written from one source each (`newsPosts.ts`), licensed related photos (`newsImages.ts`, credited), home and governor teasers.
+- [x] News refresh every 3 days and a weekly data audit as GitHub Actions that open PRs (`.github/workflows/`).
+- [ ] Bots: add the `ANTHROPIC_API_KEY` secret, allow Actions to create PRs, merge the workflows into `production`, then run each once by hand.
+- [ ] `raml-tram-suspended` has no post body (source paywalled).
 - [ ] Practical visitor info (hours, tickets, transport) with "data as of" dates.
 - [ ] "Then / now / 2030" photos with credits and "Concept" badges.
 - [ ] Cavafy lines between sections (Greek plus your own or a public-domain translation).

@@ -1,53 +1,51 @@
 import { useSearchParams } from 'react-router-dom';
-import { Info } from 'lucide-react';
+import { Info, Search, X } from 'lucide-react';
 import PageMeta from '../components/PageMeta';
-import { newsCategories, newsItems, type NewsCategory, type NewsItem } from '../data/newsData';
-import { LeadEntry, NewsEntry } from '../sections/news/NewsEntry';
+import { matchesQuery, topicSlug as slug, newsCategories, newsItems, type NewsCategory, type NewsItem } from '../data/newsData';
+import { LeadCard, NewsCard } from '../sections/news/NewsCard';
 import { REPORT_ISSUE_URL, formatFactDate } from '../lib/factFormat';
 import { cn } from '@/lib/utils';
 
-const slug = (c: NewsCategory) => c.toLowerCase().replace(/[^a-z]+/g, '-');
+const RESET_LINK = 'min-h-11 rounded-sm font-semibold text-sea underline underline-offset-2 hover:text-ink';
 
 const byNewest = (a: NewsItem, b: NewsItem) => b.date.localeCompare(a.date);
-
-/** Groups items (already newest first) by "YYYY-MM". */
-function groupByMonth(items: readonly NewsItem[]) {
-  const groups: { month: string; items: NewsItem[] }[] = [];
-  for (const item of items) {
-    const month = item.date.slice(0, 7);
-    const last = groups.at(-1);
-    if (last?.month === month) last.items.push(item);
-    else groups.push({ month, items: [item] });
-  }
-  return groups;
-}
 
 export default function NewsPage() {
   const [params, setParams] = useSearchParams();
   const topic = newsCategories.find((c) => slug(c) === params.get('topic'));
+  const query = params.get('q') ?? '';
+  const searching = query.trim() !== '';
 
   const sorted = [...newsItems].sort(byNewest);
-  const visible = topic ? sorted.filter((i) => i.category === topic) : sorted;
-  const [lead, ...rest] = visible;
-  const months = groupByMonth(rest);
+  const found = searching ? sorted.filter((i) => matchesQuery(i, query)) : sorted;
+  const visible = topic ? found.filter((i) => i.category === topic) : found;
+  // While searching, every result sits in the grid; the lead layout is for browsing.
+  const lead = searching ? undefined : visible[0];
+  const rest = searching ? visible : visible.slice(1);
 
-  const setTopic = (next?: NewsCategory) =>
-    setParams(next ? { topic: slug(next) } : {}, { replace: true });
+  // Topic and search are both kept in the URL, so a filtered view can be shared.
+  const update = (key: 'topic' | 'q', value?: string) => {
+    const next = new URLSearchParams(params);
+    if (value) next.set(key, value);
+    else next.delete(key);
+    setParams(next, { replace: true });
+  };
+  const setTopic = (next?: NewsCategory) => update('topic', next && slug(next));
 
-  // Topics with no reports are hidden rather than disabled.
+  // Topics with no reports at all are hidden; counts follow the search.
   const filters: { label: string; value?: NewsCategory; count: number }[] = [
-    { label: 'All', count: sorted.length },
+    { label: 'All', count: found.length },
     ...newsCategories
-      .map((c) => ({ label: c, value: c, count: sorted.filter((i) => i.category === c).length }))
-      .filter((f) => f.count > 0),
+      .filter((c) => sorted.some((i) => i.category === c))
+      .map((c) => ({ label: c, value: c, count: found.filter((i) => i.category === c).length })),
   ];
-  const plural = (n: number) => `${n} ${n === 1 ? 'report' : 'reports'}`;
+  const plural = (n: number) => `${n} ${n === 1 ? 'story' : 'stories'}`;
 
   return (
     <div className="bg-white pt-20">
       <PageMeta
         title="City briefing"
-        description="Recent reporting on Alexandria's transport, heritage, economy and environment, summarised in a line and linked to the original outlet."
+        description="Short, sourced stories about Alexandria's governorate, transport, heritage, economy and environment, written from public reporting with a link to each original."
       />
 
       <header className="wall-of-scripts relative bg-ink py-16 text-white md:py-20">
@@ -59,18 +57,52 @@ export default function NewsPage() {
             City briefing
           </h1>
           <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-white/80 md:text-xl">
-            What other outlets are reporting about Alexandria. We don&rsquo;t write the news: each item is
-            a one-line summary that links to the original report.
+            Short stories about what is happening in Alexandria, written in our own words from public
+            reporting. Every story names its source and links to the original.
           </p>
           {sorted[0] && (
             <p className="mt-6 text-sm text-white/60">
-              Latest item {formatFactDate(sorted[0].date.slice(0, 7))} · {plural(sorted.length)}
+              Latest story {formatFactDate(sorted[0].date.slice(0, 7))} · {plural(sorted.length)}
             </p>
           )}
         </div>
       </header>
 
       <div className="alex-container py-12 md:py-16">
+        {sorted.length > 0 && (
+          <search role="search" className="mb-6 block max-w-xl">
+            <label htmlFor="news-search" className="text-sm font-semibold text-ink">
+              Search stories
+            </label>
+            <div className="relative mt-2">
+              <Search
+                aria-hidden="true"
+                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-soft"
+              />
+              <input
+                id="news-search"
+                type="search"
+                enterKeyHint="search"
+                autoComplete="off"
+                value={query}
+                onChange={(e) => update('q', e.target.value)}
+                placeholder="e.g. governor, tram, beaches"
+                className="min-h-12 w-full rounded-md border border-limestone bg-white py-3 pl-12 pr-12 text-base text-ink placeholder:text-ink-soft/70 focus:border-sea focus:outline-none focus:ring-2 focus:ring-tram [&::-webkit-search-cancel-button]:hidden"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => update('q')}
+                  className="absolute right-1 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-ink-soft hover:text-ink"
+                >
+                  <X aria-hidden="true" className="h-5 w-5" />
+                  <span className="sr-only">Clear search</span>
+                </button>
+              )}
+            </div>
+          </search>
+        )}
+
         {sorted.length > 0 && (
           <div role="group" aria-label="Filter by topic" className="mb-12 border-b border-limestone">
             <ul className="-mb-px flex flex-wrap gap-x-1">
@@ -105,25 +137,46 @@ export default function NewsPage() {
         )}
 
         <div>
-          {lead ? (
+          {visible.length > 0 ? (
             <>
-              <LeadEntry item={lead} />
-              {months.map((group) => (
-                <section key={group.month} aria-labelledby={`m-${group.month}`} className="mt-16">
-                  <h2 id={`m-${group.month}`} className="mb-2 text-2xl text-ink md:text-3xl">
-                    {formatFactDate(group.month)}
+              {lead && <LeadCard item={lead} />}
+              {rest.length > 0 && (
+                <section aria-labelledby="more-reports" className={cn(lead && 'mt-20 border-t border-limestone pt-12')}>
+                  <h2 id="more-reports" className={cn('mb-8 text-2xl text-ink md:text-3xl', !lead && 'sr-only')}>
+                    {lead ? 'More reports' : 'Results'}
                   </h2>
-                  <ul>
-                    {group.items.map((item) => (
-                      <NewsEntry key={item.id} item={item} showCategory={!topic} />
+                  <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+                    {rest.map((item) => (
+                      <li key={item.id} className="flex">
+                        <NewsCard item={item} showCategory={!topic} />
+                      </li>
                     ))}
                   </ul>
                 </section>
-              ))}
+              )}
             </>
+          ) : sorted.length > 0 ? (
+            <div className="py-16 text-center">
+              <p className="text-lg text-ink-soft">
+                No stories match{searching ? ` “${query.trim()}”` : ''}
+                {topic ? ` in ${topic}` : ''}.
+              </p>
+              <p className="mt-4 flex flex-wrap justify-center gap-x-6">
+                {searching && (
+                  <button type="button" onClick={() => update('q')} className={RESET_LINK}>
+                    Clear search
+                  </button>
+                )}
+                {topic && (
+                  <button type="button" onClick={() => update('topic')} className={RESET_LINK}>
+                    All topics
+                  </button>
+                )}
+              </p>
+            </div>
           ) : (
             <p className="py-16 text-center text-lg text-ink-soft">
-              No reports here yet. The briefing only lists stories we can link to a source.
+              No stories here yet. The briefing only covers news we can link to a source.
             </p>
           )}
         </div>
@@ -131,8 +184,9 @@ export default function NewsPage() {
         <p className="mt-16 flex items-start gap-2 border-t border-limestone pt-8 text-sm text-ink-soft">
           <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
           <span>
-            Summaries are ours; the reporting belongs to each outlet, so check the original before relying
-            on it. Broken link, error, or a story we missed?{' '}
+            Stories are summaries in our own words; the reporting belongs to each outlet, so check the original
+            before relying on it. Photos show the place a story is about, not the event itself. Error, broken
+            link, or a story we missed?{' '}
             <a
               href={REPORT_ISSUE_URL}
               target="_blank"
