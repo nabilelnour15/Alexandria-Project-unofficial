@@ -88,7 +88,7 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
   - Tram yellow `#F2C230` for "live" signals only
 - [x] 🟠 Fonts: Cormorant Garamond for headings, Inter or Open Sans for body text, Noto Naskh Arabic for Arabic. Remove the inline `font-['Montserrat']`.
 - [ ] 🟡 Merge the 3 copies of `PlaceholderImage` into the shared one, with an `icon` prop.
-- [ ] 🟡 Replace the 7 copies of the IntersectionObserver code with a `useInView` hook.
+- [x] 🟡 Replace the 7 copies of the IntersectionObserver code with a `useInView` hook. (None left; framer-motion's `useInView` is used.)
 - [ ] 🟡 Move hard-coded content (nav links, footer, invest arrays, search terms) into `src/data`.
 - [ ] 🟢 Use `@/` imports everywhere and add Prettier.
 
@@ -122,7 +122,7 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 - [x] Recharts split into a lazy `ClimateChart` chunk. The main bundle went from 1,003 kB to about 445 kB.
 - [x] 🟠 Add `public/images/og-image.jpg` (prompt in `docs/image-prompts.md`). `index.html` already references it. Done Oct 2026 with a real CC0 Wikimedia photo of Qaitbay at night (credit in `docs/image-credits.md`). It can be swapped for the AI version later.
   - [ ] Replace the placeholder domain `alexandria-unofficial.example` in the `og:image`, `og:url` and `twitter:image` tags in `index.html` once the site has its real URL.
-- [ ] 🟡 Spot-check the Arabic-source governor facts (Al-Dostor, Al-Ahram) against the original articles.
+- [x] 🟡 Spot-check the Arabic-source governor facts (Al-Dostor, Al-Ahram) against the original articles. (All 4 confirmed, Oct 2026; two entries reworded to describe actions, not statements.)
 - [x] Wall-of-scripts script set confirmed by the owner (no Hebrew; "EGYPT" added).
 
 ## Phase 2: signature features
@@ -134,8 +134,8 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 - [ ] "Wall of scripts" texture on dark sections and the footer.
 - [ ] One wave-scroll divider and inscription-style section labels.
 - [ ] Dusk Corniche hero image with a Qaitbay silhouette.
-- [ ] Footer links that jump to page sections (`/visit#transport`), with scrolling to those sections in `ScrollToTop`.
-- [ ] Ctrl+K site search (`cmdk` is already installed).
+- [x] Footer links that jump to page sections (`/visit#transport`), with scrolling to those sections in `ScrollToTop`.
+- [x] Ctrl+K site search: lazy-loaded `cmdk` palette (`SiteSearch.tsx`, `lib/searchIndex.ts`); not yet tested in a browser.
 - [ ] Calls to action that fit each page.
 
 ### "Live here" page (`/live`): services guide, community, getting around
@@ -151,7 +151,8 @@ Residents' page alongside Visit (visitors) and Invest (business). Ideas taken fr
     - Data files now hold 14 services, 2 places and 4 recurring events, each labelled `Official` or `Reported`.
     - Fire is settled as **180**, from the Ministry of Interior page. 125 is the water hotline.
   - **Round 2 to-do:**
-    - Official sources for ambulance 123 and the Ministry of Health hotline (105 or 15335; sources conflict).
+    - ~~Official sources for ambulance 123 and the Ministry of Health hotline~~ → done Oct 2026: 123 is Reported (head of the Ambulance Authority in the press); 105 is the ministry's unified hotline, and 15335 is the 100 Million Seha line. Also added: e-invoicing (Official) and Telecom Egypt bill payment (Official).
+    - Round 2 leads not added (evidence too thin): Jesuit Cultural Centre (site has an expired certificate), Goethe-Institut (403 to bots, check by hand), Resala (no Alexandria branch page), Red Crescent, the Biennale (opening unconfirmed), the marathon (aggregator only), the BA summer festival and Fête de la Musique (unconfirmed). Universal Health Insurance has not launched in Alexandria.
     - Pages that need a browser (JavaScript only or certificate errors):
       - Digital Egypt service list
       - Telecom Egypt `my.te.eg`
@@ -177,7 +178,7 @@ Residents' page alongside Visit (visitors) and Invest (business). Ideas taken fr
   - [ ] Browser QA at phone width. Window resizing didn't work during the Oct 2026 check, so only desktop was seen.
 - [x] 🟡 "Suggest a place or event": a GitHub issue form (`.github/ISSUE_TEMPLATE/suggest-listing.yml`) linked the same way as "Report an inaccuracy" in `lib/factFormat.ts`. The owner reviews suggestions and adds them to the data file.
   - **Decide:** GitHub needs an account. If that's too much of a barrier, use a Tally or Google Form and add a privacy note.
-- [ ] 🟡 `scripts/check-links.mjs`: a manual check that every outbound `url` still resolves. Run it at each "Last reviewed".
+- [x] 🟡 `scripts/check-links.mjs`: checks every outbound `url` (also run by the weekly audit).
 - [ ] 🟡 Getting around: live traffic, see the section below.
 
 ### Live traffic ("Getting around" tab on `/live`)
@@ -204,14 +205,14 @@ Done with the design skills (frontend-design, make-interfaces-feel-better, react
 - [x] Projects: a stage ledger with status filters and a "who is paying" view.
 - [x] Governance: a dated record in office, each entry with its source (6 of 7 claims checked by the claim-verifier).
 - [ ] 🟠 Browser QA at phone width for all six pages. Window resizing didn't work in this session.
-- [ ] 🟡 Governance: the Al-Mandara bridge entry was removed because no source covers it. Add it back only with a link.
+- [x] 🟡 Governance: Al-Mandara bridge. Sourced (Mohamed Naguib St overpass, East Corniche expansion), but it was a Housing Ministry project begun before Feb 2026, so it stays out of the governor's record.
 - [ ] 🟡 Governance portrait: Wikimedia Commons has nothing. Ask the governorate's media office for permission to use an official photo (with credit). Never use an AI likeness.
 - [ ] 🟡 Electric Bus project: replace the hotlinked dailynewsegypt.com photo with a freely licensed one.
-- [ ] 🟡 Visit climate: the figures cite "WMO" but have no `factId`, so they need a `facts.ts` entry. The same goes for the Invest figures with no `factId` (162.1k acres, the 1.96 coefficient, the 1.7M t sand reserve).
+- [x] 🟡 Visit climate: 1991–2020 El Nouzha normals in `facts.climateNormals` (Reported, secondary table; swap in the primary NOAA file when possible). Invest figures with no source were dropped and listed in `unsourcedFigures`.
 - [ ] 🟡 Invest: the stock images (`invest-*.jpg`, `white_sand.jpg`, `sodium_chloride.jpg`, `law_invest.jpg`) have no known source. Check whether they're licensed or AI. `invest-power.jpg`, which shows identifiable officials, is no longer used.
 - [ ] 🟢 About: the Great Library image is a painting of unknown origin. It's captioned "Artistic reconstruction" for now; find its source.
 - [ ] 🟢 Projects: "committed vs identified vs unfunded" needs sourced `facts.ts` entries before it can be built.
-- [ ] 🟢 Deep links like `/about#explore` open at the wrong spot, because the route is lazy-loaded (see the ScrollToTop item above).
+- [x] 🟢 Deep links like `/about#explore`: `ScrollToTop` now waits for the lazy page, then scrolls and moves focus.
 - [ ] 🟢 Dead code: `SectionTitle.tsx`, and `PlaceholderImage` (used only inside the commented-out Invest opportunities).
 - [ ] 🟢 Live here: a native speaker should check the Arabic hero line «الحياة في الإسكندرية».
 
@@ -223,7 +224,7 @@ Done with the design skills (frontend-design, make-interfaces-feel-better, react
 - [x] News is a blog: `/news/:id` posts written from one source each (`newsPosts.ts`), licensed related photos (`newsImages.ts`, credited), home and governor teasers.
 - [x] News refresh every 3 days and a weekly data audit as GitHub Actions that open PRs (`.github/workflows/`).
 - [ ] Bots: add the `ANTHROPIC_API_KEY` secret, allow Actions to create PRs, merge the workflows into `production`, then run each once by hand.
-- [ ] `raml-tram-suspended` has no post body (source paywalled).
+- [x] `raml-tram-suspended`: re-sourced to Urban Transport Magazine (free) and given a checked post.
 - [ ] Practical visitor info (hours, tickets, transport) with "data as of" dates.
 - [ ] "Then / now / 2030" photos with credits and "Concept" badges.
 - [ ] Cavafy lines between sections (Greek plus your own or a public-domain translation).
