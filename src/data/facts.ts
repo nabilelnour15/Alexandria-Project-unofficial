@@ -311,6 +311,21 @@ export const facts = {
     note: 'The four are Raml tram, Abu Qir metro, the regional control centre and the Alstom complex. Ideally computed from the data at render time.',
   },
 
+  // ---- Climate ------------------------------------------------------------
+  climateNormals: {
+    id: 'climateNormals',
+    label: 'Monthly climate normals, Alexandria (El Nouzha, WMO 62318), 1991–2020',
+    value: 'Highs 18.4–31.0 °C, lows 9.5–24.4 °C, about 212 mm of rain a year',
+    unit: '°C / mm',
+    source: {
+      label: 'Climate table for Alexandria (El Nouzha Airport), 1991–2020 normals, on Wikipedia, citing NOAA',
+      url: 'https://en.wikipedia.org/wiki/Alexandria#Climate',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: 'Secondary table; the primary NOAA/WMO normals file was not read. Sea temperatures have no source yet.',
+  },
+
   // ---- Heritage -----------------------------------------------------------
   pompeysPillarHeight: {
     id: 'pompeysPillarHeight',
@@ -412,6 +427,11 @@ export const facts = {
 
 export type FactId = keyof typeof facts;
 
+/** Facts that carry a `numeric` value (for counters and charts). */
+export type NumericFactId = {
+  [K in FactId]: (typeof facts)[K] extends { numeric: number } ? K : never;
+}[FactId];
+
 /**
  * Figures the site used to show without a source. None of them remain in `src/`:
  * each was either removed outright or reworded without a number. `where` says
@@ -422,6 +442,16 @@ export const unsourcedFigures: {
   status: 'removed' | 'reworded';
   where: string;
 }[] = [
+  {
+    figure: '162.1k acres farmed, 133k acres arable, 1.96 crop-intensification coefficient',
+    status: 'reworded',
+    where: 'Invest, agricultural investment card (Oct 2026): no source found, figures dropped.',
+  },
+  {
+    figure: '1.7 million t white sand reserve (Lower Wadi Al-Natroun)',
+    status: 'removed',
+    where: 'Invest, raw materials (Oct 2026): no source found.',
+  },
   {
     figure: '$40B GDP contribution',
     status: 'removed',

@@ -125,12 +125,6 @@ export default function InvestSections() {
               <p className="text-ink">
                 {mat.location}, {mat.region}
               </p>
-              {mat.reserve && (
-                <p>
-                  <span className="font-semibold text-ink">Reserve: </span>
-                  {mat.reserve}
-                </p>
-              )}
               {mat.description && <p>{mat.description}</p>}
               {mat.uses && (
                 <p>

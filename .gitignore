@@ -113,3 +113,4 @@ dist-ssr
 # Content bots (GitHub Actions)
 bot-report.md
 link-report.json
+.claude/worktrees/

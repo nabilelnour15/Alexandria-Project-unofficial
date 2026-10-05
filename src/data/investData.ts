@@ -72,7 +72,6 @@ export const investData = {
       name: "White Sand",
       region: "Western Desert (Lower Wadi Al-Natroun)",
       location: "at 115km on Cairo/ Alexandria desert road",
-      reserve: "1.7 million metric tons",
       industries: [
         "Glass products (lenses, glass panes and frosted glass)",
         "Faience, ceramics, bathroom tools, and kitchen utensils",
@@ -149,8 +148,7 @@ export const investData = {
     {
       title: "Agricultural Investment",
       description:
-        "162.1k acres of farmed land + 133k acres arable. Key crops depend on Al Mahmoudeya Canal and rainwater in NW Coast.",
-      intensification: "1.96 coefficient",
+        "Farming around Alexandria depends on the Mahmoudiyah Canal and, on the north-west coast, on rainfall.",
       image: "/images/invest-agriculture.jpg",
     },
   ] satisfies InvestmentDriver[],

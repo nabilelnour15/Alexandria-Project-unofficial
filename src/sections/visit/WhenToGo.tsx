@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import { climateData } from '@/data/visitData';
+import SourceChip from '@/components/SourceChip';
 
 // recharts is heavy; load it only when the detailed chart is opened
 const ClimateChart = lazy(() => import('../ClimateChart'));
@@ -37,7 +38,8 @@ export default function WhenToGo() {
         >
           <table className="w-full min-w-[40rem] table-fixed border-collapse text-center tabular-nums">
             <caption className="mb-4 text-left text-sm text-ink-soft">
-              Monthly averages. Gold marks the months best for a visit. Source: WMO.
+              Monthly averages, 1991–2020 (El Nouzha station). Gold marks the months best for a visit.{' '}
+              <SourceChip factId="climateNormals" />
             </caption>
             <thead>
               <tr>

@@ -81,12 +81,12 @@ export const services: ServiceLink[] = [
     channel: 'phone',
     url: 'tel:123',
     source: {
-      label: 'American University in Cairo – Emergencies',
-      url: 'https://www.aucegypt.edu/faculty-and-staff/housing/emergencies',
+      label: 'Egypt Telegraph – head of the Ambulance Authority on line 123',
+      url: 'https://www.egypttelegraph.com/article/267019/الإسعاف-خدمات-الطوارئ-مجانية-و86-من-مكالمات',
     },
     confidence: 'Reported',
     asOf: '2026-10',
-    note: 'Not on the Ministry of Interior list; still looking for a Ministry of Health source.',
+    note: 'Given by the head of the Ambulance Authority in the press; no ministry page lists it yet.',
   },
   {
     id: 'civil-protection',
@@ -163,6 +163,18 @@ export const services: ServiceLink[] = [
     confidence: 'Reported',
     asOf: '2026-10',
   },
+  {
+    id: 'telecom-egypt-bill',
+    title: 'Pay your landline or home internet bill',
+    titleAr: 'سداد فاتورة المصرية للاتصالات (WE)',
+    category: 'utilities',
+    provider: 'Telecom Egypt (WE)',
+    channel: 'online',
+    url: 'https://te.eg/en/web/guest/w/my-we-app',
+    howTo: ['Pay in the My WE app, or for someone else’s line.'],
+    confidence: 'Official',
+    asOf: '2026-10',
+  },
 
   // ---- Documents & ID ------------------------------------------------------
   {
@@ -207,6 +219,22 @@ export const services: ServiceLink[] = [
     confidence: 'Official',
     asOf: '2026-10',
   },
+  {
+    id: 'health-hotline',
+    title: 'Ministry of Health hotline',
+    titleAr: 'الخط الساخن الموحد لوزارة الصحة والسكان',
+    category: 'health',
+    provider: 'Ministry of Health and Population',
+    channel: 'phone',
+    url: 'tel:105',
+    source: {
+      label: 'Youm7 – ministry figures for the unified hotline 105 (Aug 2026)',
+      url: 'https://www.youm7.com/story/2026/8/2/الصحة-الخط-الساخن-الموحد-105-يسجل-أكثر-من-38-ألف/7500216',
+    },
+    confidence: 'Reported',
+    asOf: '2026-10',
+    note: '15335 is a separate line for the 100 Million Seha campaign.',
+  },
 
   // ---- Business ------------------------------------------------------------
   {
@@ -219,6 +247,18 @@ export const services: ServiceLink[] = [
     confidence: 'Official',
     asOf: '2026-10',
     note: 'GAFI also runs an Investors Services Centre in Alexandria (Daily News Egypt, June 2026).',
+  },
+  {
+    id: 'e-invoicing',
+    title: 'E-invoice and e-receipt system',
+    titleAr: 'منظومة الفاتورة الإلكترونية',
+    category: 'business',
+    provider: 'Egyptian Tax Authority',
+    channel: 'online',
+    url: 'https://ssp.eta.gov.eg/',
+    source: { label: 'Egyptian Tax Authority', url: 'https://www.eta.gov.eg' },
+    confidence: 'Official',
+    asOf: '2026-10',
   },
 
   // ---- Complaints ----------------------------------------------------------
