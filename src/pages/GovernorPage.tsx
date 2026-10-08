@@ -9,10 +9,7 @@ import NewsTeaser from '../sections/NewsTeaser';
 export default function GovernorPage() {
   return (
     <div className="bg-white">
-      <PageMeta
-        title="Governor of Alexandria"
-        description="Who leads Alexandria Governorate: the governor's background, priorities and record, compiled by an unofficial fan project from public sources."
-      />
+      <PageMeta path="/governor" />
       <GovernorHero />
       <Background />
       <TenureRecord />

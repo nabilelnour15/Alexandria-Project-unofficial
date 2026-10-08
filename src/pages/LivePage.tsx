@@ -27,10 +27,7 @@ export default function LivePage() {
 
   return (
     <div className="bg-white pt-20">
-      <PageMeta
-        title="Live in Alexandria"
-        description="An unofficial residents' guide to Alexandria: where to go for bills, documents and emergencies, community places and yearly events, and live traffic links."
-      />
+      <PageMeta path="/live" />
 
       <header className="wall-of-scripts relative bg-ink py-16 text-white md:py-20">
         <div className="alex-container">

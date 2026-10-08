@@ -8,10 +8,7 @@ import FactsNote from '../components/FactsNote';
 export default function ProjectsPage() {
   return (
     <div className="bg-white selection:bg-sea-mist selection:text-sea">
-      <PageMeta
-        title="City projects"
-        description="Major infrastructure and development projects in Alexandria, with status, budgets, timelines and how they align with Egypt Vision 2030."
-      />
+      <PageMeta path="/projects" />
       <ProjectsHero headingLevel={1} />
       <ProjectList />
       <Vision2030Section />

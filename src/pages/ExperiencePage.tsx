@@ -14,10 +14,7 @@ import '../experience/experience.css';
 export default function ExperiencePage() {
   return (
     <div className="xp bg-white">
-      <PageMeta
-        title="The Pharos remembered"
-        description="A scroll story through Alexandria: a lighthouse beam over the Eastern Harbour, twenty-three centuries of layered city, a walk along the Corniche and the lines being built for 2030."
-      />
+      <PageMeta path="/experience" />
       <TramProgress />
       <BeamHero />
       <LayeredCity />

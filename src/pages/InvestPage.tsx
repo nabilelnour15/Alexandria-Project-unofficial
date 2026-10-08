@@ -10,10 +10,7 @@ import WhereToAct from "../sections/invest/WhereToAct";
 export default function InvestPage() {
   return (
     <>
-      <PageMeta
-        title="Invest in Alexandria"
-        description="Why invest in Alexandria: its ports, free zones, industrial areas, key sectors and the investment laws and incentives that apply."
-      />
+      <PageMeta path="/invest" />
       <InvestHero />
       <WhyAlexandria />
 
