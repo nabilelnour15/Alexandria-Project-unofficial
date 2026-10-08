@@ -1,4 +1,4 @@
-import PortraitPlaceholder from '@/components/PortraitPlaceholder';
+import ConceptBadge from '@/components/ConceptBadge';
 import { governorData } from '@/data/governorData';
 import { asOfLabel } from './asOfLabel';
 
@@ -59,9 +59,24 @@ export default function GovernorHero() {
           </nav>
         </div>
 
-        <div className="lg:col-span-4 lg:justify-self-end">
-          <PortraitPlaceholder />
-        </div>
+        <figure className="w-full max-w-[16rem] lg:col-span-4 lg:justify-self-end">
+          {/* Owner's decision (Oct 2026): an AI portrait, labelled on the image and in the
+              caption. Keep it out of share cards (src/data/pageMeta.ts), where labels are lost. */}
+          <div className="relative">
+            <img
+              src="/images/governor-portrait-ai.jpg"
+              alt={`AI-generated illustration of ${governorData.name}, not a photograph`}
+              width={896}
+              height={1200}
+              className="aspect-[4/5] w-full rounded-lg object-cover object-top outline outline-1 -outline-offset-1 outline-black/10"
+            />
+            <ConceptBadge label="AI-generated, not a photo" className="absolute left-2 top-2" />
+          </div>
+          <figcaption className="mt-3 text-pretty text-sm leading-relaxed text-ink-soft">
+            This image was made with AI. It is not a photograph of the governor and not an official
+            portrait.
+          </figcaption>
+        </figure>
       </div>
     </header>
   );
