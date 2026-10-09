@@ -129,7 +129,7 @@ export default function Navbar({
               <img 
                 src="/images/logo.svg" 
                 alt="Alexandria, home"
-                width={160}
+                width={137}
                 height={48}
                 className={`h-10 md:h-12 w-auto transition-all duration-300 ${
                   isScrolled || isInternal ? '' : 'brightness-0 invert'
