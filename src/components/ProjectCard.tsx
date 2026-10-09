@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { statusLabels, type Project } from '../data/projectsData';
 import SourceChip from './SourceChip';
 import ConceptBadge from './ConceptBadge';
+import PhotoCredit from './PhotoCredit';
 import {
   Dialog,
   DialogClose,
@@ -31,15 +32,18 @@ export function ProjectFigure({
     );
   }
   return (
-    <div className={`relative ${className}`}>
-      <img
-        src={project.image}
-        alt={project.imagePlaceholder}
-        loading="lazy"
-        decoding="async"
-        className="h-full w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-black/10"
-      />
-      {project.isConcept && <ConceptBadge className="absolute bottom-2 left-2" />}
+    <div>
+      <div className={`relative ${className}`}>
+        <img
+          src={project.image}
+          alt={project.imagePlaceholder}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-black/10"
+        />
+        {project.isConcept && <ConceptBadge className="absolute bottom-2 left-2" />}
+      </div>
+      <PhotoCredit credit={project.credit} className="mt-1.5" />
     </div>
   );
 }
@@ -135,7 +139,10 @@ export function ProjectDetailModal({
                       {f.source}
                       {f.instrument && <span className="block text-xs">{f.instrument}</span>}
                     </dt>
-                    <dd className="font-display text-2xl font-semibold tabular-nums text-ink">{f.amount}</dd>
+                    <dd className="font-display text-2xl font-semibold tabular-nums text-ink">
+                      {f.amount}
+                      {f.factId && <SourceChip factId={f.factId} iconOnly className="ml-1 text-ink-soft" />}
+                    </dd>
                   </div>
                 ))}
               </dl>

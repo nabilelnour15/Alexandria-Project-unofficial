@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Info, Search, X } from 'lucide-react';
 import PageMeta from '../components/PageMeta';
@@ -16,9 +17,12 @@ export default function NewsPage() {
   const query = params.get('q') ?? '';
   const searching = query.trim() !== '';
 
-  const sorted = [...newsItems].sort(byNewest);
-  const found = searching ? sorted.filter((i) => matchesQuery(i, query)) : sorted;
-  const visible = topic ? found.filter((i) => i.category === topic) : found;
+  const sorted = useMemo(() => [...newsItems].sort(byNewest), []);
+  const found = useMemo(
+    () => (searching ? sorted.filter((i) => matchesQuery(i, query)) : sorted),
+    [sorted, searching, query],
+  );
+  const visible = useMemo(() => (topic ? found.filter((i) => i.category === topic) : found), [found, topic]);
   // While searching, every result sits in the grid; the lead layout is for browsing.
   const lead = searching ? undefined : visible[0];
   const rest = searching ? visible : visible.slice(1);
@@ -43,10 +47,7 @@ export default function NewsPage() {
 
   return (
     <div className="bg-white pt-20">
-      <PageMeta
-        title="City briefing"
-        description="Short, sourced stories about Alexandria's governorate, transport, heritage, economy and environment, written from public reporting with a link to each original."
-      />
+      <PageMeta path="/news" />
 
       <header className="wall-of-scripts relative bg-ink py-16 text-white md:py-20">
         <div className="alex-container">
@@ -87,7 +88,7 @@ export default function NewsPage() {
                 value={query}
                 onChange={(e) => update('q', e.target.value)}
                 placeholder="e.g. governor, tram, beaches"
-                className="min-h-12 w-full rounded-md border border-limestone bg-white py-3 pl-12 pr-12 text-base text-ink placeholder:text-ink-soft/70 focus:border-sea focus:outline-none focus:ring-2 focus:ring-tram [&::-webkit-search-cancel-button]:hidden"
+                className="min-h-12 w-full rounded-md border border-limestone bg-white py-3 pl-12 pr-12 text-base text-ink placeholder:text-ink-soft focus:border-sea [&::-webkit-search-cancel-button]:hidden"
               />
               {query && (
                 <button

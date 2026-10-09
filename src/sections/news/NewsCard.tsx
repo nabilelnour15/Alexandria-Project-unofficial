@@ -98,7 +98,7 @@ function Source({ item }: { item: NewsItem }) {
 // is one link without a clickable div.
 // Keyboard focus rings the whole card (tram yellow is the site's focus colour).
 const STRETCHED_LINK =
-  'rounded-sm text-ink transition-colors after:absolute after:inset-0 after:-m-2 after:rounded-md hover:text-sea group-hover:text-sea focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-tram';
+  'rounded-sm text-ink transition-colors after:absolute after:inset-0 after:-m-2 after:rounded-md hover:text-sea group-hover:text-sea focus-visible:!shadow-none focus-visible:!outline-none focus-visible:after:outline focus-visible:after:outline-[3px] focus-visible:after:outline-offset-2 focus-visible:after:outline-tram focus-visible:after:shadow-[0_0_0_5px_rgb(var(--ink))]';
 
 interface CardProps {
   item: NewsItem;

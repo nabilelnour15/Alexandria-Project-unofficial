@@ -1,17 +1,11 @@
-import { useState, useEffect, type ReactNode } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect, lazy, Suspense, type ReactNode } from 'react';
+import { Menu, Search, X } from 'lucide-react';
+import { navLinks } from '@/lib/navLinks';
 import { Link, useLocation } from 'react-router-dom';
+import { prefetch } from '@/lib/routes';
+import RouteErrorBoundary from './RouteErrorBoundary';
 
-const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Governance', href: '/governor' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'News', href: '/news' },
-  { name: 'About', href: '/about' },
-  { name: 'Visit', href: '/visit' },
-  { name: 'Live here', href: '/live' },
-  { name: 'Invest', href: '/invest' },
-];
+const SiteSearch = lazy(() => import('./SiteSearch'));
 
 export default function Navbar({
   isInternal = false,
@@ -24,6 +18,42 @@ export default function Navbar({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const [searchOpen, setSearchOpen] = useState(false);
+  // Mount the search chunk the first time it is opened, then keep it mounted.
+  const [searchLoaded, setSearchLoaded] = useState(false);
+  const openSearch = () => {
+    setSearchLoaded(true);
+    setSearchOpen(true);
+  };
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const k = event.key.toLowerCase();
+      if (k === 'k' && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        setSearchLoaded(true);
+        setSearchOpen((o) => !o);
+        return;
+      }
+      if (k === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        if (event.defaultPrevented || event.repeat) return;
+        if (document.querySelector('[role=dialog][data-state=open]')) return;
+        const el = (event.target as HTMLElement | null) ?? (document.activeElement as HTMLElement | null);
+        if (
+          el &&
+          (el.isContentEditable ||
+            /^(input|textarea|select)$/i.test(el.tagName) ||
+            el.closest?.('[role=textbox], [role=combobox], [contenteditable]'))
+        )
+          return;
+        event.preventDefault();
+        setSearchLoaded(true);
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const [menuPath, setMenuPath] = useState(location.pathname);
 
   // Close the mobile menu whenever the route changes
@@ -81,13 +111,14 @@ export default function Navbar({
 
   return (
     <>
-      <nav
+      <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isInternal
           ? 'bg-white/95 backdrop-blur-xl border-b border-limestone'
           : 'bg-transparent'
           }`}
       >
         {banner}
+        <nav aria-label="Main">
         <div className="alex-container">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
@@ -97,7 +128,9 @@ export default function Navbar({
             >
               <img 
                 src="/images/logo.svg" 
-                alt="Alexandria · الإسكندرية — Home"
+                alt="Alexandria, home"
+                width={137}
+                height={48}
                 className={`h-10 md:h-12 w-auto transition-all duration-300 ${
                   isScrolled || isInternal ? '' : 'brightness-0 invert'
                 }`}
@@ -110,6 +143,9 @@ export default function Navbar({
                 <Link
                   key={link.name}
                   to={link.href}
+                  onMouseEnter={() => prefetch(link.href)}
+                  onFocus={() => prefetch(link.href)}
+                  onTouchStart={() => prefetch(link.href)}
                   aria-current={location.pathname === link.href ? 'page' : undefined}
                   className={`relative px-4 py-2 text-[0.9375rem] font-medium transition-colors duration-300 group ${isScrolled || isInternal
                     ? location.pathname === link.href ? 'text-ink font-semibold' : 'text-ink-soft hover:text-sea'
@@ -130,6 +166,19 @@ export default function Navbar({
 
             {/* Right Actions */}
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={openSearch}
+                aria-label="Search the site (Ctrl+K)"
+                aria-keyshortcuts="Control+K Meta+K"
+                className={`hidden lg:flex p-2 rounded-lg items-center gap-2 transition-colors duration-300 ${isScrolled || isInternal
+                  ? 'text-ink hover:bg-limestone/60'
+                  : 'text-white hover:bg-white/10'
+                  }`}
+              >
+                <Search className="w-5 h-5" aria-hidden="true" />
+                <kbd className="text-xs font-sans opacity-70" aria-hidden="true">⌘K</kbd>
+              </button>
               {/* Mobile Menu Button */}
               <button
                 type="button"
@@ -163,10 +212,25 @@ export default function Navbar({
         >
           <div className="alex-container py-4">
             <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  openSearch();
+                }}
+                aria-label="Search the site"
+                className="flex items-center gap-2 px-4 py-3 text-left font-medium text-ink rounded-lg hover:bg-sea-mist hover:text-sea transition-colors duration-200"
+              >
+                <Search className="w-5 h-5" aria-hidden="true" />
+                Search
+              </button>
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
+                  onMouseEnter={() => prefetch(link.href)}
+                  onFocus={() => prefetch(link.href)}
+                  onTouchStart={() => prefetch(link.href)}
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-current={location.pathname === link.href ? 'page' : undefined}
                   className={`px-4 py-3 font-medium rounded-lg transition-colors duration-200 ${location.pathname === link.href
@@ -180,7 +244,15 @@ export default function Navbar({
             </div>
           </div>
         </div>
-      </nav>
+        </nav>
+      </header>
+      {searchLoaded && (
+        <RouteErrorBoundary silent>
+          <Suspense fallback={null}>
+            <SiteSearch open={searchOpen} onOpenChange={setSearchOpen} />
+          </Suspense>
+        </RouteErrorBoundary>
+      )}
     </>
   );
 }

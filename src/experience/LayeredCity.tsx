@@ -1,4 +1,4 @@
-import { useRef, useState, useSyncExternalStore } from 'react';
+import { useRef, useState } from 'react';
 import {
   AnimatePresence,
   motion,
@@ -13,6 +13,7 @@ import { timelineEvents, type TimelineEvent } from '@/data/aboutData';
 import { cn } from '@/lib/utils';
 import InscriptionHeading from './InscriptionHeading';
 import { duration } from './motion';
+import { useIsDesktop } from './useIsDesktop';
 
 const N = timelineEvents.length;
 const IMG = 'object-cover outline outline-1 -outline-offset-1 outline-white/10';
@@ -22,19 +23,6 @@ function YearChip({ year }: { year: string }) {
   if (year === '331 BCE') return <SourceChip factId="foundingYear" />;
   if (year === '1477–1479') return <SourceChip factId="qaitbayCitadelBuilt" />;
   return null;
-}
-
-const query = '(min-width: 1024px)';
-function useIsDesktop() {
-  return useSyncExternalStore(
-    (cb) => {
-      const mq = window.matchMedia(query);
-      mq.addEventListener('change', cb);
-      return () => mq.removeEventListener('change', cb);
-    },
-    () => window.matchMedia(query).matches,
-    () => false,
-  );
 }
 
 // Coastline stage: 0 = Ptolemaic shore, 1 = Heptastadion joins the island, 2 = modern Corniche.
@@ -118,7 +106,7 @@ function PinnedStage() {
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/20" />
 
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-10 px-12 pb-16">
-          <div className="max-w-xl" aria-live="polite">
+          <div className="max-w-xl">
             <AnimatePresence mode="wait">
               <motion.div
                 key={ev.year}
@@ -138,7 +126,7 @@ function PinnedStage() {
           <Coastline stage={stageOf(active)} />
         </div>
 
-        <nav aria-label="Eras" className="absolute right-6 top-1/2 flex -translate-y-1/2 gap-3">
+        <div aria-hidden="true" className="absolute right-6 top-1/2 flex -translate-y-1/2 gap-3">
           <div aria-hidden="true" className="relative w-px bg-white/20">
             <motion.div style={{ scaleY: scrollYProgress }} className="absolute inset-0 origin-top bg-tram" />
           </div>
@@ -146,14 +134,13 @@ function PinnedStage() {
             {timelineEvents.map((e, i) => (
               <li
                 key={e.year}
-                aria-current={i === active ? 'step' : undefined}
                 className={cn('tabular-nums', i === active ? 'font-semibold text-tram' : 'text-papyrus/60')}
               >
                 {e.year}
               </li>
             ))}
           </ol>
-        </nav>
+        </div>
       </div>
     </div>
   );

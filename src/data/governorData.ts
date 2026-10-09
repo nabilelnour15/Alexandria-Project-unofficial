@@ -69,7 +69,7 @@ export const governorData: GovernorData = {
     {
       date: "16 February 2026",
       title: "Sworn in as Governor of Alexandria",
-      text: "He was sworn in as Governor of Alexandria before President Abdel Fattah El-Sisi, having previously served as Governor of Qalyubia. According to Al-Dostor, on taking office he pledged to put serving citizens first and to respond quickly to residents' needs.",
+      text: "He was sworn in as Governor of Alexandria before President Abdel Fattah El-Sisi, having previously served as Governor of Qalyubia. ",
       sourceUrls: ["https://www.dostor.org/5422366"],
     },
     {
@@ -81,7 +81,7 @@ export const governorData: GovernorData = {
     {
       date: "24 February 2026",
       title: "Urgent executive plans",
-      text: "At his first meeting with executive leaders, Al-Dostor reports that he called for urgent plans on sanitation, street discipline and removing violations, protecting farmland from encroachment, and emergency readiness, together with stepped-up market inspections.",
+      text: "His first meeting with executive leaders, as reported by Al-Dostor, covered plans for sanitation, street discipline and removing violations, protecting farmland from encroachment, emergency readiness and market inspections.",
       sourceUrls: ["https://www.dostor.org/5432121"],
     },
     {

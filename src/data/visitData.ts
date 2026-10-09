@@ -40,13 +40,14 @@ export interface AttractionCategory {
 
 export const climateData = {
   months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  highs: [18, 19, 21, 24, 27, 29, 31, 31, 30, 28, 24, 20],
-  lows: [10, 10, 12, 14, 18, 22, 24, 24, 23, 19, 15, 11],
-  precipitation: [53, 35, 13, 2.6, 1, 0, 0, 0, 0.8, 8.3, 37, 53],
+  // 1991–2020 normals for El Nouzha (WMO 62318), see facts.climateNormals.
+  highs: [18.4, 19.0, 21.1, 24.1, 26.9, 29.1, 30.5, 31.0, 30.2, 27.8, 24.0, 20.1],
+  lows: [9.5, 9.7, 11.8, 14.3, 17.8, 21.7, 23.9, 24.4, 22.5, 19.3, 15.1, 11.1],
+  precipitation: [61.4, 35.2, 12.8, 2.6, 1.0, 0, 0, 0, 0.8, 8.3, 36.8, 52.7],
   /** Months the description below recommends (spring and autumn). */
   bestMonths: ['Mar', 'Apr', 'May', 'Jun', 'Sep', 'Oct', 'Nov'],
   seaTemp: [18, 17, 17, 18, 20, 23, 25, 26, 26, 25, 22, 20],
-  description: "Alexandria has a hot desert climate (BWh), but highly influenced by sea breeze. Summers are sunny, hot (avg 31°C), and humid, though evenings are breezy. Winters are mild (lows ~10-12°C) with occasional rain. Best time to visit is spring (March–June) and autumn (September–November)."
+  description: "Alexandria has a hot desert climate (BWh), but highly influenced by sea breeze. Summers are sunny, hot (highs around 30–31°C) and humid, though evenings are breezy. Winters are mild (lows around 10–12°C), and most of the year's rain falls from November to February. Best time to visit is spring (March–June) and autumn (September–November)."
 };
 
 export const transportTabs: TransportTab[] = [
@@ -176,7 +177,8 @@ export const attractionCategories: AttractionCategory[] = [
       },
       {
         name: "Cavafy Museum",
-        desc: "House of the Greek-Alexandrian poet. (Closed as of Feb 2024).",
+        desc: "House of the Greek-Alexandrian poet. Reopened in May 2024 after restoration by the Onassis Foundation.",
+        factId: "cavafyReopened",
         location: "Downtown",
         image: "/images/Cavafy-Museum.jpg",
       },

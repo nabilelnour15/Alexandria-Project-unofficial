@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { animate, motion, useInView, useReducedMotion } from 'framer-motion';
 import SourceChip from '@/components/SourceChip';
-import { facts, type FactId } from '@/data/facts';
+import { facts, type NumericFactId } from '@/data/facts';
 import InscriptionHeading from './InscriptionHeading';
 import { duration, ease, onceInView, shouldAnimate } from './motion';
 
-function Stat({ factId, label }: { factId: FactId; label: string }) {
+function Stat({ factId, label }: { factId: NumericFactId; label: string }) {
   const f = facts[factId];
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, onceInView);

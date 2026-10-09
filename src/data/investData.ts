@@ -1,4 +1,5 @@
 import type { FactId } from "./facts";
+import type { ImageCredit } from "./imageCredit";
 
 // Optional `factId` fields point at an entry in ./facts so the UI can show a source chip.
 // They are typed as FactId, so a typo fails to compile.
@@ -9,6 +10,7 @@ export interface Port {
   factId?: FactId;
   link?: string;
   image: string;
+  credit?: ImageCredit;
 }
 
 export interface InvestmentDriver {
@@ -19,6 +21,16 @@ export interface InvestmentDriver {
   types?: string[];
   intensification?: string;
   image: string;
+  credit?: ImageCredit;
+}
+
+export interface SuccessStory {
+  name: string;
+  industry: string;
+  successStory: string;
+  year: string;
+  link?: string;
+  factId?: FactId;
 }
 
 const freeZoneFactId: FactId = "freeZoneArea";
@@ -72,7 +84,6 @@ export const investData = {
       name: "White Sand",
       region: "Western Desert (Lower Wadi Al-Natroun)",
       location: "at 115km on Cairo/ Alexandria desert road",
-      reserve: "1.7 million metric tons",
       industries: [
         "Glass products (lenses, glass panes and frosted glass)",
         "Faience, ceramics, bathroom tools, and kitchen utensils",
@@ -85,7 +96,13 @@ export const investData = {
         "Production of silica firebricks",
         "Manufacture of silicon carbide",
       ],
-      image: "/images/white_sand.jpg",
+      image: "/images/white-sand-mediterranean-coast.jpg",
+      credit: {
+        author: "Fayza",
+        license: "CC BY-SA 3.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+        source: "https://commons.wikimedia.org/wiki/File:Marsa_Matrouh_city_in_Egypt_on_the_northern_coast_of_the_Mediterranean_10.JPG",
+      },
     },
     {
       name: "Sodium Chloride",
@@ -94,7 +111,13 @@ export const investData = {
       description:
         "Extracted from sea water via solar evaporation or vacuum evaporation.",
       uses: "Production of caustic soda and chlorine, used in the salt industry.",
-      image: "/images/sodium_chloride.jpg",
+      image: "/images/salt-works-lake-mariout.jpg",
+      credit: {
+        author: "TheEgyptian (English Wikipedia)",
+        license: "CC BY-SA 3.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+        source: "https://commons.wikimedia.org/wiki/File:Salt_refining-Lake_Mariout.JPG",
+      },
     },
   ],
   ports: [
@@ -129,7 +152,13 @@ export const investData = {
         "Cement",
         "Oil",
       ],
-      image: "/images/invest-industrial.jpg",
+      image: "/images/alexandria-port-cranes.jpg",
+      credit: {
+        author: "Abdelrhman 1990",
+        license: "CC BY-SA 4.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+        source: "https://commons.wikimedia.org/wiki/File:Alexandria_Port.jpg",
+      },
     },
     {
       title: "Tourism Investment",
@@ -144,14 +173,25 @@ export const investData = {
         "Festivals",
         "Conferences",
       ],
-      image: "/images/invest-tourism.jpg",
+      image: "/images/stanley-bridge-alexandria-2019.jpg",
+      credit: {
+        author: "Шухрат Саъдиев (Shukhrat Sadiev)",
+        license: "CC BY-SA 4.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+        source: "https://commons.wikimedia.org/wiki/File:Stanley_Bridge,_Alexandria,_Jan._2019-1.jpg",
+      },
     },
     {
       title: "Agricultural Investment",
       description:
-        "162.1k acres of farmed land + 133k acres arable. Key crops depend on Al Mahmoudeya Canal and rainwater in NW Coast.",
-      intensification: "1.96 coefficient",
-      image: "/images/invest-agriculture.jpg",
+        "Farming around Alexandria depends on the Mahmoudiyah Canal and, on the north-west coast, on rainfall.",
+      image: "/images/egypt-farmland-green.jpg",
+      credit: {
+        author: "Amr F.Nagy",
+        license: "CC0",
+        licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        source: "https://commons.wikimedia.org/wiki/File:Egyptian_countryside_full_green.jpg",
+      },
     },
   ] satisfies InvestmentDriver[],
   investmentZones: {
@@ -177,12 +217,12 @@ export const investData = {
   investmentLaws: {
     provisions: [
       "Right to remit income earned in Egypt",
-      "100% foreign ownership",
+      { text: "100% foreign ownership allowed (except projects in Sinai)", factId: "freeZoneOwnership" },
       "Guarantees against confiscation/nationalization",
       "Right to own land",
       "Right to maintain foreign currency accounts",
       "Equality regardless of nationality",
-    ],
+    ] as (string | { text: string; factId: FactId })[],
     fields: [
       "Air transportation",
       "Animal, fish, and poultry husbandry",
@@ -239,17 +279,19 @@ export const investData = {
       name: "General Motors (GM)",
       industry: "Automotive",
       successStory:
-        "GM's regional story began in Alexandria in 1926 with its first Middle East operations, establishing a plant that became a hub for vehicle assembly, distribution, and exports. Today, GM continues local production in Egypt, including models like the Chevrolet Optra and T-Series, generating over 7,000 jobs. The company's centennial in 2026 highlights its enduring success.",
+        "GM's regional business began with an assembly plant in Alexandria in 1926. The plant became a hub for vehicle assembly, distribution, and exports. Today, GM continues local production in Egypt, including models like the Chevrolet Optra and T-Series, generating over 7,000 jobs. The company's centennial in 2026 highlights its enduring success.",
       year: "Since 1926",
-      link: "https://www.einnews.com/pr_news/891430514/general-motors-africa-and-middle-east-kicks-off-its-centennial-launching-their-short-documentary-on-cbs-and-alarabiya",
+      factId: "gmAlexandria1926",
+      link: "https://news.gm.com/home.detail.html/Pages/topic/us/en/2026/feb/0216-100-years-GM-Africa-Middle-East.html",
     },
     {
       name: "Concentrix",
       industry: "BPO & IT Services",
       successStory:
-        "Since entering Egypt in 2009, Concentrix has scaled to 11 centers nationwide, including Alexandria. In 2025, the company committed $1 billion over four years to expand its workforce to 35,000 by 2028. Alexandria's role underscores its appeal for BPO operations, driven by talent availability and cost efficiency.",
+        "Since entering Egypt in 2009, Concentrix has grown there. In January 2025 it announced USD 1 billion over four years and 35,000 staff by 2028; it had 11 centres at the time. Alexandria's role underscores its appeal for BPO operations, driven by talent availability and cost efficiency.",
       year: "2025 Investment",
-      link: "https://itida.gov.eg/English/MediaCenter/News/Pages/Concentrix-to-invest-USD-1-bn-to-expand-Egypt-outsourcing-operations.aspx",
+      factId: "concentrixInvestment",
+      link: "https://enterpriseam.com/egypt/2025/01/29/concentrix-to-invest-usd-1-bn-to-expand-egypt-outsourcing-operations/",
     },
     {
       name: "Orange",
@@ -259,5 +301,5 @@ export const investData = {
       year: "Global Hub",
       link: "https://www.trade.gov/country-commercial-guides/egypt-digital-economy",
     },
-  ],
+  ] as SuccessStory[],
 };

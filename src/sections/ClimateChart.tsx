@@ -8,9 +8,14 @@ import { palette } from '../lib/palette';
 /** Climate chart for the Visit page. Lazy-loaded so recharts stays out of the main bundle. */
 export default function ClimateChart() {
   return (
-    <div className="flex-grow min-h-[302px]">
+    <div
+      role="img"
+      aria-label="Chart of monthly highs, lows and rainfall in Alexandria; the same data is in the table above"
+      className="flex-grow min-h-[302px]"
+    >
       <ResponsiveContainer width="100%" height="100%" minHeight={302}>
         <ComposedChart
+          accessibilityLayer={false}
           data={climateData.months.map((m, i) => ({
             name: m,
             temp: climateData.highs[i],
@@ -60,8 +65,8 @@ export default function ClimateChart() {
             yAxisId="right"
             dataKey="precip"
             name="Rain (mm)"
-            fill={palette.seaglass}
-            fillOpacity={0.45}
+            fill={palette.sea}
+            fillOpacity={0.6}
             radius={[4, 4, 0, 0]}
           />
           <Area
