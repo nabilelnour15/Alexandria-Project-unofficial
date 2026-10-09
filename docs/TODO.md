@@ -121,7 +121,7 @@ This list comes from the multi-agent review in [site-review.md](site-review.md).
 - [x] Footer: "Project on GitHub" and "Report an inaccuracy" (GitHub issues) links, plus "Facts last reviewed".
 - [x] Recharts split into a lazy `ClimateChart` chunk. The main bundle went from 1,003 kB to about 445 kB.
 - [x] 🟠 Add `public/images/og-image.jpg` (prompt in `docs/image-prompts.md`). `index.html` already references it. Done Oct 2026 with a real CC0 Wikimedia photo of Qaitbay at night (credit in `docs/image-credits.md`). It can be swapped for the AI version later.
-  - [ ] Replace the placeholder domain `alexandria-unofficial.example` in the `og:image`, `og:url` and `twitter:image` tags in `index.html` once the site has its real URL.
+  - [x] Replace the placeholder domain `alexandria-unofficial.example` in the `og:image`, `og:url` and `twitter:image` tags in `index.html` once the site has its real URL. Done Oct 2026: `alexandria-project-unofficial.vercel.app`.
 - [x] 🟡 Spot-check the Arabic-source governor facts (Al-Dostor, Al-Ahram) against the original articles. (All 4 confirmed, Oct 2026; two entries reworded to describe actions, not statements.)
 - [x] Wall-of-scripts script set confirmed by the owner (no Hebrew; "EGYPT" added).
 

@@ -36,7 +36,8 @@ No test framework is configured. `npm run build` type-checks: `tsconfig.app.json
   - The navbar is transparent over dark heroes (`/`, `/about`, `/invest`) and solid on other pages.
 - **Pages vs sections:**
   - `src/pages/*Page.tsx` don't render Navbar, Footer or `<main>`; Layout does.
-  - Each page renders `PageMeta`, which sets the React 19 `<title>` and meta description.
+  - Each page renders `PageMeta`, which sets the React 19 `<title>` and meta description. Routes take theirs from `src/data/pageMeta.ts` (`<PageMeta path="/visit" />`).
+  - Link previews: `plugins/shareMeta.ts` writes `dist/<route>.html` for every route and news post with its own title, description and Open Graph tags, plus a 1200×630 crop of the page photo in `dist/og/`, because crawlers don't run JS. Share images must be real, credited photos used on that page, never AI concept images. New routes need an entry in `pageMeta.ts`.
   - Pages compose components from `src/sections/`. Some sections (`About`, `Visit`, `Invest`) take an `isTeaser` prop: `HomePage` shows the short version and the dedicated page shows the full one. `ProjectsHero` takes `headingLevel`, so each page has exactly one `h1`.
 - **Content lives in `src/data/*.ts`.** Change content there, not in the components.
   - `facts.ts` is the single source for figures: `facts`, `unsourcedFigures` and `LAST_REVIEWED`.
@@ -48,7 +49,7 @@ No test framework is configured. `npm run build` type-checks: `tsconfig.app.json
 - **Dialogs, tabs and popovers:** use the shadcn `Dialog`, `Tabs` and `Popover` in `components/ui/` (only `button`, `dialog`, `tabs` and `popover` remain). `SourceChip` is built on the Popover. The first-visit dialog is lazy-loaded; the banner lives in `Layout`.
 - **Entry chunk:** keep framer-motion and Radix out of the entry chunk. `Loading` is a pure CSS spinner. Add others with the shadcn CLI as needed. Don't use clickable `div`s.
 - **Vite config:**
-  - `base: '/'` is required for `BrowserRouter` deep links; `public/_redirects` and `vercel.json` add the SPA fallback.
+  - `base: '/'` is required for `BrowserRouter` deep links; `public/_redirects` and `vercel.json` add the SPA fallback. `vercel.json` sets `cleanUrls` so `/visit` serves the prerendered `visit.html`.
   - The `@` alias points to `src/`.
   - `kimi-plugin-inspect-react` is enabled only for `vite serve`.
 - **Images:**

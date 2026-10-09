@@ -43,10 +43,7 @@ export default function NewsPage() {
 
   return (
     <div className="bg-white pt-20">
-      <PageMeta
-        title="City briefing"
-        description="Short, sourced stories about Alexandria's governorate, transport, heritage, economy and environment, written from public reporting with a link to each original."
-      />
+      <PageMeta path="/news" />
 
       <header className="wall-of-scripts relative bg-ink py-16 text-white md:py-20">
         <div className="alex-container">
