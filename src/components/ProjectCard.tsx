@@ -139,7 +139,10 @@ export function ProjectDetailModal({
                       {f.source}
                       {f.instrument && <span className="block text-xs">{f.instrument}</span>}
                     </dt>
-                    <dd className="font-display text-2xl font-semibold tabular-nums text-ink">{f.amount}</dd>
+                    <dd className="font-display text-2xl font-semibold tabular-nums text-ink">
+                      {f.amount}
+                      {f.factId && <SourceChip factId={f.factId} iconOnly className="ml-1 text-ink-soft" />}
+                    </dd>
                   </div>
                 ))}
               </dl>

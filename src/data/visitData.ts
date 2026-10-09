@@ -177,7 +177,8 @@ export const attractionCategories: AttractionCategory[] = [
       },
       {
         name: "Cavafy Museum",
-        desc: "House of the Greek-Alexandrian poet. (Closed as of Feb 2024).",
+        desc: "House of the Greek-Alexandrian poet. Reopened in May 2024 after restoration by the Onassis Foundation.",
+        factId: "cavafyReopened",
         location: "Downtown",
         image: "/images/Cavafy-Museum.jpg",
       },

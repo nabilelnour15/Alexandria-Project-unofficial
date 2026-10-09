@@ -168,11 +168,15 @@ export default function InvestSections() {
             <div>
               <h3 className="text-ink">Legal protections and incentives</h3>
               <ul className="mt-6">
-                {investmentLaws.provisions.map((law) => (
-                  <li key={law} className="border-t border-limestone py-3 text-ink first:border-t-2 first:border-gold">
-                    {law}
-                  </li>
-                ))}
+                {investmentLaws.provisions.map((law) => {
+                  const text = typeof law === 'string' ? law : law.text;
+                  return (
+                    <li key={text} className="border-t border-limestone py-3 text-ink first:border-t-2 first:border-gold">
+                      {text}
+                      {typeof law !== 'string' && <SourceChip factId={law.factId} className="ml-1 text-ink-soft" />}
+                    </li>
+                  );
+                })}
               </ul>
               <h4 className="mt-12 text-xl text-ink">Sectors covered by the law</h4>
               <ul className="mt-3 grid gap-x-8 sm:grid-cols-2">

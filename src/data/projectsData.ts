@@ -30,6 +30,8 @@ export interface Project {
     readonly source: string;
     readonly amount: string;
     readonly instrument?: string;
+    /** Fact behind this amount, if any (shows a source chip). */
+    readonly factId?: FactId;
   }[];
   readonly vision2030Pillars: readonly string[];
   readonly stakeholders?: readonly {
@@ -68,13 +70,12 @@ export const projectsData = {
     title: "Transport, energy and water projects in Alexandria",
     subtitle:
       "What is planned or being built, who is paying for it, and how far each project has got.",
-    // Sum of listed budgets: 592 + 1,764 + 20 + 30 + 33 + 50 + 35 = €2,524M (see facts.projectsTotal).
-    // GCAP: 20 + 64.6 + 60 + 35 = €179.6M across the listed pipeline items.
+    // Sum of listed budgets: 592 + 1,764 + 20 + 30 + 33 + 60 + 35 = €2,534M (see facts.projectsTotal; the control centre is €50M AFD loan + €10M EU grant = €60M).
     stats: [
       { label: "Listed project budgets", value: "≈€2.5B", factId: "projectsTotal" },
       { label: "Coordination", value: "4 MDBs" },
       { label: "Under construction", value: "4 projects", factId: "projectsUnderConstruction" },
-      { label: "GCAP listed pipeline items", value: "≈€180M" },
+      { label: "GCAP total cost estimate", value: "≈€506M", factId: "gcapCostBySector" },
     ] as readonly HeroStat[],
     summary:
       "The projects listed here add up to ≈€2.5B in listed project budgets, dominated by two flagship rail projects—the €592 million Raml Tram Modernization and the €1.764 billion Abu Qir Metro Phase 1. Four of the listed projects are under construction. Both rail projects are aligned with Egypt Vision 2030 and co-financed by multilateral lenders.",
@@ -126,7 +127,7 @@ export const projectsData = {
       technicalSpecs: {
         Length: "13.2 km",
         Stations: "24",
-        "Speed increase": "+91%",
+        "Operating speed": "11 → 21 km/h",
         "Target ridership": "500,000 passengers/day",
         Vehicles: "Hyundai Rotem LRT",
         Signaling: "Hitachi Rail",
@@ -135,12 +136,17 @@ export const projectsData = {
         Length: "ramlTramLength",
         Stations: "ramlTramStations",
         "Target ridership": "ramlTramRidershipTarget",
+        "Operating speed": "ramlTramSpeed",
       },
       financialFramework: [
-        { source: "EIB", amount: "€138M" },
-        { source: "AFD", amount: "€100M" },
-        { source: "EU", amount: "€8M" },
-        { source: "Egypt Govt", amount: "€346M" },
+        { source: "EIB", amount: "€138M", factId: "ramlTramFinancing" },
+        { source: "AFD", amount: "€100M", factId: "ramlTramFinancing" },
+        { source: "EU", amount: "€8M", factId: "ramlTramFinancing" },
+        {
+          source: "Balance (derived: €592M total − lenders)",
+          amount: "€346M",
+          factId: "ramlTramBalance",
+        },
       ],
       vision2030Pillars: [
         "Sustainable transport",
@@ -174,14 +180,15 @@ export const projectsData = {
         Capacity: "abuQirMetroCapacity",
       },
       financialFramework: [
-        { source: "EIB", amount: "€750M" },
-        { source: "EBRD", amount: "€250M" },
-        { source: "AFD", amount: "€250M" },
-        { source: "AIIB", amount: "€250M" },
-        { source: "Egypt Govt", amount: "€264M" },
+        { source: "EIB", amount: "€750M", factId: "abuQirMetroFinancing" },
+        { source: "EBRD", amount: "€250M", factId: "abuQirMetroFinancing" },
+        { source: "AFD", amount: "€250M", factId: "abuQirMetroFinancing" },
+        { source: "AIIB", amount: "€250M", factId: "abuQirMetroFinancing" },
+        { source: "Egypt Govt", amount: "€264M", factId: "abuQirMetroFinancing" },
+        { source: "EBRD TA grant", amount: "€1.7M", factId: "abuQirMetroFinancing" },
       ],
       vision2030Pillars: [
-        "100% green economy transition",
+        "Green economy transition",
         "Transit-oriented development",
         "Gender-responsive design",
       ],
@@ -227,12 +234,12 @@ export const projectsData = {
       subCategory: "Surface transport",
       status: "Planning",
       budget: "€20 million (est.)",
+      factId: "brtCost",
       year: "Planning phase",
       description:
         "Cost-effective intermediate-capacity solution identified in GCAP for short-medium term implementation.",
       technicalSpecs: {
         Corridors: "2 priority routes",
-        "Cost efficiency": "5-10% of rail",
         Integration: "With metro/tram",
       },
       financialFramework: [],
@@ -249,14 +256,18 @@ export const projectsData = {
       subCategory: "Waste-to-energy",
       status: "Early Implementation",
       budget: "€30 million",
+      factId: "sludgeCost",
       year: "Early implementation",
       description:
-        'Addresses critical environmental challenge: 200 tons of sewage sludge daily transported to saturated "9N" landfill.',
+        'Addresses a critical environmental challenge: sewage sludge transported to the saturated "9N" landfill.',
       technicalSpecs: {
         Technology: "Anaerobic digestion",
-        "Biogas production": "18,500 m³/day",
-        Electricity: "5 MWh/day",
-        "Sludge reduction": "30-35%",
+        Electricity: "110,000–160,000 kWh a day (expected)",
+        "Sludge reduction": "30–35%",
+      },
+      specFactIds: {
+        Electricity: "sludgeElectricity",
+        "Sludge reduction": "sludgeReduction",
       },
       financialFramework: [],
       vision2030Pillars: ["Circular economy", "Renewable energy"],
@@ -271,13 +282,18 @@ export const projectsData = {
       subCategory: "Solar infrastructure",
       status: "Under Development",
       budget: "€33 million",
+      factId: "solarWaterCost",
       year: "Under development",
       description:
         "Dedicated solar installations for water treatment plant electricity supply, demonstrating sectoral decarbonization pathway.",
       technicalSpecs: {
-        "Annual energy": "106,000 MWh",
-        "GHG reduction": "44,200 tCO₂e",
+        "Annual energy": "106,000 MWh a year",
+        "GHG reduction": "≈44,200 tCO₂e a year",
         Sites: "4 WWTPs + booster",
+      },
+      specFactIds: {
+        "Annual energy": "solarWaterEnergy",
+        "GHG reduction": "solarWaterGhg",
       },
       financialFramework: [],
       vision2030Pillars: ["Renewable energy", "Decarbonization"],
@@ -291,18 +307,18 @@ export const projectsData = {
       category: "energy",
       subCategory: "Grid modernization",
       status: "Under Construction",
-      budget: "€50 million",
+      budget: "€60 million (€50M AFD loan + €10M EU grant)",
+      factId: "controlCentreCost",
       year: "Under construction",
       description:
-        "Critical infrastructure for Egypt’s electricity sector transformation with exceptional 20% grant share.",
+        "Critical infrastructure for Egypt’s electricity sector transformation, financed by an AFD loan and an EU grant.",
       technicalSpecs: {
-        "Loss reduction": "10%",
         Coverage: "9M population",
         Components: "ADMS, renewable forecasting",
       },
       financialFramework: [
-        { source: "EU Grant", amount: "€10M (20%)" },
-        { source: "AFD", amount: "€40M" },
+        { source: "EU Grant", amount: "€10M", factId: "controlCentreCost" },
+        { source: "AFD", amount: "€50M", factId: "controlCentreCost" },
       ],
       vision2030Pillars: ["Energy security", "Renewable integration"],
       imagePlaceholder: "Control center",
@@ -334,6 +350,7 @@ export const projectsData = {
       category: "climate",
       status: "Under Development", // Labeled "Short-Term Priority" in text, mapping to closest status or adding new one
       budget: "€35 million",
+      factId: "sudsCost",
       year: "1-3 year implementation",
       description:
         "Green infrastructure approach targeting city hotspots. Co-benefits: Flood risk reduction, groundwater recharge, urban cooling.",
@@ -398,14 +415,14 @@ export const projectsData = {
   },
   gcap: {
     title: "Alexandria Green City Action Plan (GCAP)",
-    budget: "≈€180M in listed pipeline items",
+    budget: "≈€506M total cost estimate",
+    factId: "gcapCostBySector",
     description:
       "A comprehensive 10-15 year strategic framework integrating all infrastructure sectors.",
     pipeline: [
-      { sector: "Transport", value: "€20M+ (BRT)" },
-      { sector: "Energy", value: "€64.6M identified" },
-      { sector: "Water/Wastewater", value: "€60M+" },
-      { sector: "Climate resilience", value: "€35M+ (SuDS)" },
+      { sector: "Transport", value: "€170.50M" },
+      { sector: "Energy", value: "€65.23M" },
+      { sector: "Water and wastewater", value: "€136.00M" },
     ],
   },
 } as const;

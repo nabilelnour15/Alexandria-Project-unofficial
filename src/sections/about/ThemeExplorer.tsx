@@ -105,7 +105,10 @@ export default function ThemeExplorer() {
                   caption={item.caption}
                   credit={item.credit}
                 >
-                  <p className="text-ink">{item.desc}</p>
+                  <p className="text-ink">
+                    {item.desc}
+                    <Chip factId={item.descFactId} />
+                  </p>
                   <p>
                     <span className="font-semibold text-ink">Today: </span>
                     {item.legacy}

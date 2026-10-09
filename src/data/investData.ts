@@ -24,6 +24,15 @@ export interface InvestmentDriver {
   credit?: ImageCredit;
 }
 
+export interface SuccessStory {
+  name: string;
+  industry: string;
+  successStory: string;
+  year: string;
+  link?: string;
+  factId?: FactId;
+}
+
 const freeZoneFactId: FactId = "freeZoneArea";
 
 // A "why invest" reason is plain text, or `{ text, factId }` when it quotes a sourced figure.
@@ -208,12 +217,12 @@ export const investData = {
   investmentLaws: {
     provisions: [
       "Right to remit income earned in Egypt",
-      "100% foreign ownership",
+      { text: "100% foreign ownership allowed (except projects in Sinai)", factId: "freeZoneOwnership" },
       "Guarantees against confiscation/nationalization",
       "Right to own land",
       "Right to maintain foreign currency accounts",
       "Equality regardless of nationality",
-    ],
+    ] as (string | { text: string; factId: FactId })[],
     fields: [
       "Air transportation",
       "Animal, fish, and poultry husbandry",
@@ -270,17 +279,19 @@ export const investData = {
       name: "General Motors (GM)",
       industry: "Automotive",
       successStory:
-        "GM's regional story began in Alexandria in 1926 with its first Middle East operations, establishing a plant that became a hub for vehicle assembly, distribution, and exports. Today, GM continues local production in Egypt, including models like the Chevrolet Optra and T-Series, generating over 7,000 jobs. The company's centennial in 2026 highlights its enduring success.",
+        "GM's regional business began with an assembly plant in Alexandria in 1926. The plant became a hub for vehicle assembly, distribution, and exports. Today, GM continues local production in Egypt, including models like the Chevrolet Optra and T-Series, generating over 7,000 jobs. The company's centennial in 2026 highlights its enduring success.",
       year: "Since 1926",
-      link: "https://www.einnews.com/pr_news/891430514/general-motors-africa-and-middle-east-kicks-off-its-centennial-launching-their-short-documentary-on-cbs-and-alarabiya",
+      factId: "gmAlexandria1926",
+      link: "https://news.gm.com/home.detail.html/Pages/topic/us/en/2026/feb/0216-100-years-GM-Africa-Middle-East.html",
     },
     {
       name: "Concentrix",
       industry: "BPO & IT Services",
       successStory:
-        "Since entering Egypt in 2009, Concentrix has scaled to 11 centers nationwide, including Alexandria. In 2025, the company committed $1 billion over four years to expand its workforce to 35,000 by 2028. Alexandria's role underscores its appeal for BPO operations, driven by talent availability and cost efficiency.",
+        "Since entering Egypt in 2009, Concentrix has grown there. In January 2025 it announced USD 1 billion over four years and 35,000 staff by 2028; it had 11 centres at the time. Alexandria's role underscores its appeal for BPO operations, driven by talent availability and cost efficiency.",
       year: "2025 Investment",
-      link: "https://itida.gov.eg/English/MediaCenter/News/Pages/Concentrix-to-invest-USD-1-bn-to-expand-Egypt-outsourcing-operations.aspx",
+      factId: "concentrixInvestment",
+      link: "https://enterpriseam.com/egypt/2025/01/29/concentrix-to-invest-usd-1-bn-to-expand-egypt-outsourcing-operations/",
     },
     {
       name: "Orange",
@@ -290,5 +301,5 @@ export const investData = {
       year: "Global Hub",
       link: "https://www.trade.gov/country-commercial-guides/egypt-digital-economy",
     },
-  ],
+  ] as SuccessStory[],
 };

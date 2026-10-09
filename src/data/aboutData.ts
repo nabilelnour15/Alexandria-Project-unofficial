@@ -33,7 +33,10 @@ interface Landmark {
   /** Caption under the image, e.g. when it is an illustration rather than a photograph. */
   caption?: string;
   credit?: ImageCredit;
+  /** Fact behind `legacy`. */
   factId?: FactId;
+  /** Fact behind `desc`. */
+  descFactId?: FactId;
 }
 
 interface Monument {
@@ -128,7 +131,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: "The Ptolemaic capital",
     desc: "The Library, the Lighthouse and the Mouseion are founded. One of the largest cities of the ancient world.",
     longDesc:
-      "Following Alexander's death in 323 BCE, his general Ptolemy I Soter seized control of Egypt, establishing Alexandria as the capital of the Ptolemaic Kingdom. This era marked its transformation into the intellectual and commercial center of the Hellenistic world. The Great Library, founded around 295 BCE, housed up to 700,000 scrolls. The Pharos Lighthouse, completed around 280 BCE, stood over 100 meters tall and was one of the Seven Wonders. The city grew into one of the largest in the ancient world, supported by thriving trade in grain, papyrus, and spices. Alexandria blended Greek, Egyptian, and Jewish cultures, producing the Septuagint translation of the Hebrew Bible.",
+      "Following Alexander's death in 323 BCE, his general Ptolemy I Soter seized control of Egypt, establishing Alexandria as the capital of the Ptolemaic Kingdom. This era marked its transformation into the intellectual and commercial center of the Hellenistic world. The Great Library, founded around 295 BCE, became a vast collection of scrolls. The Pharos Lighthouse, completed around 280 BCE, towered over the harbour and was one of the Seven Wonders. The city grew into one of the largest in the ancient world, supported by thriving trade in grain, papyrus, and spices. Alexandria blended Greek, Egyptian, and Jewish cultures, producing the Septuagint translation of the Hebrew Bible.",
     image: "/images/lighthouse.jpg",
   },
   {
@@ -213,9 +216,10 @@ export const landmarksData: {
     {
       name: "Great Library of Alexandria",
       legacy:
-        "Modern Bibliotheca Alexandrina (2002) explicitly revives this heritage, with a design capacity of 8 million volumes.",
+        "Modern Bibliotheca Alexandrina (2002) explicitly revives this heritage, designed to hold millions of books.",
       factId: "bibliothecaCapacity",
-      desc: "The ancient world's premier center of knowledge, with collections of 400,000 to 700,000 scrolls.",
+      desc: "The ancient world's premier center of knowledge. Ancient sources claim 400,000–700,000 scrolls; modern scholars think far fewer.",
+      descFactId: "ancientLibraryScrolls",
       image: "/images/great-library-corven-engraving.jpg",
       caption:
         "19th-century engraving by O. Von Corven: an imagined view of the Great Library, not a photograph. Public domain.",
@@ -229,14 +233,16 @@ export const landmarksData: {
     {
       name: "Lighthouse of Alexandria (Pharos)",
       legacy:
-        "One of the Seven Wonders, standing 100-140 meters high. Recent archaeology recovered 22 massive stone blocks.",
-      desc: "Practical maritime navigation combined with monumental architecture.",
+        "One of the Seven Wonders, estimated at 100–140 metres high.",
+      factId: "pharosHeight",
+      desc: "Practical maritime navigation combined with monumental architecture. Recent archaeology brought 22 monumental blocks to the surface.",
+      descFactId: "pharosBlocks",
       image: "/images/lighthouse.jpg",
     },
     {
       name: "Cleopatra's Palace",
       legacy:
-        "Submerged royal quarter discovered in the 1990s. 2.5 sq km of underwater archaeological zone.",
+        "Submerged royal quarter discovered in the 1990s, now an underwater archaeological zone.",
       desc: "Exceptional preservation conditions with granite columns retaining tool marks.",
       image: "/images/cleopatra-palace-anterhodos.jpg",
     },
@@ -278,7 +284,7 @@ export const landmarksData: {
 
 // The UI shows only the first word of `value`, so keep the number first.
 const bibliothecaSpecs: FactSpec[] = [
-  { label: "Design capacity (volumes)", value: "8M volumes", factId: "bibliothecaCapacity" },
+  { label: "Designed to hold (books)", value: "Millions of books", factId: "bibliothecaCapacity" },
   { label: "Reading hall seats", value: `${facts.bibliothecaReadingSeats.value} seats`, factId: "bibliothecaReadingSeats" },
   { label: "Museums", value: `${facts.bibliothecaMuseums.value} museums`, factId: "bibliothecaMuseums" },
   { label: "Annual visitors", value: "1.5M a year", factId: "bibliothecaVisitors" },
