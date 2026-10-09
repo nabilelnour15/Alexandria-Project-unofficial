@@ -141,7 +141,7 @@ export default function Services({ isTeaser = false }: { isTeaser?: boolean }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search, e.g. water"
-            className="min-h-11 w-full rounded-lg border border-limestone bg-white py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-ink-soft/70 focus:border-sea focus:outline-none"
+            className="min-h-11 w-full rounded-lg border border-limestone bg-white py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-ink-soft focus:border-sea"
           />
         </div>
       </div>

@@ -3,7 +3,8 @@ import { climateData } from '@/data/visitData';
 import SourceChip from '@/components/SourceChip';
 
 // recharts is heavy; load it only when the detailed chart is opened
-const ClimateChart = lazy(() => import('../ClimateChart'));
+const loadChart = () => import('../ClimateChart');
+const ClimateChart = lazy(loadChart);
 
 const ROWS = [
   { label: 'High (°C)', values: climateData.highs },
@@ -38,7 +39,7 @@ export default function WhenToGo() {
         >
           <table className="w-full min-w-[40rem] table-fixed border-collapse text-center tabular-nums">
             <caption className="mb-4 text-left text-sm text-ink-soft">
-              Monthly averages, 1991–2020 (El Nouzha station). Gold marks the months best for a visit.{' '}
+              Monthly averages, 1991–2020 (El Nouzha station). Months marked "Best" are best for a visit.{' '}
               <SourceChip factId="climateNormals" />
             </caption>
             <thead>
@@ -53,7 +54,14 @@ export default function WhenToGo() {
                     }`}
                   >
                     {m}
-                    {best.has(m) && <span className="sr-only"> (recommended)</span>}
+                    {best.has(m) && (
+                      <>
+                        <span className="sr-only"> (recommended)</span>
+                        <span aria-hidden="true" className="block font-body text-[11px] font-bold leading-none text-sea">
+                          Best
+                        </span>
+                      </>
+                    )}
                   </th>
                 ))}
               </tr>
@@ -64,7 +72,7 @@ export default function WhenToGo() {
                 {climateData.highs.map((h, i) => (
                   <td key={climateData.months[i]} className="h-28 align-bottom">
                     <div
-                      className={`mx-auto w-3 rounded-t-sm ${best.has(climateData.months[i]) ? 'bg-gold' : 'bg-limestone'}`}
+                      className={`mx-auto w-3 rounded-t-sm ${best.has(climateData.months[i]) ? 'bg-sea' : 'bg-limestone'}`}
                       style={{ height: `${h * 3}px` }}
                     />
                   </td>
@@ -100,6 +108,8 @@ export default function WhenToGo() {
               type="button"
               aria-expanded={showChart}
               aria-controls="climate-chart"
+              onPointerEnter={() => void loadChart()}
+              onFocus={() => void loadChart()}
               onClick={() => setShowChart((v) => !v)}
               className="alex-btn-secondary"
             >
@@ -108,7 +118,7 @@ export default function WhenToGo() {
           </div>
         </div>
 
-        <div id="climate-chart" className="mt-8">
+        <div id="climate-chart" aria-live="polite" className="mt-8">
           {showChart && (
             <Suspense
               fallback={<div aria-hidden="true" className="h-[302px] animate-pulse rounded-lg bg-limestone-wash" />}

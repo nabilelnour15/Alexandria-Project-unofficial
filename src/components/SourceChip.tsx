@@ -91,7 +91,7 @@ export default function SourceChip({
               setPinned(true);
             }
           }}
-          className="inline-flex items-center gap-0.5 rounded px-1 py-0.5 -my-0.5 text-[11px] font-semibold leading-none whitespace-nowrap opacity-75 hover:opacity-100 focus-visible:opacity-100 data-[state=open]:opacity-100 transition-opacity cursor-help"
+          className="inline-flex items-center gap-0.5 min-h-6 min-w-6 justify-center rounded px-1.5 py-0.5 -my-1 text-xs font-semibold leading-none whitespace-nowrap cursor-help"
         >
           <Info className="w-3 h-3 shrink-0" aria-hidden="true" />
           {!iconOnly && <span>Source</span>}
