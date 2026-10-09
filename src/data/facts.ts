@@ -5,6 +5,8 @@
 //   Estimate = derived by this site (e.g. a sum of listed figures)
 // Figures we could not source are NOT in `facts`; they are listed in `unsourcedFigures`.
 
+import type { Year, YearMonth } from '../lib/dates';
+
 export type Confidence = 'Official' | 'Reported' | 'Estimate';
 
 export interface Fact {
@@ -14,14 +16,17 @@ export interface Fact {
   numeric?: number;
   unit?: string;
   source: { label: string; url: string };
-  asOf: string;
+  asOf: Year | YearMonth;
   confidence: Confidence;
   note?: string;
 }
 
 export const LAST_REVIEWED = '2026-10';
 
-export const facts = {
+/** Ties each fact's `id` to its key, so the two can't drift apart. */
+const defineFacts = <const T extends { [K in keyof T]: Fact & { id: K } }>(t: T) => t;
+
+export const facts = defineFacts({
   // ---- City & people -------------------------------------------------------
   population: {
     id: 'population',
@@ -423,7 +428,7 @@ export const facts = {
     confidence: 'Official',
     note: 'This figure is for the Bibliotheca only. It is not a city-wide visitor count.',
   },
-} as const satisfies Record<string, Fact>;
+});
 
 export type FactId = keyof typeof facts;
 

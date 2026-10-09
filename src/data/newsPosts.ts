@@ -3,7 +3,9 @@
 // Each post is written in our own words from its one source article and checked
 // against it: no quotes, no statements attributed to officials, no outside facts.
 
-export const newsPosts: Readonly<Record<string, readonly string[]>> = {
+import type { NewsId } from './newsData';
+
+const posts = {
   "raml-tram-suspended-2026-04": [
     "Urban Transport Magazine reported on 10 April 2026 that all services on Alexandria's Raml tram were fully discontinued on 1 April 2026. The article says a partial suspension had already begun on 11 February 2026. The line is being rebuilt as a modern light-rail system, and the magazine gives the end of 2027 as the scheduled reopening.",
     "According to the article, the rebuilt route will cover about 13 km, with average speeds rising from around 11 km/h to about 21 km/h and stops roughly 500 m apart. It will use 30 high-capacity Hyundai Rotem vehicles, and more than half of the route will run on viaducts. The magazine notes that the tram opened in 1863, was electrified from 1902 and carried roughly 80,000 passengers a day on a network of about 32 km.",
@@ -117,4 +119,7 @@ export const newsPosts: Readonly<Record<string, readonly string[]>> = {
     "Youm7 reported that Ayman Mohamed Ibrahim Attia took the constitutional oath as governor of Alexandria on 16 February 2026, before President Abdel Fattah El-Sisi.",
     "He was one of 20 governors and 12 deputy governors who took the oath at the same ceremony. The report says Prime Minister Mostafa Madbouly and the Minister of Local Development, Manal Awad, were present.",
   ],
-};
+} satisfies Partial<Record<NewsId, readonly string[]>>;
+
+/** Looked up by `NewsItem.id` (a plain string at the call site). */
+export const newsPosts: Readonly<Partial<Record<string, readonly string[]>>> = posts;

@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { events, places, placeKinds, type CommunityEvent } from '../data/communityData';
-import { monthName, SUGGEST_LISTING_URL } from '../lib/factFormat';
+import { formatDate, monthName } from '../lib/dates';
+import { SUGGEST_LISTING_URL } from '../lib/factFormat';
 
 const kindLabel = (kind: string) => placeKinds.find((k) => k.id === kind)?.label ?? kind;
 
 /** "2026-11-04" → "4 November 2026"; returns null once that date has passed. */
 function upcomingDate(iso: string | undefined, today: string): string | null {
   if (!iso || iso < today) return null;
-  const [y, m, d] = iso.split('-').map(Number);
-  return `${d} ${monthName(m)} ${y}`;
+  return formatDate(iso);
 }
 
 function OutLink({ href, children }: { href: string; children: ReactNode }) {
