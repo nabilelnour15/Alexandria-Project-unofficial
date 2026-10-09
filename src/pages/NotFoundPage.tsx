@@ -10,6 +10,7 @@ export default function NotFoundPage() {
     return (
         <div className="min-h-[70vh] bg-limestone-wash flex flex-col items-center justify-center pt-28 pb-20 px-4 text-center">
             <PageMeta
+                robots="noindex"
                 title="Page not found"
                 description="The page you are looking for doesn't exist or may have moved."
             />

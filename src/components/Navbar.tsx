@@ -2,6 +2,8 @@ import { useState, useEffect, lazy, Suspense, type ReactNode } from 'react';
 import { Menu, Search, X } from 'lucide-react';
 import { navLinks } from '@/lib/navLinks';
 import { Link, useLocation } from 'react-router-dom';
+import { prefetch } from '@/lib/routes';
+import RouteErrorBoundary from './RouteErrorBoundary';
 
 const SiteSearch = lazy(() => import('./SiteSearch'));
 
@@ -34,8 +36,16 @@ export default function Navbar({
         return;
       }
       if (k === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
-        const el = event.target as HTMLElement | null;
-        if (el && (el.isContentEditable || /^(input|textarea|select)$/i.test(el.tagName))) return;
+        if (event.defaultPrevented || event.repeat) return;
+        if (document.querySelector('[role=dialog][data-state=open]')) return;
+        const el = (event.target as HTMLElement | null) ?? (document.activeElement as HTMLElement | null);
+        if (
+          el &&
+          (el.isContentEditable ||
+            /^(input|textarea|select)$/i.test(el.tagName) ||
+            el.closest?.('[role=textbox], [role=combobox], [contenteditable]'))
+        )
+          return;
         event.preventDefault();
         setSearchLoaded(true);
         setSearchOpen(true);
@@ -101,13 +111,14 @@ export default function Navbar({
 
   return (
     <>
-      <nav
+      <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isInternal
           ? 'bg-white/95 backdrop-blur-xl border-b border-limestone'
           : 'bg-transparent'
           }`}
       >
         {banner}
+        <nav aria-label="Main">
         <div className="alex-container">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
@@ -117,7 +128,9 @@ export default function Navbar({
             >
               <img 
                 src="/images/logo.svg" 
-                alt="Alexandria · الإسكندرية — Home"
+                alt="Alexandria, home"
+                width={160}
+                height={48}
                 className={`h-10 md:h-12 w-auto transition-all duration-300 ${
                   isScrolled || isInternal ? '' : 'brightness-0 invert'
                 }`}
@@ -130,6 +143,9 @@ export default function Navbar({
                 <Link
                   key={link.name}
                   to={link.href}
+                  onMouseEnter={() => prefetch(link.href)}
+                  onFocus={() => prefetch(link.href)}
+                  onTouchStart={() => prefetch(link.href)}
                   aria-current={location.pathname === link.href ? 'page' : undefined}
                   className={`relative px-4 py-2 text-[0.9375rem] font-medium transition-colors duration-300 group ${isScrolled || isInternal
                     ? location.pathname === link.href ? 'text-ink font-semibold' : 'text-ink-soft hover:text-sea'
@@ -153,7 +169,7 @@ export default function Navbar({
               <button
                 type="button"
                 onClick={openSearch}
-                aria-label="Search the site"
+                aria-label="Search the site (Ctrl+K)"
                 aria-keyshortcuts="Control+K Meta+K"
                 className={`hidden lg:flex p-2 rounded-lg items-center gap-2 transition-colors duration-300 ${isScrolled || isInternal
                   ? 'text-ink hover:bg-limestone/60'
@@ -212,6 +228,9 @@ export default function Navbar({
                 <Link
                   key={link.name}
                   to={link.href}
+                  onMouseEnter={() => prefetch(link.href)}
+                  onFocus={() => prefetch(link.href)}
+                  onTouchStart={() => prefetch(link.href)}
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-current={location.pathname === link.href ? 'page' : undefined}
                   className={`px-4 py-3 font-medium rounded-lg transition-colors duration-200 ${location.pathname === link.href
@@ -225,11 +244,14 @@ export default function Navbar({
             </div>
           </div>
         </div>
-      </nav>
+        </nav>
+      </header>
       {searchLoaded && (
-        <Suspense fallback={null}>
-          <SiteSearch open={searchOpen} onOpenChange={setSearchOpen} />
-        </Suspense>
+        <RouteErrorBoundary silent>
+          <Suspense fallback={null}>
+            <SiteSearch open={searchOpen} onOpenChange={setSearchOpen} />
+          </Suspense>
+        </RouteErrorBoundary>
       )}
     </>
   );

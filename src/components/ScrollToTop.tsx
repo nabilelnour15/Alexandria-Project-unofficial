@@ -1,21 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const MAX_WAIT_MS = 2500;
 
 export default function ScrollToTop() {
-    const { pathname, hash } = useLocation();
+    const { pathname, hash, key } = useLocation();
+    const prevPath = useRef<string | null>(null);
 
-    // Pathname change without a hash: back to the top.
+    // Runs on every navigation (location.key), so same-hash links re-scroll too.
     useEffect(() => {
-        if (!hash) window.scrollTo(0, 0);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pathname]);
+        const pathChanged = prevPath.current !== null && prevPath.current !== pathname;
+        prevPath.current = pathname;
+        let raf = 0;
 
-    // Hash: wait for the lazy page to render the target, then scroll and focus it.
-    useEffect(() => {
-        if (!hash) return;
+        if (!hash) {
+            window.scrollTo(0, 0);
+            if (pathChanged) {
+                // Move focus to the new page after it has rendered.
+                raf = requestAnimationFrame(() => {
+                    document.getElementById('main-content')?.focus({ preventScroll: true });
+                });
+            }
+            return () => cancelAnimationFrame(raf);
+        }
 
+        // Hash: wait for the lazy page to render the target, then scroll and focus it.
         let id = hash.slice(1);
         try {
             id = decodeURIComponent(id);
@@ -26,7 +35,6 @@ export default function ScrollToTop() {
 
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const start = performance.now();
-        let raf = 0;
 
         const tryScroll = () => {
             const el = document.getElementById(id);
@@ -46,7 +54,7 @@ export default function ScrollToTop() {
         raf = requestAnimationFrame(tryScroll);
 
         return () => cancelAnimationFrame(raf);
-    }, [pathname, hash]);
+    }, [key, pathname, hash]);
 
     return null;
 }

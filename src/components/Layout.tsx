@@ -1,10 +1,12 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Info, X } from 'lucide-react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ScrollToTop from './ScrollToTop';
 import Loading from './Loading';
+import RouteErrorBoundary from './RouteErrorBoundary';
+import { prefetchLikelyRoutes } from '../lib/routes';
 import { useDisclaimer } from '../lib/disclaimer';
 
 // The first-visit dialog (and Radix Dialog with it) is only fetched when shown.
@@ -17,7 +19,7 @@ const TRANSPARENT_NAV_PATHS = ['/', '/about', '/invest', '/experience'];
 const DISCLAIMER_BANNER_HEIGHT = 'h-12 sm:h-9';
 
 /**
- * Slim disclaimer shown on return visits. Rendered inside the fixed navbar
+ * Slim disclaimer shown on return visits. Rendered inside the fixed header
  * so it never overlaps it.
  */
 function DisclaimerBanner({ onDismiss }: { onDismiss: () => void }) {
@@ -45,12 +47,31 @@ function DisclaimerBanner({ onDismiss }: { onDismiss: () => void }) {
   );
 }
 
+// Module-level so React StrictMode's double effect doesn't announce on first load.
+let firstRender = true;
+
 export default function Layout() {
   const { pathname } = useLocation();
   const isInternal = !TRANSPARENT_NAV_PATHS.includes(pathname);
   const { showDialog, dismissDialog, showBanner, dismissBanner } = useDisclaimer();
   // Keep the dialog mounted after dismissal so its close animation can play.
   const [needsDialog] = useState(showDialog);
+
+  const [announcement, setAnnouncement] = useState('');
+
+  // Announce the new page title after a client-side navigation (not on first load).
+  useEffect(() => {
+    const first = firstRender;
+    firstRender = false;
+    if (first) return;
+    const t = window.setTimeout(() => setAnnouncement(document.title), 400);
+    return () => window.clearTimeout(t);
+  }, [pathname]);
+
+  // After first load on the home page, warm the likeliest next routes.
+  useEffect(() => {
+    if (window.location.pathname === '/') prefetchLikelyRoutes();
+  }, []);
 
   return (
     <>
@@ -69,15 +90,22 @@ export default function Layout() {
       {showBanner && <div aria-hidden="true" className={DISCLAIMER_BANNER_HEIGHT} />}
       <main id="main-content" tabIndex={-1} className="focus:outline-none">
         {/* Transparent-navbar pages get a dark fallback so the white nav stays legible */}
-        <Suspense fallback={<Loading dark={!isInternal} />}>
-          <Outlet />
-        </Suspense>
+        <RouteErrorBoundary key={pathname}>
+          <Suspense fallback={<Loading dark={!isInternal} />}>
+            <Outlet />
+          </Suspense>
+        </RouteErrorBoundary>
       </main>
+      <div role="status" aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
       <Footer />
       {needsDialog && (
-        <Suspense fallback={null}>
-          <DisclaimerPopup open={showDialog} onDismiss={dismissDialog} />
-        </Suspense>
+        <RouteErrorBoundary silent>
+          <Suspense fallback={null}>
+            <DisclaimerPopup open={showDialog} onDismiss={dismissDialog} />
+          </Suspense>
+        </RouteErrorBoundary>
       )}
     </>
   );
