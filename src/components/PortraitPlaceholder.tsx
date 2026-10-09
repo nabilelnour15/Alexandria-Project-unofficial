@@ -16,7 +16,7 @@ export default function PortraitPlaceholder({ className }: { className?: string 
       )}
     >
       <Landmark className="w-10 h-10 text-sea" strokeWidth={1.5} aria-hidden="true" />
-      <figcaption className="text-sm text-ink-soft">Official photo to be added</figcaption>
+      <figcaption className="text-sm text-ink-soft">Portrait to be added (credited photo)</figcaption>
     </figure>
   );
 }

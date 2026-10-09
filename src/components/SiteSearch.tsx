@@ -30,6 +30,8 @@ export default function SiteSearch({
       .filter((g) => g.items.length > 0);
   }, [query]);
 
+  const resultCount = groups.reduce((n, g) => n + g.items.length, 0);
+
   const go = (e: SearchEntry) => {
     onOpenChange(false);
     setQuery('');
@@ -53,6 +55,9 @@ export default function SiteSearch({
           Type to find pages, news, projects, places to visit, services and community spaces. Use the
           arrow keys and Enter to open a result, or Escape to close.
         </DialogDescription>
+        <p role="status" className="sr-only">
+          {query.trim() ? `${resultCount} ${resultCount === 1 ? 'result' : 'results'}` : ''}
+        </p>
         <Command shouldFilter={false} label="Search the site">
           <CommandInput
             value={query}

@@ -1,6 +1,9 @@
 import { fullTitle, pageMeta, type PagePath } from '../data/pageMeta';
 
-type PageMetaProps = { path: PagePath } | { title?: string; description: string };
+type PageMetaProps = ({ path: PagePath } | { title?: string; description: string }) & {
+  /** e.g. "noindex" */
+  robots?: string;
+};
 
 /**
  * Per-page document metadata. React 19 hoists <title> and <meta> into <head>.
@@ -14,6 +17,7 @@ export default function PageMeta(props: PageMetaProps) {
     <>
       <title>{fullTitle(title)}</title>
       <meta name="description" content={description} />
+      {props.robots && <meta name="robots" content={props.robots} />}
     </>
   );
 }

@@ -65,7 +65,7 @@ export default function Footer() {
             {/* Unofficial Notice */}
             <div className="space-y-3">
               <div className="flex items-start gap-3 text-white/70">
-                <Info className="w-5 h-5 text-seaglass shrink-0 mt-0.5" />
+                <Info className="w-5 h-5 text-seaglass shrink-0 mt-0.5" aria-hidden="true" />
                 <span className="text-sm">
                   Unofficial fan project — not affiliated with the Alexandria Governorate
                 </span>
@@ -76,8 +76,8 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-white/70 hover:text-seaglass transition-colors"
               >
-                <ExternalLink className="w-5 h-5 text-seaglass shrink-0" />
-                <span className="text-sm">Official Alexandria Governorate site (alexandria.gov.eg)</span>
+                <ExternalLink className="w-5 h-5 text-seaglass shrink-0" aria-hidden="true" />
+                <span className="text-sm">Alexandria Governorate website (alexandria.gov.eg)<span className="sr-only"> (opens in a new tab)</span></span>
               </a>
               <a
                 href="https://github.com/nabilelnour15/Alexandria-Project-unofficial"
@@ -85,8 +85,8 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-white/70 hover:text-seaglass transition-colors"
               >
-                <Github className="w-5 h-5 text-seaglass shrink-0" />
-                <span className="text-sm">Project on GitHub</span>
+                <Github className="w-5 h-5 text-seaglass shrink-0" aria-hidden="true" />
+                <span className="text-sm">Project on GitHub<span className="sr-only"> (opens in a new tab)</span></span>
               </a>
               <a
                 href={REPORT_ISSUE_URL}
@@ -94,8 +94,8 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-white/70 hover:text-seaglass transition-colors"
               >
-                <Flag className="w-5 h-5 text-seaglass shrink-0" />
-                <span className="text-sm">Report an inaccuracy</span>
+                <Flag className="w-5 h-5 text-seaglass shrink-0" aria-hidden="true" />
+                <span className="text-sm">Report an inaccuracy<span className="sr-only"> (opens in a new tab)</span></span>
               </a>
               <p className="flex items-center gap-3 text-white/50">
                 <CalendarCheck className="w-5 h-5 text-seaglass shrink-0" aria-hidden="true" />
@@ -165,30 +165,15 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Social Links */}
-            {/* <div className="flex items-center gap-4">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-white/60 hover:bg-sea hover:text-white transition-all duration-300"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                );
-              })}
-            </div> */}
 
             {/* Back to Top */}
             <button
+              type="button"
               onClick={scrollToTop}
               className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"
             >
               <span className="text-sm">Back to top</span>
-              <ArrowUp className="w-4 h-4" />
+              <ArrowUp className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
