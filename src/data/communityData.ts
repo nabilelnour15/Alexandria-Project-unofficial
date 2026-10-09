@@ -5,13 +5,17 @@
 
 import type { Confidence } from './facts';
 
-export type PlaceKind =
-  | 'cultural-centre'
-  | 'arts-space'
-  | 'library'
-  | 'volunteering'
-  | 'makerspace'
-  | 'heritage';
+
+export const placeKinds = [
+  { id: 'cultural-centre', label: 'Cultural centres' },
+  { id: 'arts-space', label: 'Arts spaces' },
+  { id: 'library', label: 'Libraries' },
+  { id: 'volunteering', label: 'Volunteering' },
+  { id: 'makerspace', label: 'Makerspaces' },
+  { id: 'heritage', label: 'Heritage groups' },
+] as const;
+
+export type PlaceKind = (typeof placeKinds)[number]['id'];
 
 export interface CommunityPlace {
   id: string;
@@ -41,15 +45,6 @@ export interface CommunityEvent {
   confidence: Confidence;
   asOf: string;
 }
-
-export const placeKinds: { id: PlaceKind; label: string }[] = [
-  { id: 'cultural-centre', label: 'Cultural centres' },
-  { id: 'arts-space', label: 'Arts spaces' },
-  { id: 'library', label: 'Libraries' },
-  { id: 'volunteering', label: 'Volunteering' },
-  { id: 'makerspace', label: 'Makerspaces' },
-  { id: 'heritage', label: 'Heritage groups' },
-];
 
 export const places: CommunityPlace[] = [
   {

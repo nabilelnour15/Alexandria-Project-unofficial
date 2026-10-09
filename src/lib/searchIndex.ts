@@ -1,3 +1,4 @@
+import { fold } from '@/lib/text';
 import { navLinks } from '@/lib/navLinks';
 import { newsItems } from '@/data/newsData';
 import { projectsData } from '@/data/projectsData';
@@ -5,32 +6,23 @@ import { attractionCategories } from '@/data/visitData';
 import { services } from '@/data/servicesData';
 import { places } from '@/data/communityData';
 
-export type SearchType = 'Page' | 'News' | 'Project' | 'Visit' | 'Service' | 'Community';
+export const searchTypeOrder = ['Page', 'News', 'Project', 'Visit', 'Service', 'Community'] as const;
+
+export type SearchType = (typeof searchTypeOrder)[number];
 
 export interface SearchEntry {
-  id: string;
-  type: SearchType;
-  title: string;
-  subtitle?: string;
-  href: string;
+  readonly id: string;
+  readonly type: SearchType;
+  readonly title: string;
+  readonly subtitle?: string;
+  readonly href: string;
   /** Folded text that is matched against the query. */
-  haystack: string;
+  readonly haystack: string;
   /** Folded title, used to rank title hits first. */
-  foldedTitle: string;
+  readonly foldedTitle: string;
 }
 
-export const searchTypeOrder: readonly SearchType[] = [
-  'Page',
-  'News',
-  'Project',
-  'Visit',
-  'Service',
-  'Community',
-];
-
-/** Lower-case, accent-free text for search. Arabic is left as it is. */
-export const fold = (s: string) =>
-  s.normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/ø/gi, 'o').toLowerCase();
+export { fold };
 
 const entry = (
   id: string,
@@ -58,8 +50,8 @@ export const searchIndex: readonly SearchEntry[] = [
     entry(`project:${p.id}`, 'Project', p.title, '/projects', `${p.category} · ${p.status}`, [p.description]),
   ),
   ...attractionCategories.flatMap((c) =>
-    c.items.map((a) =>
-      entry(`visit:${a.name}`, 'Visit', a.name, '/visit', `${c.label} · ${a.location}`, [a.desc]),
+    c.items.map((a, i) =>
+      entry(`visit:${c.id}:${i}`, 'Visit', a.name, '/visit', `${c.label} · ${a.location}`, [a.desc]),
     ),
   ),
   ...services.map((s) =>
