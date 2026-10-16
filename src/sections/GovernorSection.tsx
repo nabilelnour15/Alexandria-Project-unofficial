@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import { governorData } from '../data/governorData';
-import PortraitPlaceholder from '../components/PortraitPlaceholder';
 
 /** Home-page teaser for the /governor page. */
 export default function GovernorSection() {
   return (
     <section aria-labelledby="governor-teaser-title" className="bg-white alex-section">
-      <div className="alex-container grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+      <div className="alex-container">
         <div>
           <p className="font-display text-xl text-sea">{governorData.title}</p>
           <h2 id="governor-teaser-title" className="mt-2 text-ink">
@@ -30,7 +29,6 @@ export default function GovernorSection() {
             Read the full biography
           </Link>
         </div>
-        <PortraitPlaceholder className="lg:mt-12" />
       </div>
     </section>
   );

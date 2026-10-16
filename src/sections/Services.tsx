@@ -7,6 +7,10 @@ import { cn } from '@/lib/utils';
 
 const phoneNumber = (url: string) => url.replace(/^tel:/, '');
 
+/** Groups an 11-digit mobile number as 0122 111 0000; short codes stay as they are. */
+const displayNumber = (url: string) =>
+  phoneNumber(url).replace(/^(\d{4})(\d{3})(\d{4})$/, '$1 $2 $3');
+
 const isCategory = (value: string | null): value is ServiceCategory =>
   serviceCategories.some((c) => c.id === value);
 
@@ -31,10 +35,10 @@ function ServicesTeaser() {
         <h3 className="mb-4 text-ink">Emergency numbers</h3>
         <ul className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 lg:grid-cols-5">
           {emergency.map((s) => (
-            <li key={s.id} className="border-t-2 border-gold pt-3">
+            <li key={s.id} className="min-w-0 border-t border-limestone pt-3">
               <a href={s.url} className="block rounded-sm text-ink transition-colors hover:text-sea">
-                <span className="block font-display text-4xl font-semibold tabular-nums">
-                  {phoneNumber(s.url)}
+                <span className="block font-display text-3xl font-semibold tabular-nums md:text-4xl">
+                  {displayNumber(s.url)}
                 </span>
                 <span className="mt-1 block text-sm text-ink-soft">{s.title}</span>
               </a>

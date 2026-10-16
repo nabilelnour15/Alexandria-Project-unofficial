@@ -2,38 +2,39 @@ import { Link } from 'react-router-dom';
 import SourceChip from '../components/SourceChip';
 import { facts, type FactId } from '../data/facts';
 
-const sectors: { title: string; description: string; factId?: FactId }[] = [
-  {
-    title: 'Real estate',
-    description: 'Residential, commercial, and industrial development opportunities.',
-  },
+// Every line here carries a source. Selling points we can't source stay off the page.
+const sectors: { title: string; description: string; factId: FactId }[] = [
   {
     title: 'Logistics and ports',
     description: `Egypt's main port, handling ${facts.portTradeShare.value} of the country's foreign trade.`,
     factId: 'portTradeShare',
   },
   {
-    title: 'Tourism and hospitality',
-    description: 'Heritage sites, beaches and year-round visitors create demand for hotels and services.',
+    title: 'Free zone',
+    description: "The Amreya public free zone is Egypt's largest by area, about 20 km from the seaport.",
+    factId: 'freeZoneArea',
   },
   {
-    title: 'Technology',
-    description: 'A growing number of startups and IT companies.',
+    title: 'Manufacturing',
+    description: 'A century-old industrial base: General Motors opened an assembly plant here in 1926.',
+    factId: 'gmAlexandria1926',
+  },
+  {
+    title: 'Tourism and heritage',
+    description: `The Bibliotheca Alexandrina alone draws ${facts.bibliothecaVisitors.value} visitors a year.`,
+    factId: 'bibliothecaVisitors',
   },
 ];
 
-const advantages: { text: string; factId?: FactId }[] = [
-  { text: "Around 40% of Egypt's industrial activity (2013)", factId: 'industrialShare' },
-  { text: 'Largest Mediterranean port in Egypt' },
-  { text: 'Borg El Arab International Airport' },
-  { text: 'Public free zone in Amreya' },
-  { text: 'Young, educated workforce' },
-  { text: 'Tax incentives for investors' },
+const worthKnowing: { text: string; factId?: FactId }[] = [
+  { text: 'Free zones allow 100% foreign ownership (outside Sinai)', factId: 'freeZoneOwnership' },
+  { text: 'EIB, EBRD, AFD and AIIB are co-financing the Abu Qir metro', factId: 'abuQirMetroFinancing' },
+  { text: 'Borg El Arab International Airport serves the city' },
 ];
 
 const keyStats: { value: string; label: string; factId: FactId }[] = [
   { value: `≈${facts.portTradeShare.numeric}%`, label: 'Of foreign trade via the port', factId: 'portTradeShare' },
-  { value: `≈${facts.industrialShare.numeric}%`, label: 'Industrial activity (2013)', factId: 'industrialShare' },
+  { value: `≈${facts.industrialShare.numeric}%`, label: "Of Egypt's industry (2013)", factId: 'industrialShare' },
   { value: '5.7M m²', label: 'Public free zone', factId: 'freeZoneArea' },
   { value: '≈5.6M', label: 'Population', factId: 'population' },
 ];
@@ -42,7 +43,7 @@ const keyStats: { value: string; label: string; factId: FactId }[] = [
 export default function Invest() {
 
   return (
-    <section id="invest" aria-labelledby="invest-title" className="alex-section bg-ink text-white">
+    <section id="invest" aria-labelledby="invest-title" className="alex-section wall-of-scripts bg-ink text-white">
       <div className="alex-container">
         <h2 id="invest-title" className="max-w-3xl text-white">
           Invest in Alexandria
@@ -69,7 +70,7 @@ export default function Invest() {
               <h3 className="text-2xl text-white">{sector.title}</h3>
               <p className="mt-2 text-pretty text-sm leading-relaxed text-white/75">
                 {sector.description}
-                {sector.factId && <SourceChip factId={sector.factId} className="ml-1 text-white/70" />}
+                <SourceChip factId={sector.factId} className="ml-1 text-white/70" />
               </p>
             </li>
           ))}
@@ -77,12 +78,12 @@ export default function Invest() {
 
         <div className="mt-16 grid gap-12 lg:grid-cols-2">
           <div>
-            <h3 className="text-white">Why invest in Alexandria?</h3>
-            <ul className="mt-4 grid gap-x-8 sm:grid-cols-2">
-              {advantages.map((advantage) => (
-                <li key={advantage.text} className="border-t border-white/15 py-3 text-sm text-white/80">
-                  {advantage.text}
-                  {advantage.factId && <SourceChip factId={advantage.factId} className="ml-1 text-white/70" />}
+            <h3 className="text-white">Worth knowing</h3>
+            <ul className="mt-4">
+              {worthKnowing.map((item) => (
+                <li key={item.text} className="border-t border-white/15 py-3 text-sm text-white/80">
+                  {item.text}
+                  {item.factId && <SourceChip factId={item.factId} className="ml-1 text-white/70" />}
                 </li>
               ))}
             </ul>
@@ -91,7 +92,7 @@ export default function Invest() {
             </Link>
           </div>
 
-          <aside className="border-l-2 border-gold pl-6">
+          <aside>
             <h3 className="text-white">Before you invest</h3>
             <p className="mt-3 max-w-[65ch] text-pretty leading-[1.75] text-white/80">
               This is an unofficial guide, not an investment office. For licences, free zone applications and
