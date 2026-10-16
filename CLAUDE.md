@@ -10,7 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - The site must never present itself as official. Don't use "Official" labels, `.gov.eg` contact details or governorate addresses.
 - Don't put quotes in the mouths of real officials or institutions.
 - Every headline figure should come from `src/data/facts.ts`, which records source, `asOf` and confidence. Remove or reword figures with no source rather than inventing them.
-- AI-generated images must carry the `ConceptBadge` ("Concept illustration — AI-generated"). Real landmarks and people use real photos with credit; never AI likenesses of real people.
+- AI-generated images must carry the `ConceptBadge` ("Concept illustration — AI-generated"). Real landmarks and people use real photos with credit; no other AI likenesses of real people.
+- One owner-approved exception (Oct 2026): the AI portrait of the governor in `sections/governor/GovernorHero.tsx` (`public/images/governor-portrait-ai.jpg`). It must keep the on-image badge and the caption, and must never be used in share cards (`pageMeta.ts`), the home page or anywhere its label could be lost.
 - The disclaimer is a dialog on the first visit, then a slim banner (`lib/disclaimer.ts`).
 
 ## Commands

@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * Stand-in for the governor's portrait until a credited official or press
- * photo is added (see docs/image-prompts.md). Never replace it with an
- * AI-generated likeness.
+ * photo is added (see docs/image-prompts.md). Only the Governor page uses the
+ * owner-approved AI portrait; never put it here (see CLAUDE.md).
  */
 export default function PortraitPlaceholder({ className }: { className?: string }) {
   return (

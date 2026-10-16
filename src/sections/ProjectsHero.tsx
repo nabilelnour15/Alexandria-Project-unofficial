@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { projectsData } from '../data/projectsData';
 import SourceChip from '../components/SourceChip';
+import StageLine from './projects/StageLine';
 
 const SECTIONS = [
   { href: '#ledger', label: 'Stage by stage' },
@@ -61,17 +62,24 @@ export default function ProjectsHero({
           )}
         </div>
 
-        <dl className="grid grid-cols-2 gap-x-8 gap-y-10 lg:col-span-5 lg:mt-3">
-          {hero.stats.map((stat) => (
-            <div key={stat.label} className="border-t-2 border-gold pt-4">
-              <dt className="text-sm text-ink-soft">{stat.label}</dt>
-              <dd className="mt-2 font-display text-4xl font-semibold tabular-nums leading-none text-ink md:text-5xl">
-                {stat.value}
-                {stat.factId && <SourceChip factId={stat.factId} className="ml-1 text-ink-soft" />}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        {isPage ? (
+          <dl className="grid grid-cols-2 gap-x-8 gap-y-10 lg:col-span-5 lg:mt-3">
+            {hero.stats.map((stat) => (
+              <div key={stat.label} className="border-t-2 border-gold pt-4">
+                <dt className="text-sm text-ink-soft">{stat.label}</dt>
+                <dd className="mt-2 font-display text-4xl font-semibold tabular-nums leading-none text-ink md:text-5xl">
+                  {stat.value}
+                  {stat.factId && <SourceChip factId={stat.factId} className="ml-1 text-ink-soft" />}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <div className="lg:col-span-12">
+            <h3 className="mb-6 text-xl text-ink">Where each project stands</h3>
+            <StageLine />
+          </div>
+        )}
       </div>
     </section>
   );
