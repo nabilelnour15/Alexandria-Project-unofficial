@@ -47,7 +47,7 @@ export default function LivePage() {
         <Tabs value={tab} onValueChange={onTabChange}>
           <TabsList
             aria-label="Living in Alexandria"
-            className="mb-12 h-auto w-full justify-start gap-1 overflow-x-auto overflow-y-hidden rounded-none border-b border-limestone bg-transparent p-0"
+            className="-mx-1 mb-10 -mt-2 h-auto w-auto justify-start gap-1 overflow-x-auto overflow-y-hidden rounded-none border-b border-limestone bg-transparent px-1 pb-2 pt-2"
           >
             {TABS.map((t) => (
               <TabsTrigger

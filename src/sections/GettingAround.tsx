@@ -36,7 +36,7 @@ function FactLine({ id }: { id: FactId }) {
 export default function GettingAround() {
   return (
     <div className="space-y-20">
-      <section aria-labelledby="live-traffic">
+      <section id="traffic" aria-labelledby="live-traffic" className="scroll-mt-28">
         <div className="flex items-center gap-3">
           <h2 id="live-traffic" className="text-ink">
             Live traffic
@@ -70,7 +70,7 @@ export default function GettingAround() {
         </ul>
       </section>
 
-      <section aria-labelledby="rail" className="grid gap-14 lg:grid-cols-2">
+      <section id="rail-lines" aria-labelledby="rail" className="scroll-mt-28 grid gap-14 lg:grid-cols-2">
         <h2 id="rail" className="sr-only">
           Tram and metro
         </h2>

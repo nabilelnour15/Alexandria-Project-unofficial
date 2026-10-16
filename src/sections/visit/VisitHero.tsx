@@ -37,6 +37,10 @@ export default function VisitHero() {
           <img
             src="/images/Alexandria-Bibliotheca-interior.jpg"
             alt="The reading hall of the Bibliotheca Alexandrina"
+            width={1300}
+            height={865}
+            fetchPriority="high"
+            decoding="async"
             className="aspect-[4/3] w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-white/10"
           />
           <figcaption className="mt-3 text-sm text-white/60">The reading hall of the Bibliotheca Alexandrina.</figcaption>

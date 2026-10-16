@@ -1,3 +1,4 @@
+import SourceChip from '@/components/SourceChip';
 import { projectsData } from '../data/projectsData';
 
 export default function Vision2030Section() {
@@ -34,23 +35,24 @@ export default function Vision2030Section() {
             <h3 className="mt-1 text-3xl text-ink">{gcap.title}</h3>
             <p className="mt-4 max-w-[60ch] text-pretty leading-[1.75] text-ink-soft">{gcap.description}</p>
             <p className="mt-8 font-display text-6xl font-semibold tabular-nums leading-none text-sea">
-              {/* gcap.budget reads "≈€180M in listed pipeline items"; show just the amount here */}
-              {gcap.budget.split(' in ')[0]}
+              {/* gcap.budget reads "≈€506M total cost estimate"; show just the amount here */}
+              {gcap.budget.split(' total')[0]}
+              <SourceChip factId={gcap.factId} className="ml-1 align-middle text-ink-soft" />
             </p>
             <p className="mt-2 text-sm text-ink-soft">
-              Listed pipeline items over a 10–15 year horizon. A sum of the items listed, not money spent.
+              The plan's own total cost estimate over a 10–15 year horizon. Estimated costs, not money committed or spent.
             </p>
           </div>
 
           <table className="w-full text-left lg:col-span-6">
-            <caption className="sr-only">Listed pipeline items by sector</caption>
+            <caption className="sr-only">GCAP cost estimate by sector</caption>
             <thead>
               <tr className="border-b-2 border-ink">
                 <th scope="col" className="pb-3 text-sm font-semibold text-ink">
                   Sector
                 </th>
                 <th scope="col" className="pb-3 text-right text-sm font-semibold text-ink">
-                  Listed value
+                  Cost estimate
                 </th>
               </tr>
             </thead>

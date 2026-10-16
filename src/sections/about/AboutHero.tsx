@@ -49,6 +49,10 @@ export default function AboutHero() {
           <img
             src="/images/citadel.jpg"
             alt="The Citadel of Qaitbay on its headland at the mouth of the Eastern Harbour"
+            width={1200}
+            height={800}
+            fetchPriority="high"
+            decoding="async"
             className="aspect-[4/5] w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-white/10 lg:aspect-[4/5]"
           />
           <figcaption className="mt-3 text-pretty text-sm text-white/60">

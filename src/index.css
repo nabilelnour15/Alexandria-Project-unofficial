@@ -374,9 +374,9 @@
  * band, so the indicator reaches 3:1 on white as well as on ink and sea.
  */
 :focus-visible {
-  outline: 3px solid rgb(var(--tram));
-  outline-offset: 2px;
-  box-shadow: 0 0 0 5px rgb(var(--ink));
+  outline: 3px solid rgb(var(--tram)) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgb(var(--ink)) !important;
 }
 
 /* Reduced Motion */

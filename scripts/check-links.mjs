@@ -2,7 +2,7 @@
 // Checks every http(s) URL in src/data/*.ts and writes the ones that fail to a JSON report.
 // Used by the weekly data audit so Claude only looks at broken links, not all of them.
 //
-//   node scripts/check-links.mjs [out.json]
+//   node scripts/check-links.mjs [out.json] [--fail-on-broken]
 //
 // Many news and government sites block bots or time out; those are reported as
 // "blocked" or "unreachable" rather than "broken", so they get a manual check first.
@@ -11,7 +11,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const DATA_DIR = path.resolve('src/data');
-const OUT = process.argv[2] ?? 'link-report.json';
+const args = process.argv.slice(2);
+const FAIL_ON_BROKEN = args.includes('--fail-on-broken');
+const OUT = args.find((a) => !a.startsWith('--')) ?? 'link-report.json';
 const TIMEOUT_MS = 20_000;
 const CONCURRENCY = 6;
 const UA = 'Mozilla/5.0 (compatible; AlexandriaFanSiteLinkCheck/1.0; +https://github.com/nabilelnour15/Alexandria-Project-unofficial)';
@@ -33,19 +35,32 @@ for (const file of fs.readdirSync(DATA_DIR).filter((f) => f.endsWith('.ts'))) {
 const PRIVATE_HOST =
   /^(localhost|.*\.localhost|.*\.local|.*\.internal|127\.\d|10\.\d|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.0\.0\.0|\[::1?\]|\[f[cd][0-9a-f]{2}:|\[fe80:)/i;
 
+const MAX_HOPS = 5;
+
 async function check(url) {
-  const host = new URL(url).hostname;
-  if (PRIVATE_HOST.test(host)) return { status: 0, error: 'skipped: private or local address' };
   const attempt = async (method) => {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
-    try {
-      const res = await fetch(url, { method, redirect: 'follow', signal: ctrl.signal, headers: { 'user-agent': UA } });
-      await res.body?.cancel(); // only the status matters; free the socket
-      return { status: res.status, finalUrl: res.url };
-    } finally {
-      clearTimeout(timer);
+    let current = url;
+    for (let hop = 0; hop <= MAX_HOPS; hop++) {
+      // Every hop is checked, so a public URL can't redirect us onto the runner's own network.
+      if (PRIVATE_HOST.test(new URL(current).hostname)) {
+        return { status: 0, error: 'skipped: private or local address' };
+      }
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+      try {
+        const res = await fetch(current, { method, redirect: 'manual', signal: ctrl.signal, headers: { 'user-agent': UA } });
+        await res.body?.cancel(); // only the status matters; free the socket
+        const location = res.headers.get('location');
+        if (res.status >= 300 && res.status < 400 && location) {
+          current = new URL(location, current).href;
+          continue;
+        }
+        return { status: res.status, finalUrl: current };
+      } finally {
+        clearTimeout(timer);
+      }
     }
+    return { status: 0, error: 'too many redirects' };
   };
   try {
     let r = await attempt('HEAD');
@@ -88,3 +103,4 @@ const report = {
 };
 fs.writeFileSync(OUT, JSON.stringify(report, null, 2));
 console.log(`checked ${report.checked}: ${report.broken.length} broken, ${report.blocked.length} blocked, ${report.unreachable.length} unreachable, ${report.redirected.length} redirected -> ${OUT}`);
+if (FAIL_ON_BROKEN && report.broken.length > 0) process.exitCode = 1;

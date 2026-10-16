@@ -1,18 +1,18 @@
-import { lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-
-const HomePage = lazy(() => import('./pages/HomePage'));
-const VisitPage = lazy(() => import('./pages/VisitPage'));
-const InvestPage = lazy(() => import('./pages/InvestPage'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
-const GovernorPage = lazy(() => import('./pages/GovernorPage'));
-const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
-const LivePage = lazy(() => import('./pages/LivePage'));
-const NewsPage = lazy(() => import('./pages/NewsPage'));
-const NewsPostPage = lazy(() => import('./pages/NewsPostPage'));
-const ExperiencePage = lazy(() => import('./pages/ExperiencePage'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+import {
+  HomePage,
+  VisitPage,
+  InvestPage,
+  AboutPage,
+  GovernorPage,
+  ProjectsPage,
+  LivePage,
+  NewsPage,
+  NewsPostPage,
+  ExperiencePage,
+  NotFoundPage,
+} from './lib/routes';
 
 function App() {
   return (

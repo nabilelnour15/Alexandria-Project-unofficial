@@ -92,7 +92,7 @@ export default function Services({ isTeaser = false }: { isTeaser?: boolean }) {
   return (
     <div>
       {emergency.length > 0 && (
-        <section aria-labelledby="emergency-numbers" className="mb-12 bg-limestone-wash px-6 py-10 md:px-10">
+        <section id="emergency" aria-labelledby="emergency-numbers" className="scroll-mt-28 mb-12 bg-limestone-wash px-6 py-10 md:px-10">
           <h3 id="emergency-numbers" className="text-ink">
             Emergency numbers
           </h3>
@@ -141,7 +141,7 @@ export default function Services({ isTeaser = false }: { isTeaser?: boolean }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search, e.g. water"
-            className="min-h-11 w-full rounded-lg border border-limestone bg-white py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-ink-soft/70 focus:border-sea focus:outline-none"
+            className="min-h-11 w-full rounded-lg border border-limestone bg-white py-2.5 pl-9 pr-3 text-sm text-ink placeholder:text-ink-soft focus:border-sea"
           />
         </div>
       </div>

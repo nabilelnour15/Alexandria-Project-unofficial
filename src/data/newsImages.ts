@@ -15,7 +15,7 @@ export interface NewsImage {
   readonly height: number;
 }
 
-export const newsImages: Readonly<Record<string, NewsImage>> = {
+export const newsImages = {
   "raml-tram": {
     src: "/images/news/raml-tram.jpg",
     alt: "Two blue-and-cream Alexandria trams at Raml Station",
@@ -116,4 +116,6 @@ export const newsImages: Readonly<Record<string, NewsImage>> = {
     width: 1280,
     height: 1024,
   },
-};
+} as const satisfies Record<string, NewsImage>;
+
+export type NewsImageKey = keyof typeof newsImages;

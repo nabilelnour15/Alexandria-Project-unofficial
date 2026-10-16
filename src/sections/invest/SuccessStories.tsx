@@ -1,4 +1,5 @@
 import { ExternalLink } from 'lucide-react';
+import SourceChip from '@/components/SourceChip';
 import { investData } from '@/data/investData';
 
 export default function SuccessStories() {
@@ -23,7 +24,10 @@ export default function SuccessStories() {
                 {story.industry}, {story.year}
               </p>
               <h3 className="mt-1 text-ink">{story.name}</h3>
-              <p className="mt-3 max-w-[65ch] text-pretty leading-[1.75] text-ink-soft">{story.successStory}</p>
+              <p className="mt-3 max-w-[65ch] text-pretty leading-[1.75] text-ink-soft">
+                {story.successStory}
+                {story.factId && <SourceChip factId={story.factId} className="ml-1" />}
+              </p>
               {story.link && (
                 <a
                   href={story.link}

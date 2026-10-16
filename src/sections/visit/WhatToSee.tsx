@@ -17,7 +17,7 @@ export default function WhatToSee() {
         <Tabs defaultValue="historical" className="mt-12">
           <TabsList
             aria-label="Attraction categories"
-            className="h-auto w-full justify-start gap-1 overflow-x-auto overflow-y-hidden rounded-none border-b border-limestone bg-transparent p-0"
+            className="h-auto w-full justify-start gap-1 overflow-x-auto overflow-y-hidden rounded-none border-b border-limestone bg-transparent -mx-1 -my-2 px-1 py-2"
           >
             {attractionCategories.map((cat) => (
               <TabsTrigger

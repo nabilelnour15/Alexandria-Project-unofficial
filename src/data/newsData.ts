@@ -1,14 +1,27 @@
+/// <reference types="vite/client" />
 // City briefing: a curated digest of real reporting about Alexandria.
 // This site does not write news. Each item is a short summary in our own words
 // that links out to the original report. No quotes, no invented items.
 // Add an item only with a working `url` and the outlet's own publication `date`.
 
-export type NewsCategory =
-  | 'Governorate'
-  | 'Transport'
-  | 'Heritage & culture'
-  | 'Economy & ports'
-  | 'City & environment';
+
+import type { IsoDate } from '../lib/dates';
+import { fold } from '../lib/text';
+import type { NewsImageKey } from './newsImages';
+import type { projectsData } from './projectsData';
+
+export const newsCategories = [
+  'Governorate',
+  'Transport',
+  'Heritage & culture',
+  'Economy & ports',
+  'City & environment',
+] as const;
+
+export type NewsCategory = (typeof newsCategories)[number];
+
+/** Id of a project in `projectsData.projects`. */
+export type ProjectId = (typeof projectsData.projects)[number]['id'];
 
 export interface NewsItem {
   readonly id: string;
@@ -18,32 +31,20 @@ export interface NewsItem {
   readonly summary: string;
   readonly category: NewsCategory;
   /** Publication date given by the outlet, YYYY-MM-DD. */
-  readonly date: string;
+  readonly date: IsoDate;
   /** Outlet name, e.g. "Ahram Online". */
   readonly outlet: string;
   readonly url: string;
   /** Language of the linked report, when it isn't English. */
   readonly lang?: 'ar' | 'fr';
   /** `projectsData` id when the story is about a listed city project. */
-  readonly projectId?: string;
+  readonly projectId?: ProjectId;
   /** Key in `newsImages`: a licensed photo of the related place, not of the event. */
-  readonly image?: string;
+  readonly image?: NewsImageKey;
 }
-
-export const newsCategories: readonly NewsCategory[] = [
-  'Governorate',
-  'Transport',
-  'Heritage & culture',
-  'Economy & ports',
-  'City & environment',
-];
 
 /** URL value for a topic: "Heritage & culture" -> "heritage-culture". */
 export const topicSlug = (c: NewsCategory) => c.toLowerCase().replace(/[^a-z]+/g, '-');
-
-/** Lower-case, accent-free text for search. Arabic is left as it is. */
-const fold = (s: string) =>
-  s.normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/ø/gi, 'o').toLowerCase();
 
 /** True when every word of `query` appears in the item's title, summary, outlet or topic. */
 export function matchesQuery(item: NewsItem, query: string): boolean {
@@ -55,7 +56,9 @@ export function matchesQuery(item: NewsItem, query: string): boolean {
 }
 
 // Last checked 2026-10 (each claim re-checked against its page).
-export const newsItems: readonly NewsItem[] = [
+const defineNews = <const T extends readonly NewsItem[]>(list: T) => list;
+
+const items = defineNews([
   {
     id: 'ba-rethinking-rebuilding-2026-10',
     title: 'Library to host "Rethinking Rebuilding" symposium, 11–13 October',
@@ -200,11 +203,11 @@ export const newsItems: readonly NewsItem[] = [
     id: 'raml-tram-suspended-2026-04',
     title: 'Raml tram fully suspended for light-rail rebuild',
     summary:
-      'All service on the Raml tram has stopped so the line can be rebuilt as a higher-capacity light rail.',
+      'All service on the Raml tram stopped on 1 April 2026 so the line can be rebuilt as a higher-capacity light rail.',
     category: 'Transport',
-    date: '2026-04-09',
-    outlet: 'Global Mass Transit',
-    url: 'https://globalmasstransit.net/alexandria-suspends-ramleh-tramway-for-light-rail-upgrade-egypt/',
+    date: '2026-04-10',
+    outlet: 'Urban Transport Magazine',
+    url: 'https://www.urban-transport-magazine.com/en/alexandria-system-transition-of-the-ramleh-tram-between-modernisation-and-the-loss-of-urban-identity/',
     projectId: 'raml-tram',
     image: 'raml-tram',
   },
@@ -327,4 +330,17 @@ export const newsItems: readonly NewsItem[] = [
     lang: 'ar',
     image: 'city',
   },
-];
+]);
+
+export type NewsId = (typeof items)[number]['id'];
+
+export const newsItems: readonly NewsItem[] = items;
+
+if (import.meta.env?.DEV) {
+  const seen = new Set<string>();
+  for (const n of newsItems) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(n.date)) console.error(`newsData: bad date "${n.date}" on ${n.id}`);
+    if (seen.has(n.id)) console.error(`newsData: duplicate id "${n.id}"`);
+    seen.add(n.id);
+  }
+}

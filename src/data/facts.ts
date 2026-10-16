@@ -5,6 +5,8 @@
 //   Estimate = derived by this site (e.g. a sum of listed figures)
 // Figures we could not source are NOT in `facts`; they are listed in `unsourcedFigures`.
 
+import type { Year, YearMonth } from '../lib/dates';
+
 export type Confidence = 'Official' | 'Reported' | 'Estimate';
 
 export interface Fact {
@@ -14,14 +16,17 @@ export interface Fact {
   numeric?: number;
   unit?: string;
   source: { label: string; url: string };
-  asOf: string;
+  asOf: Year | YearMonth;
   confidence: Confidence;
   note?: string;
 }
 
 export const LAST_REVIEWED = '2026-10';
 
-export const facts = {
+/** Ties each fact's `id` to its key, so the two can't drift apart. */
+const defineFacts = <const T extends { [K in keyof T]: Fact & { id: K } }>(t: T) => t;
+
+export const facts = defineFacts({
   // ---- City & people -------------------------------------------------------
   population: {
     id: 'population',
@@ -207,7 +212,20 @@ export const facts = {
     },
     asOf: '2026-03',
     confidence: 'Official',
-    note: 'Lenders: EIB €750M, EBRD €250M, AFD €250M, AIIB €250M, Government of Egypt €264M. The EPC contract alone is about €1.3B. Completion is expected Jan 2028. The site\'s €1.39B is out of date.',
+    note: 'Lenders: EIB €750M, EBRD €250M, AFD €250M, AIIB €250M, Government of Egypt €264M. The EPC contract alone is about €1.3B. Completion is expected Jan 2028. The site\'s €1.39B is out of date. See abuQirMetroFinancing for the split.',
+  },
+
+  abuQirMetroFinancing: {
+    id: 'abuQirMetroFinancing',
+    label: 'Abu Qir Metro financing split',
+    value: 'EIB €750M, EBRD €250M, AFD €250M, AIIB €250M, Government of Egypt €264M, plus an EBRD technical-assistance grant of €1.7M',
+    source: {
+      label: 'AIIB – Project Summary Information P000207 (updated Mar 2026)',
+      url: 'https://www.aiib.org/en/projects/details/2026/_download/Egypt/Updated-PSI-P000207-Egypt-Alexandria-Abu-Qir-Metro-Line-Project-Egypt-clean.pdf',
+    },
+    asOf: '2026-03',
+    confidence: 'Official',
+    note: 'Total €1,764M. The €1.7M EBRD technical-assistance grant is listed separately.',
   },
 
   // ---- Raml Tram ----------------------------------------------------------
@@ -281,12 +299,182 @@ export const facts = {
     note: 'EIB €138M, AFD €100M, EU grant €8M. The rest is from the Government of Egypt.',
   },
 
+  ramlTramSpeed: {
+    id: 'ramlTramSpeed',
+    label: 'Raml tram operating speed',
+    value: '11 → 21 km/h',
+    source: {
+      label: 'Hitachi Rail – first modern tramway in Egypt (Nov 2025)',
+      url: 'https://news.hitachirail.com/hitachi-rail-to-deliver-rail-systems-for-first-modern-tramway-in-egypt-3415510',
+    },
+    asOf: '2025-11',
+    confidence: 'Official',
+    note: 'Hitachi: "doubling operational speed from 11 km/h to 21 km/h". Replaces the unsourced "+91%".',
+  },
+  ramlTramFinancing: {
+    id: 'ramlTramFinancing',
+    label: 'Raml tram lender and grant split',
+    value: 'EIB €138M, AFD €100M, EU grant €8M',
+    source: {
+      label: 'EIB – Alexandria Raml Tram (20160125); AFD key projects factsheet',
+      url: 'https://www.eib.org/en/projects/all/20160125',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'AFD factsheet: "236 million euros, including 100 million euros from AFD" and an "8 million euros grant from the European Union".',
+  },
+  ramlTramBalance: {
+    id: 'ramlTramBalance',
+    label: 'Raml tram balance not covered by lenders (derived)',
+    value: '≈€346 million',
+    source: {
+      label: 'Derived: €592M total (EIB 20160125) minus EIB €138M, AFD €100M and EU grant €8M',
+      url: 'https://www.eib.org/en/projects/all/20160125',
+    },
+    asOf: '2026-10',
+    confidence: 'Estimate',
+    note: 'A remainder worked out by this site, not a published commitment. EIB says the rest comes from the Government of Egypt.',
+  },
+
+  // ---- Green City Action Plan projects ------------------------------------
+  brtCost: {
+    id: 'brtCost',
+    label: 'BRT corridors (two bus rapid corridors) estimated cost',
+    value: '€20 million',
+    numeric: 20000000,
+    unit: 'EUR',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'GCAP: "Two bus rapid corridors € 20 million". An estimate in the plan, not a contract value.',
+  },
+  sludgeCost: {
+    id: 'sludgeCost',
+    label: 'Sludge-to-energy facility (E1) cost',
+    value: '€30 million',
+    numeric: 30000000,
+    unit: 'EUR',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+  },
+  sludgeReduction: {
+    id: 'sludgeReduction',
+    label: 'Sludge-to-energy: reduction in sludge volume',
+    value: '30–35%',
+    source: {
+      label: 'Alexandria Green City Action Plan; AFD key projects factsheet',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+  },
+  sludgeElectricity: {
+    id: 'sludgeElectricity',
+    label: 'Sludge-to-energy: expected electricity output',
+    value: '110,000–160,000 kWh a day (expected)',
+    source: {
+      label: 'Alexandria Green City Action Plan; AFD key projects factsheet',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'An expected figure, not measured output.',
+  },
+  solarWaterCost: {
+    id: 'solarWaterCost',
+    label: 'Scaling solar for water treatment (E2) cost',
+    value: '€33 million',
+    numeric: 33000000,
+    unit: 'EUR',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+  },
+  solarWaterEnergy: {
+    id: 'solarWaterEnergy',
+    label: 'Solar for water treatment: annual energy',
+    value: '106,000 MWh a year',
+    numeric: 106000,
+    unit: 'MWh/yr',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+  },
+  solarWaterGhg: {
+    id: 'solarWaterGhg',
+    label: 'Solar for water treatment: greenhouse-gas reduction',
+    value: '≈44,200 tCO₂e a year',
+    numeric: 44200,
+    unit: 'tCO2e/yr',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+  },
+  controlCentreCost: {
+    id: 'controlCentreCost',
+    label: 'Regional Control Center Modernization cost',
+    value: '€60 million (€50M AFD loan + €10M EU grant)',
+    numeric: 60000000,
+    unit: 'EUR',
+    source: {
+      label: 'AFD key projects factsheet; Egypt Ministry of International Cooperation',
+      url: 'https://afd.fr/sites/default/files/2024-10-02-49-04/Fiche%20projets%20phares%20Alexandrie%20ANG.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'AFD factsheet: "Project amount: 50 million euros and 10 million euros in EU grants". Also on moic.gov.eg/news/2106. Replaces the earlier wrong split of €10M EU and €40M AFD inside €50M.',
+  },
+  sudsCost: {
+    id: 'sudsCost',
+    label: 'Sustainable Drainage Systems (SuDS) estimated cost',
+    value: '€35 million',
+    numeric: 35000000,
+    unit: 'EUR',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'GCAP: "CR2 Sustainable Drainage € 35 million".',
+  },
+  gcapCostBySector: {
+    id: 'gcapCostBySector',
+    label: 'GCAP cost estimate by sector',
+    value: 'Transport €170.50M, Energy €65.23M, Water and wastewater €136.00M; total €506.38M',
+    numeric: 506380000,
+    unit: 'EUR',
+    source: {
+      label: 'Alexandria Green City Action Plan (EBRD Green Cities)',
+      url: 'https://www.ebrdgreencities.com/assets/Alexandria-Green-City-Action-Plan-english.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'The plan\'s own totals for its action list. Cost estimates over a 10–15 year horizon, not money committed or spent.',
+  },
+
   // ---- Projects page (derived) --------------------------------------------
   projectsTotal: {
     id: 'projectsTotal',
     label: 'Sum of listed project budgets',
-    value: '≈€2.52 billion',
-    numeric: 2_524_000_000,
+    value: '≈€2.53 billion',
+    numeric: 2_534_000_000,
     unit: 'EUR',
     source: {
       label: 'Sum of budgets listed on this site (projectsData.ts)',
@@ -294,7 +482,7 @@ export const facts = {
     },
     asOf: '2026-10',
     confidence: 'Estimate',
-    note: 'Adds the 7 projects with a budget: 592 + 1,764 + 20 + 30 + 33 + 50 + 35 = €2,524M (Abu Qir uses the official €1.764B). Excludes e-buses, wastewater and Alstom, which have no budget. Shown on the site as "≈€2.5B in listed project budgets". This is a sum of listed projects, not money "invested".',
+    note: 'Adds the 7 projects with a budget: 592 + 1,764 + 20 + 30 + 33 + 60 + 35 = €2,534M (Abu Qir uses the official €1.764B; the control centre is a €50M AFD loan plus a €10M EU grant). Excludes e-buses, wastewater and Alstom, which have no budget. Shown on the site as "≈€2.5B in listed project budgets". This is a sum of listed projects, not money "invested".',
   },
   projectsUnderConstruction: {
     id: 'projectsUnderConstruction',
@@ -309,6 +497,21 @@ export const facts = {
     asOf: '2026-10',
     confidence: 'Estimate',
     note: 'The four are Raml tram, Abu Qir metro, the regional control centre and the Alstom complex. Ideally computed from the data at render time.',
+  },
+
+  // ---- Climate ------------------------------------------------------------
+  climateNormals: {
+    id: 'climateNormals',
+    label: 'Monthly climate normals, Alexandria (El Nouzha, WMO 62318), 1991–2020',
+    value: 'Highs 18.4–31.0 °C, lows 9.5–24.4 °C, about 212 mm of rain a year',
+    unit: '°C / mm',
+    source: {
+      label: 'Climate table for Alexandria (El Nouzha Airport), 1991–2020 normals, on Wikipedia, citing NOAA',
+      url: 'https://en.wikipedia.org/wiki/Alexandria#Climate',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: 'Secondary table; the primary NOAA/WMO normals file was not read. Sea temperatures have no source yet.',
   },
 
   // ---- Heritage -----------------------------------------------------------
@@ -355,17 +558,15 @@ export const facts = {
   },
   bibliothecaCapacity: {
     id: 'bibliothecaCapacity',
-    label: 'Bibliotheca Alexandrina ultimate shelf capacity',
-    value: '8 million volumes',
-    numeric: 8_000_000,
-    unit: 'volumes',
+    label: 'Bibliotheca Alexandrina designed capacity',
+    value: 'designed to hold millions of books',
     source: {
-      label: 'Bibliotheca Alexandrina – The New Bibliotheca Alexandrina (2007)',
-      url: 'https://www.bibalex.org/Attachments/Publications/Files/1_NewBibliothecaAlexandrina.pdf',
+      label: 'Bibliotheca Alexandrina – Overview',
+      url: 'https://www.bibalex.org/en/page/overview',
     },
-    asOf: '2007',
+    asOf: '2026-10',
     confidence: 'Official',
-    note: 'This is a design capacity (with compact storage), not the current holdings.',
+    note: 'A design capacity, not current holdings. No exact volume count is claimed.',
   },
   bibliothecaReadingSeats: {
     id: 'bibliothecaReadingSeats',
@@ -408,9 +609,100 @@ export const facts = {
     confidence: 'Official',
     note: 'This figure is for the Bibliotheca only. It is not a city-wide visitor count.',
   },
-} as const satisfies Record<string, Fact>;
+
+  // ---- Review fixes (Oct 2026) ---------------------------------------------
+  ancientLibraryScrolls: {
+    id: 'ancientLibraryScrolls',
+    label: 'Scrolls in the ancient Library of Alexandria',
+    value: 'Ancient sources claim 400,000–700,000; modern scholars think far fewer',
+    source: {
+      label: 'Wikipedia – Library of Alexandria',
+      url: 'https://en.wikipedia.org/wiki/Library_of_Alexandria',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: 'Ancient claims only; the real size is unknown.',
+  },
+  pharosHeight: {
+    id: 'pharosHeight',
+    label: 'Estimated height of the Pharos lighthouse',
+    value: 'estimated 100–140 m',
+    source: {
+      label: 'World History Encyclopedia – Lighthouse of Alexandria',
+      url: 'https://www.worldhistory.org/Lighthouse_of_Alexandria/',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: '"Estimates range from 100 to 140 metres."',
+  },
+  pharosBlocks: {
+    id: 'pharosBlocks',
+    label: 'Pharos blocks recovered from the harbour',
+    value: '22 monumental blocks',
+    source: {
+      label: 'Finestre sull\'Arte – blocks of the Lighthouse of Alexandria resurface',
+      url: 'https://www.finestresullarte.info/en/archaeology/egypt-blocks-of-the-lighthouse-of-alexandria-one-of-the-seven-wonders-resurface-after-2-300-years',
+    },
+    asOf: '2025-07',
+    confidence: 'Reported',
+    note: '"22 monumental blocks have been brought to the surface."',
+  },
+  freeZoneOwnership: {
+    id: 'freeZoneOwnership',
+    label: 'Foreign ownership in free zones',
+    value: '100% allowed, except projects in Sinai',
+    source: {
+      label: 'Egypt Investment Law No. 72 of 2017',
+      url: 'https://www.investinegypt.gov.eg/flip/library/PDFs/InvestmentLaw72/InvestmentLaw72_EN.pdf',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: 'Taken from the law\'s English text; check the law itself before relying on it.',
+  },
+  concentrixInvestment: {
+    id: 'concentrixInvestment',
+    label: 'Concentrix Egypt expansion announcement',
+    value: 'USD 1 billion over four years, 35,000 staff by 2028; 11 centres at the time',
+    source: {
+      label: 'Enterprise (Jan 2025) – Concentrix to invest USD 1 bn in Egypt',
+      url: 'https://enterpriseam.com/egypt/2025/01/29/concentrix-to-invest-usd-1-bn-to-expand-egypt-outsourcing-operations/',
+    },
+    asOf: '2025-01',
+    confidence: 'Reported',
+    note: 'An announcement, not money spent. The ITIDA page could not be read by bots, so this press report is the source.',
+  },
+  gmAlexandria1926: {
+    id: 'gmAlexandria1926',
+    label: 'GM regional business in Alexandria since 1926',
+    value: '1926',
+    source: {
+      label: 'General Motors – 100 years of GM in Africa and the Middle East (Feb 2026)',
+      url: 'https://news.gm.com/home.detail.html/Pages/topic/us/en/2026/feb/0216-100-years-GM-Africa-Middle-East.html',
+    },
+    asOf: '2026-02',
+    confidence: 'Official',
+    note: 'GM\'s regional business began with an assembly plant in Alexandria in 1926.',
+  },
+  cavafyReopened: {
+    id: 'cavafyReopened',
+    label: 'Cavafy Museum reopened after restoration',
+    value: 'May 2024',
+    source: {
+      label: 'Onassis Foundation – restoration of Cavafy House in Alexandria',
+      url: 'https://www.onassis.org/news/onassis-foundation-has-restored-cavafy-house-in-alexandria',
+    },
+    asOf: '2024-05',
+    confidence: 'Reported',
+    note: 'Restored by the Onassis Foundation.',
+  },
+});
 
 export type FactId = keyof typeof facts;
+
+/** Facts that carry a `numeric` value (for counters and charts). */
+export type NumericFactId = {
+  [K in FactId]: (typeof facts)[K] extends { numeric: number } ? K : never;
+}[FactId];
 
 /**
  * Figures the site used to show without a source. None of them remain in `src/`:
@@ -422,6 +714,16 @@ export const unsourcedFigures: {
   status: 'removed' | 'reworded';
   where: string;
 }[] = [
+  {
+    figure: '162.1k acres farmed, 133k acres arable, 1.96 crop-intensification coefficient',
+    status: 'reworded',
+    where: 'Invest, agricultural investment card (Oct 2026): no source found, figures dropped.',
+  },
+  {
+    figure: '1.7 million t white sand reserve (Lower Wadi Al-Natroun)',
+    status: 'removed',
+    where: 'Invest, raw materials (Oct 2026): no source found.',
+  },
   {
     figure: '$40B GDP contribution',
     status: 'removed',
@@ -475,7 +777,7 @@ export const unsourcedFigures: {
   {
     figure: 'GCAP pipeline €506M total identified',
     status: 'reworded',
-    where: 'projectsData GCAP shows ≈€180M, the sum of the listed pipeline items (Vision 2030 section and Projects hero).',
+    where: 'Now shown with the GCAP\'s own totals (about €506M, by sector) and a source chip, replacing the ≈€180M sum of listed items.',
   },
   {
     figure: '40% less street-lighting energy (and 10% from ad boards)',
@@ -496,5 +798,40 @@ export const unsourcedFigures: {
     figure: 'Ptolemaic peak population 500k–1M; 40% foreign-born by the 1940s',
     status: 'reworded',
     where: 'aboutData eras: "a large, mixed population" and "large Greek, Italian and other foreign communities".',
+  },
+  {
+    figure: 'Raml tram "Speed increase +91%"; Egypt Govt €346M as a stated contribution',
+    status: 'reworded',
+    where: 'Projects, Raml tram: speed now reads 11 → 21 km/h (Hitachi); the €346M is relabelled as a derived balance (Estimate).',
+  },
+  {
+    figure: 'BRT "Cost efficiency 5-10% of rail"',
+    status: 'removed',
+    where: 'Projects, BRT corridors (Oct 2026): not in the GCAP.',
+  },
+  {
+    figure: 'Sludge: 200 t/day, 18,500 m³/day biogas, 5 MWh/day electricity',
+    status: 'removed',
+    where: 'Projects, sludge-to-energy (Oct 2026): in no source. Electricity now uses the GCAP/AFD 110,000–160,000 kWh a day (expected).',
+  },
+  {
+    figure: 'Control centre "20% grant share" and "10% loss reduction"',
+    status: 'removed',
+    where: 'Projects, regional control centre (Oct 2026): not sourced. Budget corrected to €60M (€50M AFD loan + €10M EU grant).',
+  },
+  {
+    figure: '"100% green economy transition"',
+    status: 'reworded',
+    where: 'Projects, Abu Qir metro Vision 2030 tag: now "Green economy transition", no number.',
+  },
+  {
+    figure: 'Bibliotheca "8 million volumes"; library "up to 700,000 scrolls"',
+    status: 'reworded',
+    where: 'About: "designed to hold millions of books"; the scroll count is now an ancient claim that modern scholars doubt.',
+  },
+  {
+    figure: "Cleopatra's Palace \"2.5 sq km\" underwater zone",
+    status: 'removed',
+    where: 'aboutData landmarks (Oct 2026): no source found.',
   },
 ];

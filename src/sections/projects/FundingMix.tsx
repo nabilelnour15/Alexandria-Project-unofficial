@@ -12,6 +12,8 @@ const TONE: Record<string, string> = {
   EU: 'bg-gold',
   'EU Grant': 'bg-gold',
   'Egypt Govt': 'bg-limestone',
+  'EBRD TA grant': 'bg-terracotta',
+  'Balance (derived: €592M total − lenders)': 'bg-limestone',
 };
 
 /** Bar widths only: the first number in a listed amount, e.g. "€138M" gives 138. */
@@ -67,7 +69,10 @@ export default function FundingMix() {
                       />
                       {f.source}
                     </dt>
-                    <dd className="font-semibold tabular-nums text-ink">{f.amount}</dd>
+                    <dd className="font-semibold tabular-nums text-ink">
+                      {f.amount}
+                      {f.factId && <SourceChip factId={f.factId} iconOnly className="ml-1 text-ink-soft" />}
+                    </dd>
                   </div>
                 ))}
               </dl>
