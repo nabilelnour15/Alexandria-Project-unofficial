@@ -29,7 +29,8 @@ interface Landmark {
   name: string;
   legacy: string;
   desc: string;
-  image: string;
+  /** Omit rather than use a photo whose origin can't be verified. */
+  image?: string;
   /** Caption under the image, e.g. when it is an illustration rather than a photograph. */
   caption?: string;
   credit?: ImageCredit;
@@ -244,7 +245,6 @@ export const landmarksData: {
       legacy:
         "Submerged royal quarter discovered in the 1990s, now an underwater archaeological zone.",
       desc: "Exceptional preservation conditions with granite columns retaining tool marks.",
-      image: "/images/cleopatra-palace-anterhodos.jpg",
     },
   ],
   monuments: [
