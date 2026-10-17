@@ -110,7 +110,8 @@ export default function FutureLines() {
           <div>
             <InscriptionHeading className="text-4xl text-papyrus md:text-5xl">Lines being drawn for 2030</InscriptionHeading>
             <p className="mt-3 max-w-xl text-papyrus/80">
-              These are planned and under-construction transit lines. The map below is indicative.
+              These are planned and under-construction transit lines. The Raml tram stopped running in 2026
+              while it is rebuilt. The map below is indicative.
             </p>
           </div>
           <span className="font-display text-6xl text-gold md:text-7xl" aria-hidden="true">2030</span>

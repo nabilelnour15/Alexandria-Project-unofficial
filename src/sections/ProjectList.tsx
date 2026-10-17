@@ -34,7 +34,7 @@ export default function ProjectList() {
             reached, not the share of work done.
           </p>
 
-          <div role="group" aria-label="Filter by stage" className="mt-10 flex flex-wrap gap-2">
+          <div role="group" aria-label="Filter by stage" className="mt-10 flex flex-wrap gap-x-1 border-b border-limestone">
             {FILTERS.map((f) => {
               const count = allProjects.filter((p) => matchesFilter(p, f)).length;
               const active = f.id === filterId;
@@ -44,13 +44,13 @@ export default function ProjectList() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setFilterId(f.id)}
-                  className={`inline-flex min-h-10 items-center rounded-full border px-4 text-sm font-semibold tabular-nums transition-colors ${
-                    active
-                      ? 'border-sea bg-sea text-white'
-                      : 'border-limestone bg-white text-ink-soft hover:border-sea hover:text-sea'
+                  className={`-mb-px inline-flex min-h-11 items-center rounded-t-sm border-b-2 px-4 py-3 text-base font-semibold transition-colors ${
+                    active ? 'border-sea text-sea' : 'border-transparent text-ink-soft hover:text-ink'
                   }`}
                 >
-                  {f.label} ({count})
+                  {f.label}
+                  <span className="sr-only">, </span>
+                  <span className="ml-1.5 font-normal tabular-nums text-ink-soft">{count}</span>
                 </button>
               );
             })}

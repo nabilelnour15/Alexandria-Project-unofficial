@@ -75,7 +75,12 @@ export default function GettingAround() {
           Tram and metro
         </h2>
         <article>
-          <h3 className="mb-3 text-ink">Raml tram</h3>
+          <h3 className="mb-3 text-ink">Raml tram (being rebuilt)</h3>
+          <p className="mb-4 max-w-[60ch] text-pretty text-ink-soft">
+            The tram stopped running in 2026 while the line is rebuilt as a modern light-rail line. Replacement
+            buses run along the route until it reopens.
+            <SourceChip factId="ramlTramSuspended" className="ml-1 text-ink-soft" />
+          </p>
           <dl className="border-b border-limestone">
             <FactLine id="ramlTramOpened" />
             <FactLine id="ramlTramLength" />
@@ -83,7 +88,7 @@ export default function GettingAround() {
           </dl>
         </article>
         <article>
-          <h3 className="mb-3 text-ink">Abu Qir Metro (planned)</h3>
+          <h3 className="mb-3 text-ink">Abu Qir Metro (under construction)</h3>
           <dl className="border-b border-limestone">
             <FactLine id="abuQirMetroLength" />
             <FactLine id="abuQirMetroStations" />

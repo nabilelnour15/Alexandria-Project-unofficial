@@ -231,7 +231,7 @@ export const facts = defineFacts({
   // ---- Raml Tram ----------------------------------------------------------
   ramlTramOpened: {
     id: 'ramlTramOpened',
-    label: 'Raml tram in operation since',
+    label: 'Raml tram first opened',
     value: '1863',
     numeric: 1863,
     unit: 'year',

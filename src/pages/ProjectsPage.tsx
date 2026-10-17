@@ -13,7 +13,7 @@ export default function ProjectsPage() {
       <ProjectList />
       <Vision2030Section />
       <FactsNote />
-      <CTA />
+      <CTA showVisitLink={false} />
     </div>
   );
 }
