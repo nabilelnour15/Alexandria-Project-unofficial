@@ -2,7 +2,7 @@ import {
   Plane, Train, Bus, Car, 
   MapPin, Camera, ShoppingBag, 
   Landmark, BookOpen, GraduationCap, 
-  Briefcase, Sun,
+  Sun,
   type LucideIcon,
 } from 'lucide-react';
 import type { FactId } from './facts';
@@ -258,11 +258,6 @@ export const activitiesData = [
     title: 'Learn',
     icon: GraduationCap,
     items: ['Goethe-Institut', 'Institut Français', 'Bibliotheca Alexandrina', 'Arabic Calligraphy Museum'],
-  },
-  {
-    title: 'Work',
-    icon: Briefcase,
-    items: ['Workstation (Smouha)', 'Mind Yard (Coworking)', 'Espresso Lab (Cafe/Work)', 'Natural gas sector', 'International schools'],
   }
 ];
 

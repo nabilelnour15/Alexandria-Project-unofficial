@@ -3,6 +3,7 @@ import ConceptBadge from '@/components/ConceptBadge';
 import PhotoCredit from '@/components/PhotoCredit';
 import SourceChip from '@/components/SourceChip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 import type { FactId } from '@/data/facts';
 import type { ImageCredit } from '@/data/imageCredit';
 import {
@@ -40,7 +41,7 @@ function Entry({
   caption,
   credit,
 }: {
-  image: string;
+  image?: string;
   alt: string;
   title: string;
   children: ReactNode;
@@ -49,13 +50,20 @@ function Entry({
   credit?: ImageCredit;
 }) {
   return (
-    <article className="grid gap-6 border-t border-limestone py-10 first:border-t-0 first:pt-0 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] md:gap-10">
-      <div className="relative">
-        <img loading="lazy" decoding="async" src={image} alt={alt} className={`aspect-[4/3] ${imgClass}`} />
-        {concept && <ConceptBadge className="absolute bottom-2 left-2" />}
-        {caption && <p className="mt-2 text-sm text-ink-soft">{caption}</p>}
-        <PhotoCredit credit={credit} className="mt-1.5" />
-      </div>
+    <article
+      className={cn(
+        'grid gap-6 border-t border-limestone py-10 first:border-t-0 first:pt-0 md:gap-10',
+        image && 'sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]',
+      )}
+    >
+      {image && (
+        <div className="relative">
+          <img loading="lazy" decoding="async" src={image} alt={alt} className={`aspect-[4/3] ${imgClass}`} />
+          {concept && <ConceptBadge className="absolute bottom-2 left-2" />}
+          {caption && <p className="mt-2 text-sm text-ink-soft">{caption}</p>}
+          <PhotoCredit credit={credit} className="mt-1.5" />
+        </div>
+      )}
       <div>
         <h3 className="text-ink">{title}</h3>
         <div className="mt-3 max-w-[65ch] space-y-3 text-pretty leading-[1.75] text-ink-soft">{children}</div>

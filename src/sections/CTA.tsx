@@ -17,8 +17,11 @@ const how = [
   },
 ];
 
-/** Closing band of the home page: how the guide is kept honest, then a quiet invitation to visit. */
-export default function CTA() {
+/**
+ * Closing band: how the guide is kept honest, then a quiet invitation to visit.
+ * Pass `showVisitLink={false}` on /visit so the page doesn't link to itself.
+ */
+export default function CTA({ showVisitLink = true }: { showVisitLink?: boolean }) {
   return (
     <section aria-labelledby="how-title" className="alex-section bg-papyrus">
       <div className="alex-container">
@@ -44,15 +47,17 @@ export default function CTA() {
           <span className="sr-only">(opens in a new tab)</span>
         </a>
 
-        <div className="mt-16 flex flex-col gap-6 border-t border-ink/15 pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="max-w-[60ch] text-pretty text-lg leading-[1.75] text-ink-soft">
-            Planning a trip? The visitor guide covers when to go, getting around, the main sights and where to eat
-            and stay.
-          </p>
-          <Link to="/visit" className="alex-btn-primary shrink-0">
-            Read the visitor guide
-          </Link>
-        </div>
+        {showVisitLink && (
+          <div className="mt-16 flex flex-col gap-6 border-t border-ink/15 pt-8 md:flex-row md:items-center md:justify-between">
+            <p className="max-w-[60ch] text-pretty text-lg leading-[1.75] text-ink-soft">
+              Planning a trip? The visitor guide covers when to go, getting around, the main sights and where to eat
+              and stay.
+            </p>
+            <Link to="/visit" className="alex-btn-primary shrink-0">
+              Read the visitor guide
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -7,7 +7,7 @@ export default function VisitPage() {
         <div className="bg-white pt-20">
             <PageMeta path="/visit" />
             <Visit />
-            <CTA />
+            <CTA showVisitLink={false} />
         </div>
     );
 }
