@@ -29,6 +29,8 @@ export interface Attraction {
   location: string;
   image: string;
   factId?: FactId;
+  /** Official page with current tickets and hours. Link out instead of quoting prices, which go stale. */
+  infoUrl?: string;
 }
 
 export interface AttractionCategory {
@@ -58,22 +60,23 @@ export const transportTabs: TransportTab[] = [
       {
         type: 'By plane',
         icon: Plane,
-        description: 'Borg el Arab (HBE) is 45km SW. No public transport; taxis cost LE400+ and take 60-90 min. Serves Cairo, Luxor, Gulf States, and Istanbul.'
+        description: 'Borg El Arab Airport (HBE) is about 40 km south-west of the city, with flights mainly to the Gulf, Saudi Arabia, Turkey and Cairo. Most visitors take a taxi or a ride-hailing car into town; agree the fare first.',
+        factId: 'airportDistance'
       },
       {
         type: 'By train',
         icon: Train,
-        description: 'Frequent AC trains from Cairo. "Specials" take 2.5hrs. Tickets are priced in EGP and vary by class; check Egyptian National Railways for current fares. Arrive Misr Station (Downtown) or Sidi Gaber.'
+        description: 'Frequent air-conditioned trains run from Cairo, arriving at Misr Station (downtown) or Sidi Gaber. Journey times and fares depend on the train; check Egyptian National Railways before you travel.'
       },
       {
         type: 'By bus',
         icon: Bus,
-        description: 'Operators include Go Bus, West Delta, Super Jet (LE100-300). Main station is Moharam Bek, but some stop at Sidi Gaber.'
+        description: 'Intercity operators include Go Bus, West Delta and Super Jet. Check the operator for current fares and where it stops.'
       },
       {
         type: 'By car',
         icon: Car,
-        description: 'Agriculture Road (90km/h, crowded) or Desert Road (100km/h, faster). Both routes take approx 3 hours from Cairo.'
+        description: 'Two main roads link Cairo and Alexandria: the Agricultural Road through the Delta, which is busier, and the faster Desert Road. Follow the posted speed limits.'
       }
     ]
   },
@@ -84,18 +87,18 @@ export const transportTabs: TransportTab[] = [
       {
         type: 'Taxi & rideshare',
         icon: Car,
-        description: 'Yellow/black taxis are unmetered; agree on fare first. Uber and Careem are available (Careem requires local #).'
+        description: 'Many street taxis do not use the meter, so agree the fare before you set off. Ride-hailing apps also operate in the city.'
       },
       {
         type: 'Tram',
         icon: Train,
-        description: 'Blue (Raml) and Yellow (City) lines. The Raml line has run since 1863 (horse-drawn at first) and is being modernised. Fares are low and paid in EGP on board. First car in Blue trams is women-only.',
-        factId: 'ramlTramOpened'
+        description: 'The trams, including the Raml line that had run since 1863, stopped in 2026 while the line is rebuilt as a modern light-rail line. Replacement buses run along the Raml route until it reopens.',
+        factId: 'ramlTramSuspended'
       },
       {
         type: 'Bus & minibus',
         icon: Bus,
-        description: '14-person microbuses operate on hop-and-go basis. Confusing for non-locals; rely on hand signals or destination shouts.'
+        description: 'Shared microbuses run along the main roads and stop on request. Routes are not signposted, so they are hard to use without local help.'
       },
       {
         type: 'Walking',
@@ -114,40 +117,44 @@ export const attractionCategories: AttractionCategory[] = [
     items: [
       {
         name: "Citadel of Qaitbay",
-        desc: "Fortress built 1477–1479 on the Pharos site. Maritime Museum inside. LE150 foreigners.",
+        desc: "Fortress built 1477–1479 on the site of the Pharos, with a maritime museum inside.",
         location: "Anfushi",
         factId: "qaitbayCitadelBuilt",
+        infoUrl: "https://egymonuments.gov.eg/monuments/qaitbay-fort/",
         image: "/images/citadel.jpg",
       },
       {
         name: "Catacombs of Kom el Shoqafa",
-        desc: 'Roman burial site, "Mound of Shards". Deep spiral stairway. LE150.',
+        desc: 'Roman catacombs of the 2nd century CE (the name means "Mound of Shards"), reached by a deep spiral stairway.',
         location: "Karmouz",
+        infoUrl: "https://egymonuments.gov.eg/en/archaeological-sites/alexandria",
         image: "/images/the-tombs-of-Kom-el-Shoqafa.jpg",
       },
       {
         name: "Pompey's Pillar",
-        desc: "26.85 m granite column for Diocletian (c. 298 CE). LE150.",
+        desc: "26.85 m granite column for Diocletian (c. 298 CE).",
         location: "Karmouz",
         factId: "pompeysPillarHeight",
+        infoUrl: "https://egymonuments.gov.eg/en/archaeological-sites/alexandria",
         image: "/images/Serapeum-of-Alexandria.jpg",
       },
       {
-        name: "Roman Amphitheatre",
-        desc: "Kom el-Dikka. Marble seating for 800, Villa of the Birds mosaics. LE150.",
+        name: "Roman Theatre",
+        desc: "A small Roman theatre with thirteen tiers of seats, beside the Villa of the Birds mosaics.",
         location: "Kom el-Dikka",
+        infoUrl: "https://egymonuments.gov.eg/en/archaeological-sites/kom-el-dikka",
         image: "/images/Ancient-Roman-theater-alexandria.jpg",
       },
       {
         name: "Montaza Palace",
-        desc: "Royal gardens (LE25 entry) and palace complex (Salamlek hotel).",
+        desc: "Royal palace complex in large seaside gardens, which are open to visitors.",
         location: "Montaza",
         image: "/images/A-wonderful-picture-of-Montazah-Palace.jpg",
       },
       {
         name: "Ras El-Tin Palace",
-        desc: "Oldest royal palace in Egypt (Exterior/Gardens only).",
-        location: "Western Harbor",
+        desc: "The oldest royal palace in Egypt still in use, now a presidential residence. The palace is closed to visitors.",
+        location: "Western Harbour",
         image: "/images/Ras-El-Tin-Palace-Alexandria-Egypt.jpg",
       },
     ],
@@ -159,14 +166,17 @@ export const attractionCategories: AttractionCategory[] = [
     items: [
       {
         name: "Alexandria National Museum",
-        desc: "1800+ pieces, Pharaonic to Islamic. LE100.",
+        desc: "Pharaonic to modern collections in the former palace of Asaad Basili Pasha, opened as a museum in 2003.",
         location: "Tariq el-Horreyya",
+        infoUrl: "https://egymonuments.gov.eg/museums/alexandria-national-museum/",
         image: "/images/The-National-Museum-from-the-outside-in.jpg",
       },
       {
         name: "Graeco-Roman Museum",
-        desc: "Vast collection (3rd century BCE – 3rd century CE). LE150.",
+        desc: "Hellenistic and Roman collections, reopened in 2023 after almost 18 years of restoration.",
+        factId: "graecoRomanReopened",
         location: "Latin Quarter",
+        infoUrl: "https://egymonuments.gov.eg/en/museums/graeco-roman-museum",
         image: "/images/Greco-Roman-Museum-in-Alexandria.jpg",
       },
       {
@@ -197,13 +207,15 @@ export const attractionCategories: AttractionCategory[] = [
     items: [
       {
         name: "El-Mursi Abul-Abbas Mosque",
-        desc: "Stunning mosque with 73m minaret over a Sufi saint's tomb.",
+        desc: "Mosque over the tomb of a 13th-century Sufi saint. The present building and its 73 m minaret date from the 1940s.",
+        factId: "mursiMinaret",
         location: "Anfushi",
         image: "/images/Sidi-Morsi-Abu-al-Abbas-Mosque-alexandria.jpg",
       },
       {
         name: "Eliyahu Hanavi Synagogue",
-        desc: "Neo-Gothic synagogue standing since 1850.",
+        desc: "19th-century synagogue, restored and reopened in 2020.",
+        factId: "eliyahuReopened",
         location: "Nabi Daniel St",
         image: "/images/Eliyahu-Hanavi-Synagogue.jpg",
       },
@@ -222,9 +234,10 @@ export const attractionCategories: AttractionCategory[] = [
     items: [
       {
         name: "Bibliotheca Alexandrina",
-        desc: "Opened 2002. Massive library, planetarium, antiquities museum. LE150 foreigners.",
+        desc: "Opened 2002. Library, planetarium and antiquities museum.",
         location: "Shatby",
         factId: "bibliothecaOpened",
+        infoUrl: "https://www.bibalex.org/libraries/Presentation/Static/15510.aspx",
         image: "/images/Alexandria_Bibliotheca.jpg",
       },
       {
@@ -247,7 +260,7 @@ export const activitiesData = [
   {
     title: 'Do',
     icon: Camera,
-    items: ['Double Decker Bus (Corniche LE25)', 'Montaza Royal Gardens', 'Diving (Sunken Cities/Cleopatra Palace)', 'Cinema (Renaissance Royal)', 'Boat Ride at Ras El-Tin'],
+    items: ['Double-decker bus along the Corniche', 'Montaza Royal Gardens', 'Diving (Sunken Cities/Cleopatra Palace)', 'Cinema (Renaissance Royal)', 'Boat Ride at Ras El-Tin'],
   },
   {
     title: 'Buy',
@@ -270,24 +283,23 @@ export const diningTiers = [
 export const diningData = {
   budget: [
     { name: 'Foul Mohamed Ahmed', desc: 'Legendary fuul and falafel.' },
-    { name: 'Tawn Coffee Shop', desc: 'Great Corniche views, budget friendly.' },
     { name: 'Asmak Shabaan', desc: 'Great seafood in Al Max.' },
-    { name: 'Alban Swissra', desc: 'Famous for melted cheese dishes.' },
-    { name: 'Gad', desc: 'Reliable local chain for shawarma and grills.' }
+    { name: 'Alban Swesra', desc: 'Small, busy spot famous for melted cheese dishes.' },
+    { name: 'Gad', desc: 'Big local chain for sandwiches, ta’ameya and grills.' }
   ],
   midRange: [
-    { name: 'Trianon', desc: 'Historic 1905 cafe/pastry shop.' },
-    { name: 'Chicken Tikka', desc: 'Grills with harbour view.' },
-    { name: 'Balbaa Village', desc: 'Famous for huge meat and seafood feasts.' },
-    { name: 'Chez Gaby', desc: 'Cozy, classic Italian bistro in Downtown.' },
-    { name: 'Fish Market', desc: 'Stunning harbour views and fresh catch.' }
+    { name: 'Trianon', desc: 'Historic café and pastry shop at Raml Station, reportedly from 1905.' },
+    { name: 'Tikka Grill', desc: 'Grills with a sea view, in the Fish Market building on the Corniche.' },
+    { name: 'Balbaa Village', desc: 'Huge meat and seafood feasts, in Sidi Bishr.' },
+    { name: 'Chez Gaby', desc: 'Cosy family-run Italian taverna downtown.' },
+    { name: 'Fish Market', desc: 'Seafood priced by weight, with harbour views near Qaitbay.' },
+    { name: 'San Giovanni', desc: 'Hotel restaurant by the sea at Stanley.' }
   ],
   splurge: [
-    { name: 'White and Blue (Greek Club)', desc: 'Terrace overlooking the eastern harbour.' },
-    { name: 'San Giovanni', desc: 'Classic hotel dining by the sea.' },
-    { name: 'Four Seasons Restaurants', desc: 'Upscale Middle Eastern & International.' },
-    { name: 'Santa Lucia', desc: 'Elegant 1930s interiors and fine dining.' },
-    { name: 'Sea Gull', desc: 'Top-tier seafood dining in El-Max.' }
+    { name: 'White and Blue (Greek Club)', desc: 'Seafood and Greek dishes on a terrace over the Eastern Harbour.' },
+    { name: 'Four Seasons San Stefano', desc: 'Several restaurants and cafés in the San Stefano hotel.' },
+    { name: 'Santa Lucia', desc: 'Long-standing downtown restaurant, reportedly from the 1930s. Check it is open before you go.' },
+    { name: 'Sea Gull', desc: 'Large seafood restaurant in El Max.' }
   ]
 };
 
@@ -295,30 +307,28 @@ export const accommodationData = [
   {
     category: 'Budget',
     options: [
-      { name: 'Triomphe Hotel', desc: 'Decent choice with nice lobby.' },
-      { name: 'Normandy Hotel', desc: 'Unbeatable harbour views.' },
-      { name: 'Ithaka Hostel', desc: 'Friendly seaside hostel.' },
-      { name: 'Alexander the Great Hotel', desc: 'Central, clean, and affordable.' }
+      { name: 'Triomphe Hostel', desc: 'Simple hostel near Raml Station.' },
+      { name: 'Ithaka Hostel', desc: 'Hostel in central Raml.' },
+      { name: 'Alexander the Great Hotel', desc: 'Budget hotel near Misr Station.' }
     ]
   },
   {
     category: 'Mid-range',
     options: [
-      { name: 'Steigenberger Cecil', desc: 'Grand old hotel, central location.' },
-      { name: 'Le Metropole', desc: 'Turn-of-the-century style, rooftop views.' },
-      { name: 'Paradise Inn', desc: 'Classic charm on the Corniche.' },
-      { name: 'Windsor Palace', desc: 'Historic hotel with rooftop Blue Harbor cafe.' },
+      { name: 'Steigenberger Cecil', desc: 'Grand 1929 hotel on Saad Zaghloul Square.' },
+      { name: 'Le Metropole', desc: 'Heritage hotel from 1902 near the Corniche, run by Paradise Inn.' },
+      { name: 'Windsor Palace', desc: 'Heritage hotel from 1906 near Raml Station, run by Paradise Inn.' },
       { name: 'Romance Alexandria', desc: 'Seafront hotel in Saba Pasha.' }
     ]
   },
   {
     category: 'Splurge',
     options: [
-      { name: 'Four Seasons San Stefano', desc: 'Upscale resort with private beach.' },
-      { name: 'Helnan Palestine', desc: 'Facing Montaza Royal Palace gardens.' },
-      { name: 'Hilton Corniche', desc: 'Modern luxury with sea views.' },
-      { name: 'Sunrise Alex Avenue', desc: 'Beachfront luxury with multiple pools.' },
-      { name: 'Hilton Green Plaza', desc: 'Inside the mall complex, great for business.' }
+      { name: 'Four Seasons San Stefano', desc: 'Upscale seafront hotel with a private beach.' },
+      { name: 'Helnan Royal Palestine', desc: 'In the grounds of Montaza Palace.' },
+      { name: 'Hilton Alexandria Corniche', desc: 'On the Corniche in Sidi Bishr, facing the sea.' },
+      { name: 'Sunrise Alex Avenue', desc: 'Seafront hotel with a private beach.' },
+      { name: 'Hilton Alexandria Green Plaza', desc: 'Business hotel connected to a large mall in Smouha.' }
     ]
   }
 ];
