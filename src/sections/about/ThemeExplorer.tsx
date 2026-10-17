@@ -22,7 +22,7 @@ const THEMES = [
   { id: 'modern', label: 'Modern city' },
   { id: 'food', label: 'Food' },
   { id: 'heritage', label: 'Living heritage' },
-  { id: 'culture', label: '2025 culture year' },
+  { id: 'culture', label: 'Culture capital 2025' },
 ];
 
 const imgClass = 'w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-black/10';
@@ -241,26 +241,10 @@ export default function ThemeExplorer() {
 
             <TabsContent value="culture" className="mt-0">
               <h3 className="text-ink">{culture2025.title}</h3>
-              <div className="mt-6 grid gap-12 md:grid-cols-2">
-                <div>
-                  <p className="font-semibold text-ink">Themes</p>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
-                    {culture2025.themes.map((t) => (
-                      <li key={t}>{t}</li>
-                    ))}
-                  </ul>
-                  <p className="mt-8 font-semibold text-ink">Partnership with Tirana</p>
-                  <p className="mt-2 text-pretty leading-[1.75] text-ink-soft">{culture2025.tirana}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-ink">Main initiatives</p>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-ink-soft">
-                    {culture2025.initiatives.map((t) => (
-                      <li key={t}>{t}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <p className="mt-4 max-w-[65ch] text-pretty text-lg leading-relaxed text-ink-soft">
+                {culture2025.summary}
+                <Chip factId={culture2025.factId} />
+              </p>
             </TabsContent>
           </div>
         </Tabs>

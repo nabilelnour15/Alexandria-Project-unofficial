@@ -181,9 +181,9 @@ export const timelineEvents: TimelineEvent[] = [
   {
     year: "2002–Present",
     title: "The Bibliotheca and after",
-    desc: "The Bibliotheca Alexandrina opens; Alexandria is named a 2025 Mediterranean Capital of Culture.",
+    desc: "The Bibliotheca Alexandrina opens; Alexandria is named a 2025 Mediterranean Capital of Culture and Dialogue.",
     longDesc:
-      "In 2002, the Bibliotheca Alexandrina was inaugurated as a modern revival of the ancient Library, designed by Snøhetta. It serves as a library, museum, and cultural center. Alexandria has undergone urban revival, including waterfront redevelopment. In 2024, it was designated as the first Mediterranean Capital of Culture and Dialogue for 2025. This title highlights its historical role in intercultural exchange, with forums, exhibitions, and performances planned to foster Mediterranean collaboration.",
+      "In 2002, the Bibliotheca Alexandrina was inaugurated as a modern revival of the ancient Library, designed by Snøhetta. It serves as a library, museum, and cultural center. Alexandria has undergone urban revival, including waterfront redevelopment. In 2024, Alexandria and Tirana were named the first Mediterranean Capitals of Culture and Dialogue, for 2025, recognising the city's long history of exchange across the Mediterranean.",
     image: "/images/Alexandria_Bibliotheca.jpg",
   },
 ];
@@ -259,7 +259,7 @@ export const landmarksData: {
     {
       name: "Catacombs of Kom El Shoqafa",
       stats:
-        "Largest Roman burial site in Egypt (2nd century CE). Reaches depths of 35 meters.",
+        "Roman catacombs cut into the bedrock in the 2nd century CE, on several levels.",
       fact: "Unique fusion of styles: Anubis in Roman military costume.",
       image: "/images/the-tombs-of-Kom-el-Shoqafa.jpg",
     },
@@ -275,7 +275,9 @@ export const landmarksData: {
     },
     {
       name: "El-Mursi Abu'l-'Abbas Mosque",
-      origin: "14th-century Sufi shrine with a 73-meter minaret.",
+      origin:
+        "Built over the tomb of a 13th-century Sufi saint. The present mosque and its 73-metre minaret date from the 1940s.",
+      factId: "mursiMinaret",
       function: "Major Friday prayer destination and site for Sufi ceremonies.",
       image: "/images/Al-Mursi-Abu-Al-Abbas-Mosque-alexandria.jpg",
     },
@@ -317,7 +319,7 @@ export const museumRegistry = [
   {
     name: "Alexandria National Museum",
     focus:
-      "Pharaonic to modern periods across three floors. Housed in 1928 Al-Saad Bassili Palace.",
+      "Pharaonic to modern periods, in the former palace of Asaad Basili Pasha. Opened as a museum in 2003.",
     highlights: "Tanagra figurines, mummy room.",
     image: "/images/The-National-Museum-from-the-outside-in.jpg",
   },
@@ -331,27 +333,17 @@ export const museumRegistry = [
   {
     name: "Graeco-Roman Museum",
     focus:
-      "Renovated in 2023, dedicated specifically to Hellenistic and Roman art.",
+      "Hellenistic and Roman art. Reopened in 2023 after almost 18 years of restoration.",
     highlights: "Fayum mummy portraits (ancient portraiture).",
     image: "/images/Greco-Roman-Museum-in-Alexandria.jpg",
   },
 ];
 
 export const culture2025 = {
-  title: "2025 Mediterranean Capital of Culture",
-  themes: [
-    "Youth and digital skills",
-    "Creative industries",
-    "Bilateral cooperation",
-  ],
-  tirana:
-    "Partnership with Tirana, Albania focus on Ottoman, European, and nationalist influences.",
-  initiatives: [
-    "Digital content creation workshops",
-    "Innovation hackathons",
-    "Digital art exhibitions",
-    "Mediterranean networking",
-  ],
+  title: "Mediterranean Capital of Culture and Dialogue 2025",
+  summary:
+    "Alexandria and Tirana, Albania, were the first two cities to hold the title, in 2025. The programme is coordinated by the Union for the Mediterranean and the Anna Lindh Foundation.",
+  factId: "cultureCapital2025" as const,
 };
 
 // Dish images are AI-generated illustrations (owner's Gemini batch, Oct 2026); show ConceptBadge.

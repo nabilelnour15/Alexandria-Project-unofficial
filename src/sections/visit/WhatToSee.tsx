@@ -1,3 +1,4 @@
+import { ExternalLink } from 'lucide-react';
 import SourceChip from '@/components/SourceChip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { attractionCategories } from '@/data/visitData';
@@ -11,7 +12,7 @@ export default function WhatToSee() {
         </h2>
         <p className="mt-4 max-w-2xl text-pretty text-lg text-ink-soft">
           Historical monuments, museums, religious sites and modern landmarks. The district is given under
-          each name.
+          each name. Prices change often, so we link to the official page for tickets and hours.
         </p>
 
         <Tabs defaultValue="historical" className="mt-12">
@@ -52,6 +53,18 @@ export default function WhatToSee() {
                         {item.desc}
                         {item.factId && <SourceChip factId={item.factId} className="ml-1" />}
                       </p>
+                      {item.infoUrl && (
+                        <a
+                          href={item.infoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-3 inline-flex min-h-10 items-center gap-1.5 text-sm font-semibold text-sea underline decoration-gold decoration-2 underline-offset-4 transition-colors hover:text-ink"
+                        >
+                          Tickets and opening hours
+                          <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                          <span className="sr-only">for {item.name} (opens in a new tab)</span>
+                        </a>
+                      )}
                     </div>
                   </article>
                 ))}

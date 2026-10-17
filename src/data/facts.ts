@@ -695,6 +695,100 @@ export const facts = defineFacts({
     confidence: 'Reported',
     note: 'Restored by the Onassis Foundation.',
   },
+
+  // ---- Visit and About corrections (Oct 2026) -------------------------------
+  tourismHotline: {
+    id: 'tourismHotline',
+    label: 'Ministry of Tourism and Antiquities hotline',
+    value: '19654, daily 9:00–17:00',
+    source: {
+      label: 'Ministry of Tourism and Antiquities – hotline service 19654',
+      url: 'https://egymonuments.gov.eg/en/news/hot-line-service-19654/',
+    },
+    asOf: '2026-10',
+    confidence: 'Official',
+    note: 'An inquiry and complaints line, not the tourist police. Hours are from the launch notice and may have changed.',
+  },
+  ramlTramSuspended: {
+    id: 'ramlTramSuspended',
+    label: 'Raml tram suspended for rebuilding',
+    value: '2026',
+    numeric: 2026,
+    unit: 'year',
+    source: {
+      label: 'Egyptian Streets – Alexandria Metro and Raml tram undergo major overhaul (Feb 2026)',
+      url: 'https://egyptianstreets.com/2026/02/02/alexandria-metro-and-raml-tram-undergo-major-overhaul/',
+    },
+    asOf: '2026-02',
+    confidence: 'Reported',
+    note: 'Phased suspension with 153 replacement vehicles. Wikipedia (Trams in Alexandria) says tram operation ceased on 1 April 2026. Reopening is reported for 2027–2028.',
+  },
+  airportDistance: {
+    id: 'airportDistance',
+    label: 'Borg El Arab Airport (HBE) distance from Alexandria',
+    value: '≈40 km south-west',
+    numeric: 40,
+    unit: 'km',
+    source: {
+      label: 'Wikipedia – Borg El Arab Airport',
+      url: 'https://en.wikipedia.org/wiki/Borg_El_Arab_Airport',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: 'Other listings give 36–45 km depending on the start point.',
+  },
+  mursiMinaret: {
+    id: 'mursiMinaret',
+    label: 'Abu al-Abbas al-Mursi Mosque minaret height',
+    value: '≈73 m',
+    numeric: 73,
+    unit: 'm',
+    source: {
+      label: 'Wikipedia – Abu al-Abbas al-Mursi Mosque',
+      url: 'https://en.wikipedia.org/wiki/Abu_al-Abbas_al-Mursi_Mosque',
+    },
+    asOf: '2026-10',
+    confidence: 'Reported',
+    note: 'The saint died in 1286; the present mosque dates from the 1940s (start and end dates vary between sources).',
+  },
+  eliyahuReopened: {
+    id: 'eliyahuReopened',
+    label: 'Eliyahu Hanavi Synagogue reopened after restoration',
+    value: '10 January 2020',
+    source: {
+      label: 'Ministry of Tourism and Antiquities – Eliyahu Hanavi Synagogue reopened',
+      url: 'https://egymonuments.gov.eg/en/news/eliyahu-hanavi-synagogue-in-alexandria-reopened',
+    },
+    asOf: '2020-01',
+    confidence: 'Official',
+    note: 'Build date conflicts (Ministry: 1881; Wikipedia: completed 1850), so the site says only "19th century".',
+  },
+  graecoRomanReopened: {
+    id: 'graecoRomanReopened',
+    label: 'Graeco-Roman Museum reopened',
+    value: 'October 2023',
+    source: {
+      label: 'Egyptian Streets – Graeco-Roman Museum reopens after almost two decades (Oct 2023)',
+      url: 'https://egyptianstreets.com/2023/10/13/alexandrias-graeco-roman-museum-re-opens-after-almost-two-decades-of-restoration/',
+    },
+    asOf: '2023-10',
+    confidence: 'Reported',
+    note: 'Closed in 2005; almost 18 years of restoration and expansion.',
+  },
+  cultureCapital2025: {
+    id: 'cultureCapital2025',
+    label: 'Mediterranean Capital of Culture and Dialogue',
+    value: '2025, with Tirana',
+    numeric: 2025,
+    unit: 'year',
+    source: {
+      label: 'Union for the Mediterranean – Alexandria and Tirana named 2025 Mediterranean Capitals of Culture and Dialogue',
+      url: 'https://ufmsecretariat.org/?p=159758',
+    },
+    asOf: '2024-02',
+    confidence: 'Official',
+    note: 'The first two capitals; coordinated by the Union for the Mediterranean and the Anna Lindh Foundation.',
+  },
 });
 
 export type FactId = keyof typeof facts;
@@ -714,6 +808,36 @@ export const unsourcedFigures: {
   status: 'removed' | 'reworded';
   where: string;
 }[] = [
+  {
+    figure: 'Ticket prices (LE150 Qaitbay, catacombs, Pompey\'s Pillar, Kom el-Dikka, Graeco-Roman, Bibliotheca; LE100 National Museum; LE25 Montaza gardens and double-decker bus)',
+    status: 'removed',
+    where: 'Visit, What to see and Things to do (Oct 2026): out of date against the Ministry\'s pages; sights now link to official ticket pages instead.',
+  },
+  {
+    figure: 'Airport taxi LE400+ and 60–90 min; bus fares LE100–300; "Specials take 2.5 hrs"; "approx 3 hours" by car; 90/100 km/h road limits',
+    status: 'reworded',
+    where: 'Visit, Getting there and around (Oct 2026): no current source; replaced by "check the operator" wording.',
+  },
+  {
+    figure: '"14-person microbuses"; women-only first tram car; "Careem requires local #"',
+    status: 'removed',
+    where: 'Visit, Getting around (Oct 2026): no source found.',
+  },
+  {
+    figure: 'Kom el-Shoqafa "largest Roman burial site in Egypt", "35 meters" deep',
+    status: 'reworded',
+    where: 'About, Ancient city tab (Oct 2026): no source for either; now gives the 2nd-century date only.',
+  },
+  {
+    figure: 'Kom el-Dikka "marble seating for 800"',
+    status: 'reworded',
+    where: 'Visit, What to see (Oct 2026): sources give 600 to 800; now "thirteen tiers of seats".',
+  },
+  {
+    figure: 'Alexandria National Museum "1800+ pieces", "1928" palace, "three floors"',
+    status: 'reworded',
+    where: 'About and Visit (Oct 2026): count only on a travel site, build year conflicts (1923/1926/1928); now cites the palace and the 2003 opening.',
+  },
   {
     figure: '162.1k acres farmed, 133k acres arable, 1.96 crop-intensification coefficient',
     status: 'reworded',
