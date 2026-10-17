@@ -7,6 +7,10 @@ import RouteErrorBoundary from './RouteErrorBoundary';
 
 const SiteSearch = lazy(() => import('./SiteSearch'));
 
+// Shortcut hint for the search button. The handler accepts both Ctrl+K and Cmd+K.
+const SEARCH_HINT =
+  typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.userAgent) ? '⌘K' : 'Ctrl K';
+
 export default function Navbar({
   isInternal = false,
   banner = null,
@@ -177,7 +181,7 @@ export default function Navbar({
                   }`}
               >
                 <Search className="w-5 h-5" aria-hidden="true" />
-                <kbd className="text-xs font-sans opacity-70" aria-hidden="true">⌘K</kbd>
+                <kbd className="text-xs font-sans opacity-70" aria-hidden="true">{SEARCH_HINT}</kbd>
               </button>
               {/* Mobile Menu Button */}
               <button

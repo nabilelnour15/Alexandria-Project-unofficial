@@ -42,6 +42,7 @@ const entry = (
 });
 
 export const searchIndex: readonly SearchEntry[] = [
+  entry('page:/', 'Page', 'Home', '/', undefined),
   ...navLinks.map((l) => entry(`page:${l.href}`, 'Page', l.name, l.href, undefined)),
   ...newsItems.map((n) =>
     entry(`news:${n.id}`, 'News', n.title, `/news/${n.id}`, `${n.outlet} · ${n.category}`, [n.summary]),

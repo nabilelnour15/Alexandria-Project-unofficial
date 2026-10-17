@@ -73,9 +73,9 @@ export const projectsData = {
     // Sum of listed budgets: 592 + 1,764 + 20 + 30 + 33 + 60 + 35 = €2,534M (see facts.projectsTotal; the control centre is €50M AFD loan + €10M EU grant = €60M).
     stats: [
       { label: "Listed project budgets", value: "≈€2.5B", factId: "projectsTotal" },
-      { label: "Coordination", value: "4 MDBs" },
+      { label: "Development banks lending to the Abu Qir metro", value: "4", factId: "abuQirMetroFinancing" },
       { label: "Under construction", value: "4 projects", factId: "projectsUnderConstruction" },
-      { label: "GCAP total cost estimate", value: "≈€506M", factId: "gcapCostBySector" },
+      { label: "Green City Action Plan cost estimate", value: "≈€506M", factId: "gcapCostBySector" },
     ] as readonly HeroStat[],
     summary:
       "The projects listed here add up to ≈€2.5B in listed project budgets, dominated by two flagship rail projects—the €592 million Raml Tram Modernization and the €1.764 billion Abu Qir Metro Phase 1. Four of the listed projects are under construction. Both rail projects are aligned with Egypt Vision 2030 and co-financed by multilateral lenders.",

@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/sections/Services.tsx"
+        ],
+        "createdAt": "2026-10-16T10:52:32.479Z",
+        "reason": "Claude triage: 2px tab-style underline on rounded-sm filter chips (Services.tsx:90), not an accent border on a card; flagged as false positive in the home-page critique"
+      }
+    ]
+  }
+}
