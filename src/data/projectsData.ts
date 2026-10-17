@@ -121,9 +121,9 @@ export const projectsData = {
       status: "Under Construction",
       budget: "€592 million",
       factId: "ramlTramCost",
-      year: "2026-2027",
+      year: "2026-2028",
       description:
-        "The Alexandria Raml Tram Modernization Project transforms one of the world's oldest tram systems (opened 1863 as a horse-drawn line, electrified 1902) into a digitally controlled light rail transit (LRT) system.",
+        "The Alexandria Raml Tram Modernization Project transforms one of the world's oldest tram systems (opened 1863 as a horse-drawn line, electrified 1902) into a digitally controlled light rail transit (LRT) system. The old line stopped running in 2026 for the works; reopening is reported for 2027–2028.",
       technicalSpecs: {
         Length: "13.2 km",
         Stations: "24",
